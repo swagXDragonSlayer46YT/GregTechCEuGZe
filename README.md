@@ -1,6 +1,6 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/37029404/233205606-a7bb352a-eb0c-4484-9fc8-820255b996a4.png" alt="Logo"></p>
-<h1 align="center">GregTech CE: Unofficial</h1>
-<p align="center"><i>A fork of GregTech Community Edition by the Gregtech CEu development team</i></p>
+<h1 align="center">GregTech CE: Unofficial: Guild Z edition</h1>
+<p align="center"><i>A fork of Gregtech CEu by the Gregtech CEuGZe development team</i></p>
 <h1 align="center">
     <a href="https://www.curseforge.com/minecraft/mc-mods/gregtech-ce-unofficial"><img src="https://img.shields.io/badge/Available%20for-MC%201.12.2%20-informational?style=for-the-badge" alt="Supported Versions"></a>
     <a href="https://github.com/GregTechCEu/GregTech/blob/master/LICENSE"><img src="https://img.shields.io/github/license/GregTechCEu/GregTech?style=for-the-badge" alt="License"></a>
@@ -10,12 +10,12 @@
     <a href="https://modrinth.com/mod/gregtech-ce-unofficial"><img src="https://img.shields.io/modrinth/dt/gregtech-ce-unofficial?logo=modrinth&label=&suffix=%20&style=for-the-badge&color=2d2d2d&labelColor=5ca424&logoColor=1c1c1c" alt="Modrinth"></a>
     <a href="https://github.com/GregTechCEu/GregTech/releases"><img src="https://img.shields.io/github/downloads/GregTechCEu/GregTech/total?sort=semver&logo=github&label=&style=for-the-badge&color=2d2d2d&labelColor=545454&logoColor=FFFFFF" alt="GitHub"></a>
 </h1>
-## 欢迎来到 GregTech CE：非官方
+## 欢迎来到 GregTech CE: Unofficial: Guild Z edition非官方
 ＃＃＃ 这是什么？
-GregTech CE Unofficial，或 **GTCEu**，是一个 Minecraft 模组。 该存储库包含构建和运行该 mod 所需的所有代码和资产。
+GregTech CE Unofficial Guild Z edition，或 **GTCEuGZe**，是一个 Minecraft 模组。 该存储库包含构建和运行该 mod 所需的所有代码和资产。
 
 ### 格雷科技？
-是的，您之前可能听说过这个名字，因为它在 Minecraft 模组社区中广为人知。 GTCEu 是 _**GregTech**_ 的**间接后代**和**完全重写**。 它**既不是由 GregoriusT 创建也不是由他维护，而是在他的知识和许可下创建的。
+是的，您之前可能听说过这个名字，因为它在 Minecraft 模组社区中广为人知。 GTCEuGZe 是 _**GregTech**_ 的**间接后代**和**完全重写**。 它**既不是由 GregoriusT 创建也不是由他维护，而是在他的知识和许可下创建的。
 
 这个模组是关于**技术**和**进步**的。
 * 从简单粗暴的工具开始，这将使您能够更现实地处理资源......
@@ -24,10 +24,10 @@ GregTech CE Unofficial，或 **GTCEu**，是一个 Minecraft 模组。 该存储
 
 典型的 GregTech 设施拥有大量单块和多块机器，可处理大量资源，创造出更复杂的材料，用于更高级别的机器。
 
-所有这些均由 GTCEu 自己的电力系统提供动力，包括从简单的木材燃烧产生蒸汽到等离子动力涡轮机的发电机。
+所有这些均由 GTCEuGZe 自己的电力系统提供动力，包括从简单的木材燃烧产生蒸汽到等离子动力涡轮机的发电机。
 
 ### 社区版？
-**社区版**是**GTCEu名称**的必要组成部分：
+**社区版**是**GTCEuGZe名称**的必要组成部分：
 * 使用 GregTech 名称需要获得我们的许可
 * 提醒一下，想法和设计主要是由社区驱动的
 * 需要提醒的是，实施和工作完全由社区提供。
