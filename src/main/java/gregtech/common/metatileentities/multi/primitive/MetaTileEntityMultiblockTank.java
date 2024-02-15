@@ -1,6 +1,11 @@
 package gregtech.common.metatileentities.multi.primitive;
 
+import codechicken.lib.vec.Cuboid6;
+
+import codechicken.lib.vec.Vector3;
+
 import gregtech.api.capability.GregtechDataCodes;
+import gregtech.api.capability.IMultipleTankHandler;
 import gregtech.api.capability.impl.FilteredFluidHandler;
 import gregtech.api.capability.impl.FluidTankList;
 import gregtech.api.capability.impl.PropertyFluidFilter;
@@ -17,8 +22,10 @@ import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.pattern.MultiblockShapeInfo;
 import gregtech.api.pattern.PatternMatchContext;
 import gregtech.api.pattern.TraceabilityPredicate;
+import gregtech.api.util.GTLog;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
+import gregtech.client.renderer.texture.custom.QuantumStorageRenderer;
 import gregtech.common.blocks.BlockGlassCasing;
 import gregtech.common.blocks.BlockMetalCasing;
 import gregtech.common.blocks.BlockSteamCasing;
@@ -26,7 +33,15 @@ import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.metatileentities.MetaTileEntities;
 
 import net.minecraft.block.BlockGlass;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -39,6 +54,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -50,6 +66,9 @@ import codechicken.lib.vec.Matrix4;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Console;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,7 +78,9 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
 
     private final int tier;
     private final int volumePerBlock;
+    private final int startingVolume;
 
+    private FilteredFluidHandler tank;
     private PropertyFluidFilter filter;
     private int volume;
     private int lDist = 0;
@@ -68,20 +89,35 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
     private int hDist = 0;
 
     public static final int MIN_RADIUS = 1;
-    public static final int MIN_DEPTH = 2;
+    public static final int MIN_HEIGHT = 1;
 
-    public MetaTileEntityMultiblockTank(ResourceLocation metaTileEntityId, int tier, int volumePerBlock) {
+    @Nullable
+    protected FluidStack previousFluid;
+
+    public MetaTileEntityMultiblockTank(ResourceLocation metaTileEntityId, int startingVolume, int tier, int volumePerBlock) {
         super(metaTileEntityId);
         this.tier = tier;
+        this.startingVolume = startingVolume;
         this.volumePerBlock = volumePerBlock;
         initializeInventory();
+    }
+
+    public boolean allowsExtendedFacing() {
+        return false;
+    }
+
+    @Override
+    public void formStructure(PatternMatchContext context) {
+        super.formStructure(context);
+        volume = (lDist + rDist - 1) * bDist * hDist;
+        tank.setCapacity(startingVolume + volume * volumePerBlock);
     }
 
     @Override
     protected void initializeInventory() {
         super.initializeInventory();
 
-        FilteredFluidHandler tank = new FilteredFluidHandler(volumePerBlock * volume);
+        tank = new FilteredFluidHandler(startingVolume);
 
         if (tier == 0) filter = new PropertyFluidFilter(340, false, false, false, false);
         if (tier == 1) filter = new PropertyFluidFilter(1855, true, false, false, false);
@@ -93,22 +129,64 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
         tank.setFilter(filter);
 
         this.exportFluids = this.importFluids = new FluidTankList(true, tank);
+
         this.fluidInventory = tank;
     }
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity tileEntity) {
-        return new MetaTileEntityMultiblockTank(metaTileEntityId, tier, volumePerBlock);
+        return new MetaTileEntityMultiblockTank(metaTileEntityId, startingVolume, tier, volumePerBlock);
     }
 
     @Override
-    protected void updateFormedValid() {}
+    protected void updateFormedValid() {
+
+    }
 
     @Override
-    public void formStructure(PatternMatchContext context) {
-        super.formStructure(context);
-        volume = (lDist + rDist) * bDist + hDist;
-        initializeInventory();
+    public void invalidateStructure() {
+        super.invalidateStructure();
+
+        //Ensure that fluids stop getting rendered if structure is broken
+        scheduleRenderUpdate();
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        if (!getWorld().isRemote) {
+            fillContainerFromInternalTank();
+            fillInternalTankFromFluidContainer();
+
+            FluidStack currentFluid = tank.getFluid();
+            if (previousFluid == null) {
+                // tank was empty, but now is not
+                if (currentFluid != null) {
+                    updatePreviousFluid(currentFluid);
+                }
+            } else {
+                if (currentFluid == null) {
+                    // tank had fluid, but now is empty
+                    updatePreviousFluid(null);
+                } else if (previousFluid.getFluid().equals(currentFluid.getFluid()) &&
+                        previousFluid.amount != currentFluid.amount) {
+                    // tank has fluid with changed amount
+                    previousFluid.amount = currentFluid.amount;
+                    writeCustomData(GregtechDataCodes.UPDATE_FLUID_AMOUNT, buf -> buf.writeInt(currentFluid.amount));
+                } else
+                if (!previousFluid.equals(currentFluid)) {
+                    // tank has a different fluid from before
+                    updatePreviousFluid(currentFluid);
+                }
+            }
+        }
+    }
+
+    // should only be called on the server
+    protected void updatePreviousFluid(FluidStack currentFluid) {
+        previousFluid = currentFluid == null ? null : currentFluid.copy();
+        writeCustomData(GregtechDataCodes.UPDATE_FLUID, buf -> buf
+                .writeCompoundTag(currentFluid == null ? null : currentFluid.writeToNBT(new NBTTagCompound())));
     }
 
     /**
@@ -118,13 +196,18 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
         World world = getWorld();
         EnumFacing front = getFrontFacing();
         EnumFacing back = front.getOpposite();
-        EnumFacing left = front.rotateYCCW();
+        EnumFacing left = back.rotateYCCW();
         EnumFacing right = left.getOpposite();
 
-        BlockPos.MutableBlockPos lPos = new BlockPos.MutableBlockPos(getPos());
-        BlockPos.MutableBlockPos rPos = new BlockPos.MutableBlockPos(getPos());
-        BlockPos.MutableBlockPos bPos = new BlockPos.MutableBlockPos(getPos());
-        BlockPos.MutableBlockPos hPos = new BlockPos.MutableBlockPos(getPos());
+        //The distance of the edges is calculated from a position inside the container
+        BlockPos.MutableBlockPos innerPos = new BlockPos.MutableBlockPos(getPos());
+        innerPos.move(back);
+        innerPos.move(EnumFacing.UP);
+
+        BlockPos.MutableBlockPos lPos = new BlockPos.MutableBlockPos(innerPos);
+        BlockPos.MutableBlockPos rPos = new BlockPos.MutableBlockPos(innerPos);
+        BlockPos.MutableBlockPos bPos = new BlockPos.MutableBlockPos(innerPos);
+        BlockPos.MutableBlockPos hPos = new BlockPos.MutableBlockPos(innerPos);
 
         // find the distances from the controller to the plascrete blocks on one horizontal axis and the Y axis
         // repeatable aisles take care of the second horizontal axis
@@ -152,7 +235,7 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
             if (hDist != 0) break;
         }
 
-        if (lDist < MIN_RADIUS || rDist < MIN_RADIUS || bDist < MIN_RADIUS || hDist < MIN_DEPTH) {
+        if (lDist < MIN_RADIUS || rDist < MIN_RADIUS || bDist < MIN_RADIUS || hDist < MIN_HEIGHT) {
             invalidateStructure();
             return false;
         }
@@ -168,7 +251,16 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
             buf.writeInt(this.bDist);
             buf.writeInt(this.hDist);
         });
+
         return true;
+    }
+
+    @Override
+    public void checkStructurePattern() {
+        if (!this.isStructureFormed()) {
+            reinitializeStructurePattern();
+        }
+        super.checkStructurePattern();
     }
 
     /**
@@ -179,7 +271,8 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
      */
     public boolean isBlockEdge(@NotNull World world, @NotNull BlockPos.MutableBlockPos pos,
                                @NotNull EnumFacing direction) {
-        return world.getBlockState(pos.move(direction)) == getCasingState() || world.getBlockState(pos.move(direction)) == getValve();
+        IBlockState blockState = world.getBlockState(pos.move(direction));
+        return blockState == getCasingState() || blockState == getValve() || blockState == getGlass();
     }
 
     @Override
@@ -193,7 +286,7 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
         if (lDist < MIN_RADIUS) lDist = MIN_RADIUS;
         if (rDist < MIN_RADIUS) rDist = MIN_RADIUS;
         if (bDist < MIN_RADIUS) bDist = MIN_RADIUS;
-        if (hDist < MIN_DEPTH) hDist = MIN_DEPTH;
+        if (hDist < MIN_HEIGHT) hDist = MIN_HEIGHT;
 
         if (this.frontFacing == EnumFacing.EAST || this.frontFacing == EnumFacing.WEST) {
             int tmp = lDist;
@@ -202,11 +295,11 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
         }
 
         // build each row of the structure
-        StringBuilder borderBuilder = new StringBuilder();     // EEEEE
-        StringBuilder controllerBuilder = new StringBuilder(); // EESEE
-        StringBuilder wallBuilder = new StringBuilder();       // EWWWE
-        StringBuilder insideBuilder = new StringBuilder();     // X X
-        StringBuilder roofBuilder = new StringBuilder();       // BFFFB
+        StringBuilder borderBuilder = new StringBuilder();
+        StringBuilder controllerBuilder = new StringBuilder();
+        StringBuilder wallBuilder = new StringBuilder();
+        StringBuilder insideBuilder = new StringBuilder();
+        StringBuilder roofBuilder = new StringBuilder();
 
         // everything to the left of the controller
         for (int i = 0; i < lDist; i++) {
@@ -214,7 +307,7 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
             controllerBuilder.append("E");
             if (i == 0) {
                 wallBuilder.append("E");
-                insideBuilder.append("E");
+                insideBuilder.append("W");
                 roofBuilder.append("E");
             } else {
                 wallBuilder.append("W");
@@ -227,17 +320,17 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
         borderBuilder.append("E");
         controllerBuilder.append("S");
 
-        wallBuilder.append("E");
+        wallBuilder.append("W");
         insideBuilder.append(" ");
-        roofBuilder.append("F");
+        roofBuilder.append("W");
 
         // everything to the right of the controller
         for (int i = 0; i < rDist; i++) {
-            borderBuilder.append("B");
+            borderBuilder.append("E");
             controllerBuilder.append("E");
             if (i == rDist - 1) {
                 wallBuilder.append("E");
-                insideBuilder.append("E");
+                insideBuilder.append("W");
                 roofBuilder.append("E");
             } else {
                 wallBuilder.append("W");
@@ -247,29 +340,29 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
         }
 
         // build each slice of the structure
-        String[] frontWall = new String[hDist + 1]; // "EESEE", "EWWWE", "EWWWE", "EWWWE", "EEEEE"
+        String[] frontWall = new String[hDist + 2]; // "EESEE", "EWWWE", "EWWWE", "EWWWE", "EEEEE"
         Arrays.fill(frontWall, wallBuilder.toString());
         frontWall[0] = controllerBuilder.toString();
         frontWall[frontWall.length - 1] = borderBuilder.toString();
 
-        String[] backWall = new String[hDist + 1]; // "EEEEE", "EWWWE", "EWWWE", "EWWWE", "EEEEE"
+        String[] backWall = new String[hDist + 2]; // "EEEEE", "EWWWE", "EWWWE", "EWWWE", "EEEEE"
         Arrays.fill(backWall, wallBuilder.toString());
         backWall[0] = borderBuilder.toString();
         backWall[backWall.length - 1] = borderBuilder.toString();
 
-        String[] slice = new String[hDist + 1]; // "EEEEE", "W   W", "W   W", "W   W", "EWWWE"
+        String[] slice = new String[hDist + 2]; // "EEEEE", "W   W", "W   W", "W   W", "EWWWE"
         Arrays.fill(slice, insideBuilder.toString());
         slice[0] = wallBuilder.toString();
         slice[slice.length - 1] = roofBuilder.toString();
 
-        TraceabilityPredicate wallPredicate = states(getCasingState(), (IBlockState) getValve(), getGlass());
-        TraceabilityPredicate edgePredicate = states(getCasingState(), (IBlockState) getValve());
+        TraceabilityPredicate wallPredicate = states(getCasingState(), getGlass()).or(metaTileEntities(getValve()));
+        TraceabilityPredicate edgePredicate = states(getCasingState()).or(metaTileEntities(getValve()));
 
         // layer the slices one behind the next
         return FactoryBlockPattern.start()
-                .aisle(frontWall)
-                .aisle(slice).setRepeatable(bDist - 1)
                 .aisle(backWall)
+                .aisle(slice).setRepeatable(bDist)
+                .aisle(frontWall)
                 .where('S', selfPredicate())
                 .where('W', wallPredicate)
                 .where('E', edgePredicate)
@@ -300,8 +393,8 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
     }
 
     private IBlockState getGlass() {
-        if (tier == 0) return (IBlockState) Blocks.GLASS;
-        if (tier == 1) return (IBlockState) Blocks.GLASS;
+        if (tier == 0) return MetaBlocks.STEAM_CASING.getState(BlockSteamCasing.SteamCasingType.WOOD_WALL);
+        if (tier == 1) return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.TEMPERED_GLASS);
         if (tier == 2) return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.TEMPERED_GLASS);
         if (tier == 3) return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.TEMPERED_GLASS);
         if (tier == 4) return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.LAMINATED_GLASS);
@@ -355,7 +448,10 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
     @Override
     public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline) {
         super.renderMetaTileEntity(renderState, translation, pipeline);
+
         getFrontOverlay().renderSided(getFrontFacing(), renderState, translation, pipeline);
+
+        renderTankFluid(renderState, translation, pipeline, tank, getWorld(), getPos(), getFrontFacing());
     }
 
     @SideOnly(Side.CLIENT)
@@ -371,7 +467,7 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
         super.addInformation(stack, player, tooltip, advanced);
         tooltip.add(I18n.format("gregtech.multiblock.tank.tooltip"));
         tooltip.add(I18n.format("gregtech.multiblock.tank.tooltip_1"));
-        tooltip.add(I18n.format("gregtech.universal.tooltip.fluid_per_block_storage_capacity", volumePerBlock));
+        tooltip.add(I18n.format("gregtech.universal.tooltip.fluid_per_block_storage_capacity", startingVolume, volumePerBlock));
         tooltip.add(I18n.format("gregtech.fluid_pipe.max_temperature", filter.getMaxFluidTemperature()));
         if (filter.isGasProof()) tooltip.add(I18n.format("gregtech.fluid_pipe.gas_proof"));
         else tooltip.add(I18n.format("gregtech.fluid_pipe.not_gas_proof"));
@@ -388,7 +484,93 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
             this.rDist = buf.readInt();
             this.bDist = buf.readInt();
             this.hDist = buf.readInt();
+            this.volume = (lDist + rDist - 1) * bDist * hDist;
+            this.tank.setCapacity(startingVolume + volume * volumePerBlock);
+        } else if (dataId == GregtechDataCodes.UPDATE_FLUID) {
+            try {
+                this.tank.setFluid(FluidStack.loadFluidStackFromNBT(buf.readCompoundTag()));
+            } catch (IOException ignored) {
+                GTLog.logger.warn("Failed to load fluid from NBT in a multiblock tank at " + this.getPos() +
+                        " on a routine fluid update");
+            }
+            scheduleRenderUpdate();
+        } else if (dataId == GregtechDataCodes.UPDATE_FLUID_AMOUNT) {
+            FluidStack stack = tank.getFluid();
+            if (stack != null) {
+                stack.amount = Math.min(buf.readInt(), tank.getCapacity());
+                scheduleRenderUpdate();
+            }
         }
+    }
+
+    public void renderTankFluid(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline,
+                                       FluidTank tank, IBlockAccess world, BlockPos pos, EnumFacing frontFacing) {
+
+        if (world != null) {
+            renderState.setBrightness(world, pos);
+        }
+
+        //Do not render fluids if structure is broken
+        if (!isStructureFormed()) {
+            return;
+        }
+
+        //Get fluid
+        FluidStack stack = tank.getFluid();
+        if (stack == null || stack.amount == 0)
+            return;
+
+        //Create a box with slight margins since going from exactly 0 to exactly 1 causes some faces to not render properly
+        Cuboid6 partialFluidBox = new Cuboid6(0.001, 0.001, 0.001, 0.999,
+                0.999, 0.999);
+
+        //Get percentage of the tank that is full
+        double fillFraction = (double) stack.amount / tank.getCapacity();
+
+        //Gases will appear to occupy the entire multiblock
+        if (tank.getFluid().getFluid().isGaseous()) {
+            fillFraction = 1;
+        }
+
+        //Set our box to the percentage of the tank that is full
+        partialFluidBox.max.y = Math.min((16 * fillFraction) + 0, 15.99) / 16.0;
+
+        //Translate fluid to correct location
+        if (frontFacing == EnumFacing.NORTH) {
+            translation.translate(-(rDist - 1), 1, 1);
+        }
+        if (frontFacing == EnumFacing.SOUTH) {
+            translation.translate(-(lDist - 1), 1, -bDist);
+        }
+        if (frontFacing == EnumFacing.WEST) {
+            translation.translate(1, 1, -(lDist - 1));
+        }
+        if (frontFacing == EnumFacing.EAST) {
+            translation.translate(-bDist, 1, -(rDist - 1));
+        }
+
+        //Scale up the box to match the inner dimensions of the tank
+        //back distance and length are switched in the case of WEST and EAST as a form of "rotation" since translation.rotate is broken :image:
+        if (frontFacing == EnumFacing.WEST || frontFacing == EnumFacing.EAST) {
+            translation.scale(bDist, hDist, lDist + rDist - 1);
+        } else {
+            translation.scale(lDist + rDist - 1, hDist, bDist);
+        }
+
+        //Get textures, colors, and actually render the thing
+        renderState.setFluidColour(stack);
+        ResourceLocation fluidStill = stack.getFluid().getStill(stack);
+        TextureAtlasSprite fluidStillSprite = Minecraft.getMinecraft().getTextureMapBlocks()
+                .getAtlasSprite(fluidStill.toString());
+        for (EnumFacing facing : EnumFacing.VALUES) {
+            Textures.renderFace(renderState, translation, pipeline, facing, partialFluidBox, fluidStillSprite,
+                    BlockRenderLayer.CUTOUT_MIPPED);
+        }
+
+        //Go back to normal for the next rendering call
+        GlStateManager.resetColor();
+
+        renderState.reset();
     }
 
     @Override
@@ -398,6 +580,7 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
         data.setInteger("rDist", this.rDist);
         data.setInteger("bDist", this.bDist);
         data.setInteger("hDist", this.hDist);
+        data.setTag("FluidInventory", tank.writeToNBT(new NBTTagCompound()));
         return data;
     }
 
@@ -406,8 +589,9 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
         super.readFromNBT(data);
         this.lDist = data.hasKey("lDist") ? data.getInteger("lDist") : this.lDist;
         this.rDist = data.hasKey("rDist") ? data.getInteger("rDist") : this.rDist;
-        this.hDist = data.hasKey("hDist") ? data.getInteger("hDist") : this.hDist;
         this.bDist = data.hasKey("bDist") ? data.getInteger("bDist") : this.bDist;
+        this.hDist = data.hasKey("hDist") ? data.getInteger("hDist") : this.hDist;
+        this.tank.readFromNBT(data.getCompoundTag("FluidInventory"));
         reinitializeStructurePattern();
     }
 
@@ -418,6 +602,7 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
         buf.writeInt(this.rDist);
         buf.writeInt(this.bDist);
         buf.writeInt(this.hDist);
+        buf.writeCompoundTag(tank.getFluid() == null ? null : tank.getFluid().writeToNBT(new NBTTagCompound()));
     }
 
     @Override
@@ -427,6 +612,12 @@ public class MetaTileEntityMultiblockTank extends MultiblockWithDisplayBase {
         this.rDist = buf.readInt();
         this.bDist = buf.readInt();
         this.hDist = buf.readInt();
+        try {
+            this.tank.setFluid(FluidStack.loadFluidStackFromNBT(buf.readCompoundTag()));
+        } catch (IOException e) {
+            GTLog.logger.warn("Failed to load fluid from NBT in a multiblock tank at " + this.getPos() +
+                    " on initial server/client sync");
+        }
     }
 
     @Override
