@@ -94,6 +94,10 @@ public class Textures {
             "casings/solid/machine_casing_pipe_stabilizer");
     public static final SimpleOverlayRenderer INERT_PTFE_CASING = new SimpleOverlayRenderer(
             "casings/solid/machine_casing_inert_ptfe");
+    public static final SimpleOverlayRenderer CERAMIC_MILL = new SimpleOverlayRenderer(
+            "casings/solid/machine_casing_ceramic_mill");
+    public static final SimpleOverlayRenderer STRUCTURAL = new SimpleOverlayRenderer(
+            "casings/solid/machine_casing_structural");
     public static final SimpleOverlayRenderer PLASCRETE = new SimpleOverlayRenderer("casings/cleanroom/plascrete");
     public static final SimpleOverlayRenderer FUSION_TEXTURE = new SimpleOverlayRenderer(
             "casings/fusion/machine_casing_fusion_hatch");

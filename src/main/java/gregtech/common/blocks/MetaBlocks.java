@@ -144,6 +144,7 @@ public class MetaBlocks {
 
     public static BlockUniqueCasing UNIQUE_CASING;
     public static BlockLargeMultiblockCasing LARGE_MULTIBLOCK_CASING;
+    public static BlockMetalCasing2 METAL_CASING_2;
 
     public static final EnumMap<EnumDyeColor, BlockLamp> LAMPS = new EnumMap<>(EnumDyeColor.class);
     public static final EnumMap<EnumDyeColor, BlockLamp> BORDERLESS_LAMPS = new EnumMap<>(EnumDyeColor.class);
@@ -281,6 +282,8 @@ public class MetaBlocks {
         MULTIBLOCK_TANK.setRegistryName("multiblock_tank");
         PRIMITIVE_CASING = new BlockPrimitiveCasing();
         PRIMITIVE_CASING.setRegistryName("primitive_casing");
+        METAL_CASING_2 = new BlockMetalCasing2();
+        METAL_CASING_2.setRegistryName("metal_casing_2");
 
         for (EnumDyeColor color : EnumDyeColor.values()) {
             BlockLamp block = new BlockLamp(color);
@@ -536,6 +539,7 @@ public class MetaBlocks {
         registerItemModel(PRIMITIVE_CASING);
         registerItemModel(MULTIBLOCK_TANK);
         registerItemModel(LARGE_MULTIBLOCK_CASING);
+        registerItemModel(METAL_CASING_2);
     }
 
     @SideOnly(Side.CLIENT)

@@ -31,6 +31,7 @@ import gregtech.common.metatileentities.storage.MetaTileEntityQuantumChest;
 import gregtech.common.metatileentities.storage.MetaTileEntityQuantumTank;
 import gregtech.loaders.recipe.chemistry.AssemblerRecipeLoader;
 import gregtech.loaders.recipe.chemistry.ChemistryRecipes;
+import gregtech.loaders.recipe.GuildZCraftRecipes;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -76,6 +77,7 @@ public class MachineRecipeLoader {
         DecorationRecipes.init();
         RefrigeratorRecipes.init();
         WoodRecipeLoader.registerRecipes();
+        GuildZCraftRecipes.init();
 
         registerDecompositionRecipes();
         registerBlastFurnaceRecipes();

@@ -1,0 +1,20 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "minecraft:cube_all"
+  },
+  "variants": {
+    "variant": {
+      "ceramic_mill": {
+        "textures": {
+          "all": "gregtech:blocks/casings/solid/machine_casing_ceramic_mill"
+        }
+      },
+      "structural": {
+        "textures": {
+          "all": "gregtech:blocks/casings/solid/machine_casing_structural"
+        }
+      }
+    }
+  }
+}

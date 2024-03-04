@@ -1310,6 +1310,17 @@ public final class RecipeMaps {
             .sound(GTSoundEvents.BATH)
             .build();
 
+    @ZenProperty
+    public static final RecipeMap<SimpleRecipeBuilder> MILLING_RECIPES = new RecipeMapBuilder<>(
+            "ball_mill", new SimpleRecipeBuilder().duration(400).EUt(16))
+            .itemInputs(4)
+            .itemOutputs(4)
+            .fluidInputs(2)
+            .fluidOutputs(4)
+            .progressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE)
+            .sound(GTSoundEvents.MACERATOR)
+            .build();
+
     /**
      * Example:
      *

@@ -48,6 +48,7 @@ import gregtech.common.metatileentities.multi.electric.MetaTileEntityActiveTrans
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityAlloyBlastSmelter;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityArcFurnace;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityAssemblyLine;
+import gregtech.common.metatileentities.multi.electric.MetaTileEntityBallMill;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityBedrockDrill;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityCleanroom;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityCrackingUnit;
@@ -404,6 +405,7 @@ public class MetaTileEntities {
     public static MetaTileEntityElectrolyticCell ELECTROLYTIC_CELL;
     public static MetaTileEntityCoagulationTank COAGULATION_TANK;
     public static MetaTileEntityFracker FRACKER;
+    public static MetaTileEntityBallMill BALL_MILL;
 
     // STORAGE SECTION
     public static MetaTileEntityTankValve WOODEN_TANK_VALVE;
@@ -925,6 +927,9 @@ public class MetaTileEntities {
 
         FRACKER = registerMetaTileEntity(1078,
                 new MetaTileEntityFracker(gregtechId("fracker"), 2));
+
+        BALL_MILL = registerMetaTileEntity(1079,
+                new MetaTileEntityBallMill(gregtechId("ball_mill")));
 
         // MISC MTE's START: IDs 1150-2000
 
