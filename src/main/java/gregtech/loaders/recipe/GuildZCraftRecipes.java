@@ -7,6 +7,8 @@ import gregtech.api.items.metaitem.MetaItem;
 import gregtech.api.metatileentity.multiblock.CleanroomType;
 import gregtech.api.recipes.ModHandler;
 import gregtech.api.recipes.RecipeMaps;
+import gregtech.api.recipes.ingredients.GTRecipeInput;
+import gregtech.api.recipes.ingredients.GTRecipeItemInput;
 import gregtech.api.recipes.ingredients.IntCircuitIngredient;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.MarkerMaterial;
@@ -53,7 +55,9 @@ import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.ore.OrePrefix.*;
 import static gregtech.common.blocks.BlockMetalCasing.MetalCasingType.BRONZE_BRICKS;
 import static gregtech.common.blocks.BlockMetalCasing.MetalCasingType.MAGNALIUM_FROSTPROOF;
+import static gregtech.common.blocks.BlockMetalCasing2.MetalCasingType2.CERAMIC_MILL;
 import static gregtech.common.blocks.MetaBlocks.METAL_CASING;
+import static gregtech.common.blocks.MetaBlocks.METAL_CASING_2;
 import static gregtech.common.items.MetaItems.*;
 import static gregtech.common.metatileentities.MetaTileEntities.*;
 import static gregtech.loaders.OreDictionaryLoader.OREDICT_BLOCK_FUEL_COKE;
@@ -63,6 +67,7 @@ public class GuildZCraftRecipes {
     public static void init() {
         controllerRecipes();
         casingRecipes();
+        chemRecipes();
     }
 
     public static void controllerRecipes() {
@@ -87,6 +92,18 @@ public class GuildZCraftRecipes {
                 .input(circuit, MarkerMaterials.Tier.LV, 4)
                 .output(INDUSTRIAL_REFRIGERATOR)
                 .EUt(VA[LV])
+                .duration(200)
+                .buildAndRegister();
+
+        ASSEMBLER_RECIPES.recipeBuilder()
+                .input(HULL[HV])
+                .inputs(METAL_CASING_2.getItemVariant(CERAMIC_MILL))
+                .input(gear, StainlessSteel, 16)
+                .input(ELECTRIC_MOTOR_HV, 16)
+                .input(ring, Rubber, 8)
+                .fluidInputs(Materials.Lubricant.getFluid(4000))
+                .output(BALL_MILL)
+                .EUt(VA[HV])
                 .duration(200)
                 .buildAndRegister();
     }
@@ -116,5 +133,26 @@ public class GuildZCraftRecipes {
                 .duration(50)
                 .buildAndRegister();
 
+        BLAST_RECIPES.recipeBuilder()
+                .inputs(MetaBlocks.METAL_CASING.getItemVariant(MetalCasingType.STAINLESS_CLEAN))
+                .fluidInputs(Materials.CeramicGlaze.getFluid(1000))
+                .outputs(METAL_CASING_2.getItemVariant(CERAMIC_MILL))
+                .EUt(VA[LV])
+                .duration(100)
+                .buildAndRegister();
+
+    }
+
+    public static void chemRecipes() {
+        MIXER_RECIPES.recipeBuilder()
+                .input(dust, Stone,5)
+                .input(dust, SiliconDioxide, 5)
+                .input(dust, SodaAsh, 1)
+                .input(dust, Clay, 1)
+                .fluidInputs(Materials.Water.getFluid(8000))
+                .fluidOutputs(CeramicGlaze.getFluid(8000))
+                .EUt(VA[LV])
+                .duration(200)
+                .buildAndRegister();
     }
 }

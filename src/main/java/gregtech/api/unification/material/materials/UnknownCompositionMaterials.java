@@ -653,5 +653,10 @@ public class UnknownCompositionMaterials {
                 .fluid()
                 .color(0xc79267)
                 .build();
+
+        CeramicGlaze = new Material.Builder(1659, gregtechId("ceramic_glaze"))
+                .fluid()
+                .color(0xfffcd9)
+                .build();
     }
 }
