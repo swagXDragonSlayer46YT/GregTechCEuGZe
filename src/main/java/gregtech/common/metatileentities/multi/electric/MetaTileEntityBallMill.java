@@ -65,7 +65,7 @@ public class MetaTileEntityBallMill extends RecipeMapMultiblockController {
                 .where(' ', air())
                 .where('#', states(MetaBlocks.METAL_CASING_2.getState(BlockMetalCasing2.MetalCasingType2.STRUCTURAL)))
                 .where('S', selfPredicate())
-                .where('I', autoAbilities().or(states(MetaBlocks.FRAMES.get(Materials.StainlessSteel).getBlock(Materials.StainlessSteel))))
+                .where('I', autoAbilities().or(states(MetaBlocks.METAL_CASING_2.getState(BlockMetalCasing2.MetalCasingType2.CERAMIC_MILL))))
                 .where('X', states(MetaBlocks.METAL_CASING_2.getState(BlockMetalCasing2.MetalCasingType2.CERAMIC_MILL)))
                 .where('H', states(MetaBlocks.FRAMES.get(Materials.StainlessSteel).getBlock(Materials.StainlessSteel)))
                 .build();
