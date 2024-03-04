@@ -1902,7 +1902,6 @@ gregtech.material.pcb_coolant=Dielectric PCB Coolant
 gregtech.material.mash=Mash
 gregtech.material.alcohol=Alcohol
 gregtech.material.vinegar=Vinegar
-gregtech.material.fracturing_fluid=Fracturing Fluid
 
 # Unknown Composition Materials
 gregtech.material.latex=Latex
@@ -2033,7 +2032,8 @@ gregtech.material.acidic_naquadria_solution=Acidic Naquadria Solution
 gregtech.material.naquadria_waste=Naquadria Waste
 gregtech.material.lapotron=Lapotron
 gregtech.material.uu_matter=UU-Matter
-
+gregtech.material.fracturing_fluid=Fracturing Fluid
+gregtech.material.slag=Slag
 
 # Second Degree Materials
 gregtech.material.glass=Glass

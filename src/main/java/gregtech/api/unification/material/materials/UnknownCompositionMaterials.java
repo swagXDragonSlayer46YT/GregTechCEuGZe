@@ -660,12 +660,17 @@ public class UnknownCompositionMaterials {
                 .color(0xc79267)
                 .build();
 
-        CeramicGlaze = new Material.Builder(1659, gregtechId("ceramic_glaze"))
+        Slag = new Material.Builder(1659, gregtechId("slag"))
+                .liquid(new FluidBuilder().temperature(1700))
+                .color(0xD4D4D4)
+                .build();
+
+        CeramicGlaze = new Material.Builder(1660, gregtechId("ceramic_glaze"))
                 .fluid()
                 .color(0xfffcd9)
                 .build();
 
-        PigIron = new Material.Builder(1660, gregtechId("pig_iron"))
+        PigIron = new Material.Builder(1661, gregtechId("pig_iron"))
                 .ingot()
                 .color(0x6a5f55).iconSet(DULL)
                 .build();

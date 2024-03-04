@@ -72,7 +72,7 @@ public class BlockRefractoryBrick extends VariantActiveBlock<BlockRefractoryBric
 
         TIER1("tier_1", 1800, 1, 1, 1),
         TIER2("tier_2", 2700, 2, 1, 2),
-        TIER3("tier_3", 3600, 2, 2, 3);
+        TIER3("tier_3", 3600, 3, 2, 3);
 
         private final String name;
         private final int refractorybrickTemperature;
