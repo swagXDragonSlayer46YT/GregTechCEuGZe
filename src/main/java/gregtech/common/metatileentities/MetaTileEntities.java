@@ -407,7 +407,6 @@ public class MetaTileEntities {
     public static MetaTileEntityCoagulationTank COAGULATION_TANK;
     public static MetaTileEntityFracker FRACKER;
     public static MetaTileEntityBallMill BALL_MILL;
-    public static MetaTileEntityPrimitiveBlastFurnace PRIMITIVE_BLAST_FURNACE;
 
     // STORAGE SECTION
     public static MetaTileEntityTankValve WOODEN_TANK_VALVE;
@@ -934,6 +933,13 @@ public class MetaTileEntities {
                 new MetaTileEntityBallMill(gregtechId("ball_mill")));
 
         PRIMITIVE_BLAST_FURNACE = registerMetaTileEntity(1080, new MetaTileEntityPrimitiveBlastFurnace(gregtechId("primitive_blast_furnace")));
+
+        LARGE_FUSION_REACTOR[0] = registerMetaTileEntity(1081,
+                new MetaTileEntityLargeFusionReactor(gregtechId("large_fusion_reactor.luv"), GTValues.LuV));
+        LARGE_FUSION_REACTOR[1] = registerMetaTileEntity(1082,
+                new MetaTileEntityLargeFusionReactor(gregtechId("large_fusion_reactor.zpm"), GTValues.ZPM));
+        LARGE_FUSION_REACTOR[2] = registerMetaTileEntity(1083,
+                new MetaTileEntityLargeFusionReactor(gregtechId("large_fusion_reactor.uv"), GTValues.UV));
 
         // MISC MTE's START: IDs 1150-2000
 
