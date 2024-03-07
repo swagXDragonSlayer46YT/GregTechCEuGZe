@@ -1523,6 +1523,17 @@ public final class RecipeMaps {
             .sound(GTSoundEvents.BATH)
             .build();
 
+    public static final RecipeMap<PrimitiveRecipeBuilder> PRIMITIVE_BLAST_FURNACE_RECIPES = new RecipeMapBuilder<>(
+            "primitive_blast_furnace", new PrimitiveRecipeBuilder())
+            .itemInputs(3)
+            .modifyItemInputs(false)
+            .itemOutputs(3)
+            .modifyItemOutputs(false)
+            .modifyFluidInputs(false)
+            .modifyFluidOutputs(false)
+            .sound(GTSoundEvents.FIRE)
+            .build();
+
     //////////////////////////////////////
     // Fuel Recipe Maps //
     //////////////////////////////////////

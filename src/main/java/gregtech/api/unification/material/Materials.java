@@ -703,6 +703,7 @@ public class Materials {
     public static Material AcidicREESolution;
     public static Material FracturingFluid;
     public static Material CeramicGlaze;
+    public static Material PigIron;
 
     /**
      * Second Degree Compounds

@@ -78,6 +78,7 @@ public class MachineRecipeLoader {
         RefrigeratorRecipes.init();
         WoodRecipeLoader.registerRecipes();
         GuildZCraftRecipes.init();
+        PBFRecipes.init();
 
         registerDecompositionRecipes();
         registerBlastFurnaceRecipes();

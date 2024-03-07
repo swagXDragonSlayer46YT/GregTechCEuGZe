@@ -658,5 +658,10 @@ public class UnknownCompositionMaterials {
                 .fluid()
                 .color(0xfffcd9)
                 .build();
+
+        PigIron = new Material.Builder(1660, gregtechId("pig_iron"))
+                .ingot()
+                .color(0x6a5f55).iconSet(DULL)
+                .build();
     }
 }
