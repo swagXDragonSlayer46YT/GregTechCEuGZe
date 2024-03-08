@@ -337,7 +337,7 @@ public class ToolRecipeHandler {
     }
 
     private static void registerStoneToolRecipes() {
-        removeRecipeByName(new ResourceLocation("gregtech:mining_hammer_stone"));
+        /*removeRecipeByName(new ResourceLocation("gregtech:mining_hammer_stone"));
         removeRecipeByName(new ResourceLocation("gregtech:spade_stone"));
         removeRecipeByName(new ResourceLocation("gregtech:saw_stone"));
         removeRecipeByName(new ResourceLocation("gregtech:file_stone"));
@@ -346,7 +346,7 @@ public class ToolRecipeHandler {
         removeRecipeByName(new ResourceLocation("gregtech:drill_head_stone"));
         removeRecipeByName(new ResourceLocation("gregtech:chainsaw_head_stone"));
         removeRecipeByName(new ResourceLocation("gregtech:wrench_head_stone"));
-        removeRecipeByName(new ResourceLocation("gregtech:buzzsaw_blade_stone"));
+        removeRecipeByName(new ResourceLocation("gregtech:buzzsaw_blade_stone"));*/
         //
 
 
