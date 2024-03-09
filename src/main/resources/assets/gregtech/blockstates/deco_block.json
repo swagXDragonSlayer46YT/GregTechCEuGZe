@@ -15,7 +15,8 @@
         "model": "minecraft:cube_column",
         "textures": {
           "end": "gregtech:blocks/casings/deco/server_1_top",
-          "side": "gregtech:blocks/casings/deco/server_1_side"
+          "side": "gregtech:blocks/casings/deco/server_1_side",
+          "side_emissive": "gregtech:blocks/casings/deco/server_1_side_emissive"
         }
       }
     }
