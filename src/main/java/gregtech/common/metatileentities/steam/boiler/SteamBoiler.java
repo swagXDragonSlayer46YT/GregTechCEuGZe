@@ -236,7 +236,7 @@ public abstract class SteamBoiler extends MetaTileEntity implements IDataInfoPro
     /** Returns the current total steam output every 10 ticks. */
     public int getTotalSteamOutput() {
         if (currentTemperature < 100) return 0;
-        return (int) (getBaseSteamOutput() * (currentTemperature / (getMaxTemperate() * 1.0)) / 2);
+        return (int) (getBaseSteamOutput() * (currentTemperature / (getMaxTemperate() * 1.0)));
     }
 
     public boolean hasWater() {
