@@ -426,7 +426,7 @@ public class UnknownCompositionMaterials {
                 .color(0xCDCDCD).iconSet(ROUGH)
                 .flags(MORTAR_GRINDABLE, GENERATE_GEAR, NO_SMASHING, NO_SMELTING)
                 .toolStats(ToolProperty.Builder.of(0.0F, 1.0F, 64, 1)
-                        .enchantability(5).ignoreCraftingTools()
+                        .enchantability(5)
                         .enchantment(Enchantments.FIRE_ASPECT, 2).build())
                 .build();
 

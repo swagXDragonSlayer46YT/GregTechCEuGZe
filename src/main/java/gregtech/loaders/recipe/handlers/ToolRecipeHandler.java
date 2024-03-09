@@ -331,7 +331,6 @@ public class ToolRecipeHandler {
     public static void registerCustomToolRecipes() {
         registerFlintToolRecipes();
         registerMortarRecipes();
-        registerSoftToolRecipes();
         registerElectricRecipes();
         registerStoneToolRecipes();
     }
@@ -349,7 +348,7 @@ public class ToolRecipeHandler {
         removeRecipeByName(new ResourceLocation("gregtech:buzzsaw_blade_stone"));*/
         //
 
-
+        /*
         removeRecipeByName(new ResourceLocation("minecraft:stone_sword"));
         removeRecipeByName(new ResourceLocation("minecraft:stone_shovel"));
         removeRecipeByName(new ResourceLocation("minecraft:stone_pickaxe"));
@@ -388,6 +387,8 @@ public class ToolRecipeHandler {
                 "I", "S",
                 'I', OrePrefix.stone,
                 'S', stick);
+
+         */
     }
 
     private static void registerFlintToolRecipes() {
