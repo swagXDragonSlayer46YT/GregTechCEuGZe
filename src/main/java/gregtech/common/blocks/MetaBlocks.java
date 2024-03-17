@@ -132,6 +132,7 @@ public class MetaBlocks {
     public static BlockMultiblockCasing MULTIBLOCK_CASING;
     public static BlockGlassCasing TRANSPARENT_CASING;
     public static BlockWireCoil WIRE_COIL;
+    public static BlockTurbineCoil TURBINE_COIL;
     public static BlockFusionCasing FUSION_CASING;
     public static BlockWarningSign WARNING_SIGN;
     public static BlockWarningSign1 WARNING_SIGN_1;
@@ -143,6 +144,9 @@ public class MetaBlocks {
 
     public static BlockUniqueCasing UNIQUE_CASING;
     public static BlockLargeMultiblockCasing LARGE_MULTIBLOCK_CASING;
+    public static BlockMetalCasing2 METAL_CASING_2;
+
+    public static BlockDeco DECO_BLOCK;
 
     public static final EnumMap<EnumDyeColor, BlockLamp> LAMPS = new EnumMap<>(EnumDyeColor.class);
     public static final EnumMap<EnumDyeColor, BlockLamp> BORDERLESS_LAMPS = new EnumMap<>(EnumDyeColor.class);
@@ -254,6 +258,8 @@ public class MetaBlocks {
         TRANSPARENT_CASING.setRegistryName("transparent_casing");
         WIRE_COIL = new BlockWireCoil();
         WIRE_COIL.setRegistryName("wire_coil");
+        TURBINE_COIL = new BlockTurbineCoil();
+        TURBINE_COIL.setRegistryName("turbine_coil");
         FUSION_CASING = new BlockFusionCasing();
         FUSION_CASING.setRegistryName("fusion_casing");
         WARNING_SIGN = new BlockWarningSign();
@@ -278,6 +284,10 @@ public class MetaBlocks {
         MULTIBLOCK_TANK.setRegistryName("multiblock_tank");
         PRIMITIVE_CASING = new BlockPrimitiveCasing();
         PRIMITIVE_CASING.setRegistryName("primitive_casing");
+        METAL_CASING_2 = new BlockMetalCasing2();
+        METAL_CASING_2.setRegistryName("metal_casing_2");
+        DECO_BLOCK = new BlockDeco();
+        DECO_BLOCK.setRegistryName("deco_block");
 
         for (EnumDyeColor color : EnumDyeColor.values()) {
             BlockLamp block = new BlockLamp(color);
@@ -510,6 +520,7 @@ public class MetaBlocks {
         registerItemModel(POWDERBARREL);
         registerItemModel(ITNT);
 
+        registerItemModel(TURBINE_COIL);
         registerItemModel(METAL_SHEET);
         registerItemModel(LARGE_METAL_SHEET);
         registerItemModel(STUDS);
@@ -532,6 +543,8 @@ public class MetaBlocks {
         registerItemModel(PRIMITIVE_CASING);
         registerItemModel(MULTIBLOCK_TANK);
         registerItemModel(LARGE_MULTIBLOCK_CASING);
+        registerItemModel(METAL_CASING_2);
+        registerItemModel(DECO_BLOCK);
     }
 
     @SideOnly(Side.CLIENT)

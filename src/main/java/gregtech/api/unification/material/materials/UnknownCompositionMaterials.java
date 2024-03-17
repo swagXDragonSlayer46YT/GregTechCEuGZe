@@ -6,6 +6,9 @@ import gregtech.api.fluids.attribute.FluidAttributes;
 import gregtech.api.fluids.store.FluidStorageKeys;
 import gregtech.api.unification.material.Material;
 
+import gregtech.api.unification.material.properties.ToolProperty;
+
+import net.minecraft.init.Enchantments;
 import net.minecraftforge.fluids.FluidRegistry;
 
 import static gregtech.api.unification.material.Materials.*;
@@ -422,6 +425,9 @@ public class UnknownCompositionMaterials {
                 .dust(2)
                 .color(0xCDCDCD).iconSet(ROUGH)
                 .flags(MORTAR_GRINDABLE, GENERATE_GEAR, NO_SMASHING, NO_SMELTING)
+                .toolStats(ToolProperty.Builder.of(0.0F, 1.0F, 64, 1)
+                        .enchantability(5)
+                        .enchantment(Enchantments.FIRE_ASPECT, 2).build())
                 .build();
 
         Lava = new Material.Builder(1600, gregtechId("lava"))
@@ -652,6 +658,21 @@ public class UnknownCompositionMaterials {
         FracturingFluid = new Material.Builder(1658, gregtechId("fracturing_fluid"))
                 .fluid()
                 .color(0xc79267)
+                .build();
+
+        Slag = new Material.Builder(1659, gregtechId("slag"))
+                .liquid(new FluidBuilder().temperature(1700))
+                .color(0xD4D4D4)
+                .build();
+
+        CeramicGlaze = new Material.Builder(1660, gregtechId("ceramic_glaze"))
+                .fluid()
+                .color(0xfffcd9)
+                .build();
+
+        PigIron = new Material.Builder(1661, gregtechId("pig_iron"))
+                .ingot()
+                .color(0x6a5f55).iconSet(DULL)
                 .build();
     }
 }

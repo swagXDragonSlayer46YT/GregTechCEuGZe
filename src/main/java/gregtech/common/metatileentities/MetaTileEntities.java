@@ -44,10 +44,12 @@ import gregtech.common.metatileentities.electric.MetaTileEntitySteamLatexCollect
 import gregtech.common.metatileentities.electric.MetaTileEntityTransformer;
 import gregtech.common.metatileentities.electric.MetaTileEntityWorldAccelerator;
 import gregtech.common.metatileentities.electric.SimpleMachineMetaTileEntityResizable;
+import gregtech.common.metatileentities.multi.MetaTileEntityPrimitiveBlastFurnace;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityActiveTransformer;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityAlloyBlastSmelter;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityArcFurnace;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityAssemblyLine;
+import gregtech.common.metatileentities.multi.electric.MetaTileEntityBallMill;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityBedrockDrill;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityCleanroom;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityCrackingUnit;
@@ -237,10 +239,12 @@ public class MetaTileEntities {
     public static final MetaTileEntityMiner[] MINER = new MetaTileEntityMiner[GTValues.V.length - 1];
     public static final MetaTileEntityLatexCollector[] LATEX_COLLECTOR = new MetaTileEntityLatexCollector[4];
 
+    public static final SimpleMachineMetaTileEntity[] WELDER = new SimpleMachineMetaTileEntity[GTValues.V.length - 1];
+
     // GENERATORS SECTION
-    public static final SimpleGeneratorMetaTileEntity[] COMBUSTION_GENERATOR = new SimpleGeneratorMetaTileEntity[4];
-    public static final SimpleGeneratorMetaTileEntity[] STEAM_TURBINE = new SimpleGeneratorMetaTileEntity[4];
-    public static final SimpleGeneratorMetaTileEntity[] GAS_TURBINE = new SimpleGeneratorMetaTileEntity[4];
+    //public static final SimpleGeneratorMetaTileEntity[] COMBUSTION_GENERATOR = new SimpleGeneratorMetaTileEntity[4];
+    //public static final SimpleGeneratorMetaTileEntity[] STEAM_TURBINE = new SimpleGeneratorMetaTileEntity[4];
+    //public static final SimpleGeneratorMetaTileEntity[] GAS_TURBINE = new SimpleGeneratorMetaTileEntity[4];
 
     // MULTIBLOCK PARTS SECTION
     public static final MetaTileEntityItemBus[] ITEM_IMPORT_BUS = new MetaTileEntityItemBus[GTValues.UHV + 1]; // ULV-UHV
@@ -341,8 +345,8 @@ public class MetaTileEntities {
     public static MetaTileEntityDistillationTower DISTILLATION_TOWER;
     public static MetaTileEntityCrackingUnit CRACKER;
     public static MetaTileEntityMultiSmelter MULTI_FURNACE;
-    public static MetaTileEntityLargeCombustionEngine LARGE_COMBUSTION_ENGINE;
-    public static MetaTileEntityLargeCombustionEngine EXTREME_COMBUSTION_ENGINE;
+    //public static MetaTileEntityLargeCombustionEngine LARGE_COMBUSTION_ENGINE;
+    //public static MetaTileEntityLargeCombustionEngine EXTREME_COMBUSTION_ENGINE;
     public static MetaTileEntityLargeTurbine LARGE_STEAM_TURBINE;
     public static MetaTileEntityLargeTurbine LARGE_GAS_TURBINE;
     public static MetaTileEntityLargeBoiler LARGE_BRONZE_BOILER;
@@ -404,6 +408,8 @@ public class MetaTileEntities {
     public static MetaTileEntityElectrolyticCell ELECTROLYTIC_CELL;
     public static MetaTileEntityCoagulationTank COAGULATION_TANK;
     public static MetaTileEntityFracker FRACKER;
+    public static MetaTileEntityBallMill BALL_MILL;
+    public static MetaTileEntityPrimitiveBlastFurnace PRIMITIVE_BLAST_FURNACE;
 
     // STORAGE SECTION
     public static MetaTileEntityTankValve WOODEN_TANK_VALVE;
@@ -692,6 +698,10 @@ public class MetaTileEntities {
         LATEX_COLLECTOR[2] = registerMetaTileEntity(742, new MetaTileEntityLatexCollector(gregtechId("latex_collector.hv"), 3));
         LATEX_COLLECTOR[3] = registerMetaTileEntity(743, new MetaTileEntityLatexCollector(gregtechId("latex_collector.ev"), 4));
 
+        // Welder, IDs 744-758
+        registerSimpleMetaTileEntity(WELDER, 744, "welder", RecipeMaps.WELDING_RECIPES,
+                Textures.WELDER_OVERLAY, true);
+
         // Some space here for more SimpleMachines
 
         // Space left for these just in case
@@ -702,6 +712,7 @@ public class MetaTileEntities {
         MINER[1] = registerMetaTileEntity(921, new MetaTileEntityMiner(gregtechId("miner.mv"), 2, 80, 16, 2));
         MINER[2] = registerMetaTileEntity(922, new MetaTileEntityMiner(gregtechId("miner.hv"), 3, 40, 24, 3));
 
+        /*
         // Diesel Generator, IDs 935-949
         COMBUSTION_GENERATOR[0] = registerMetaTileEntity(935,
                 new MetaTileEntitySingleCombustion(gregtechId("combustion_generator.lv"),
@@ -738,6 +749,8 @@ public class MetaTileEntities {
                 new MetaTileEntitySingleTurbine(gregtechId("gas_turbine.hv"), RecipeMaps.GAS_TURBINE_FUELS,
                         Textures.GAS_TURBINE_OVERLAY, 3, GTUtility.genericGeneratorTankSizeFunction));
 
+         */
+
         // Item Collector, IDs 980-983
         ITEM_COLLECTOR[0] = registerMetaTileEntity(980,
                 new MetaTileEntityItemCollector(gregtechId("item_collector.lv"), 1, 8));
@@ -765,10 +778,15 @@ public class MetaTileEntities {
         DISTILLATION_TOWER = registerMetaTileEntity(1005,
                 new MetaTileEntityDistillationTower(gregtechId("distillation_tower")));
         MULTI_FURNACE = registerMetaTileEntity(1006, new MetaTileEntityMultiSmelter(gregtechId("multi_furnace")));
+
+        /*
         LARGE_COMBUSTION_ENGINE = registerMetaTileEntity(1007,
                 new MetaTileEntityLargeCombustionEngine(gregtechId("large_combustion_engine"), GTValues.EV));
         EXTREME_COMBUSTION_ENGINE = registerMetaTileEntity(1008,
                 new MetaTileEntityLargeCombustionEngine(gregtechId("extreme_combustion_engine"), GTValues.IV));
+
+         */
+
         CRACKER = registerMetaTileEntity(1009, new MetaTileEntityCrackingUnit(gregtechId("cracker")));
 
         LARGE_STEAM_TURBINE = registerMetaTileEntity(1010,
@@ -911,7 +929,14 @@ public class MetaTileEntities {
                 new MetaTileEntityElectrolyticCell(gregtechId("electrolytic_cell")));
         FRACKER = registerMetaTileEntity(1078,
                 new MetaTileEntityFracker(gregtechId("fracker"), 2));
-        BLAST_FURNACE = registerMetaTileEntity(1079, new MetaTileEntityBlastFurnace(gregtechId("blast_furnace")));
+
+        BALL_MILL = registerMetaTileEntity(1079,
+                new MetaTileEntityBallMill(gregtechId("ball_mill")));
+
+        PRIMITIVE_BLAST_FURNACE = registerMetaTileEntity(1080, new MetaTileEntityPrimitiveBlastFurnace(gregtechId("primitive_blast_furnace")));
+        
+        BLAST_FURNACE = registerMetaTileEntity(1081, new MetaTileEntityBlastFurnace(gregtechId("blast_furnace")));
+
         // MISC MTE's START: IDs 1150-2000
 
         // Import/Export Buses/Hatches, IDs 1150-1209

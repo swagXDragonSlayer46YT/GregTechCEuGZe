@@ -702,6 +702,9 @@ public class Materials {
     public static Material GalliumLiquor;
     public static Material AcidicREESolution;
     public static Material FracturingFluid;
+    public static Material Slag;
+    public static Material CeramicGlaze;
+    public static Material PigIron;
 
     /**
      * Second Degree Compounds

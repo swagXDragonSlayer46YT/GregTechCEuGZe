@@ -1099,5 +1099,11 @@ public class MetaItem1 extends StandardMetaItem {
         CATALYST_BED = addItem(1005, "catalyst_bed");
 
         GRAPHITE_ELECTRODE = addItem(1006, "graphite_electrode");
+
+
+        //🏀
+        STEEL_BALL = addItem(1007, "steel_ball");
+        CERAMIC_BALL = addItem(1008, "ceramic_ball");
+        TUNGSTENCARBIDE_BALL = addItem(1009, "tungstencarbide_ball");
     }
 }

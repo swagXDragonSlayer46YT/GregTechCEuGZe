@@ -136,6 +136,7 @@ public class CommonProxy {
         registry.register(STEAM_CASING);
         registry.register(MULTIBLOCK_CASING);
         registry.register(TRANSPARENT_CASING);
+        registry.register(TURBINE_COIL);
         registry.register(WIRE_COIL);
         registry.register(FUSION_CASING);
         registry.register(WARNING_SIGN);
@@ -167,6 +168,8 @@ public class CommonProxy {
         registry.register(LARGE_MULTIBLOCK_CASING);
         registry.register(MULTIBLOCK_TANK);
         registry.register(PRIMITIVE_CASING);
+        registry.register(METAL_CASING_2);
+        registry.register(DECO_BLOCK);
 
         for (BlockLamp block : LAMPS.values()) registry.register(block);
         for (BlockLamp block : BORDERLESS_LAMPS.values()) registry.register(block);
@@ -255,6 +258,7 @@ public class CommonProxy {
         registry.register(createItemBlock(STEAM_CASING, VariantItemBlock::new));
         registry.register(createItemBlock(MULTIBLOCK_CASING, VariantItemBlock::new));
         registry.register(createItemBlock(TRANSPARENT_CASING, VariantItemBlock::new));
+        registry.register(createItemBlock(TURBINE_COIL, VariantItemBlock::new));
         registry.register(createItemBlock(WIRE_COIL, VariantItemBlock::new));
         registry.register(createItemBlock(FUSION_CASING, VariantItemBlock::new));
         registry.register(createItemBlock(WARNING_SIGN, VariantItemBlock::new));
@@ -262,6 +266,9 @@ public class CommonProxy {
         registry.register(createItemBlock(METAL_SHEET, VariantItemBlock::new));
         registry.register(createItemBlock(LARGE_METAL_SHEET, VariantItemBlock::new));
         registry.register(createItemBlock(STUDS, VariantItemBlock::new));
+        registry.register(createItemBlock(METAL_CASING_2, VariantItemBlock::new));
+        registry.register(createItemBlock(DECO_BLOCK, VariantItemBlock::new));
+
         for (BlockLamp block : LAMPS.values()) {
             registry.register(createItemBlock(block, LampItemBlock::new));
         }

@@ -5,6 +5,7 @@ import gregtech.api.fluids.FluidBuilder;
 import gregtech.api.fluids.FluidState;
 import gregtech.api.fluids.attribute.FluidAttributes;
 import gregtech.api.fluids.store.FluidStorageKeys;
+import gregtech.api.unification.Elements;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.info.MaterialIconSet;
 import gregtech.api.unification.material.properties.BlastProperty;
@@ -1589,5 +1590,6 @@ public class FirstDegreeMaterials {
                 .flags(NO_SMASHING)
                 .components(Calcium, 1, Carbon, 1, Oxygen, 3)
                 .build();
+
     }
 }

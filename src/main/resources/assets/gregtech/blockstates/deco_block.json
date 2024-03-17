@@ -1,0 +1,24 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block",
+    "model": "minecraft:cube_column",
+    "textures": {
+      "end": "gregtech:blocks/casings/deco/server_1_top",
+      "side": "gregtech:blocks/casings/deco/server_1_side"
+    }
+  },
+  "variants": {
+    "variant" : {
+      "server_1": {
+        "transform": "forge:default-block",
+        "model": "minecraft:cube_column",
+        "textures": {
+          "end": "gregtech:blocks/casings/deco/server_1_top",
+          "side": "gregtech:blocks/casings/deco/server_1_side",
+          "side_emissive": "gregtech:blocks/casings/deco/server_1_side_emissive"
+        }
+      }
+    }
+  }
+}

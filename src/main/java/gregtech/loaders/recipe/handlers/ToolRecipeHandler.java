@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import static gregtech.api.GTValues.*;
+import static gregtech.api.recipes.ModHandler.removeRecipeByName;
 import static gregtech.api.recipes.RecipeMaps.LATHE_RECIPES;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.properties.PropertyKey.GEM;
@@ -330,8 +331,64 @@ public class ToolRecipeHandler {
     public static void registerCustomToolRecipes() {
         registerFlintToolRecipes();
         registerMortarRecipes();
-        registerSoftToolRecipes();
         registerElectricRecipes();
+        registerStoneToolRecipes();
+    }
+
+    private static void registerStoneToolRecipes() {
+        /*removeRecipeByName(new ResourceLocation("gregtech:mining_hammer_stone"));
+        removeRecipeByName(new ResourceLocation("gregtech:spade_stone"));
+        removeRecipeByName(new ResourceLocation("gregtech:saw_stone"));
+        removeRecipeByName(new ResourceLocation("gregtech:file_stone"));
+        removeRecipeByName(new ResourceLocation("gregtech:wrench_stone"));
+        removeRecipeByName(new ResourceLocation("gregtech:butchery_knife_stone"));
+        removeRecipeByName(new ResourceLocation("gregtech:drill_head_stone"));
+        removeRecipeByName(new ResourceLocation("gregtech:chainsaw_head_stone"));
+        removeRecipeByName(new ResourceLocation("gregtech:wrench_head_stone"));
+        removeRecipeByName(new ResourceLocation("gregtech:buzzsaw_blade_stone"));*/
+        //
+
+        /*
+        removeRecipeByName(new ResourceLocation("minecraft:stone_sword"));
+        removeRecipeByName(new ResourceLocation("minecraft:stone_shovel"));
+        removeRecipeByName(new ResourceLocation("minecraft:stone_pickaxe"));
+        removeRecipeByName(new ResourceLocation("minecraft:stone_hoe"));
+        removeRecipeByName(new ResourceLocation("minecraft:stone_axe"));
+
+        final UnificationEntry stone = new UnificationEntry(OrePrefix.stone, Materials.Stone);
+        final UnificationEntry stick = new UnificationEntry(OrePrefix.stick, Materials.Wood);
+
+        addToolRecipe(Materials.Stone, ToolItems.SWORD, false,
+                "I", "I", "S",
+                'I', OrePrefix.stone,
+                'S', stick);
+
+        addToolRecipe(Materials.Stone, ToolItems.PICKAXE, false,
+                "III", " S ", " S ",
+                'I', OrePrefix.stone,
+                'S', stick);
+
+        addToolRecipe(Materials.Stone, ToolItems.SHOVEL, false,
+                "I", "S", "S",
+                'I', OrePrefix.stone,
+                'S', stick);
+
+        addToolRecipe(Materials.Stone, ToolItems.AXE, true,
+                "II", "IS", " S",
+                'I', OrePrefix.stone,
+                'S', stick);
+
+        addToolRecipe(Materials.Stone, ToolItems.HOE, true,
+                "II", " S", " S",
+                'I', OrePrefix.stone,
+                'S', stick);
+
+        addToolRecipe(Materials.Stone, ToolItems.KNIFE, false,
+                "I", "S",
+                'I', OrePrefix.stone,
+                'S', stick);
+
+         */
     }
 
     private static void registerFlintToolRecipes() {

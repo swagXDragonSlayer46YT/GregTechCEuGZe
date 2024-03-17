@@ -5,6 +5,7 @@ import gregtech.api.recipes.ModHandler;
 import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.builders.SimpleRecipeBuilder;
+import gregtech.api.recipes.ingredients.GTRecipeItemInput;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.Materials;
@@ -16,6 +17,8 @@ import gregtech.api.unification.stack.UnificationEntry;
 import gregtech.api.util.GTUtility;
 import gregtech.common.ConfigHolder;
 
+import gregtech.common.items.MetaItems;
+
 import net.minecraft.item.ItemStack;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -25,6 +28,8 @@ import java.util.List;
 import static gregtech.api.GTValues.LV;
 import static gregtech.api.GTValues.VA;
 import static gregtech.api.unification.material.info.MaterialFlags.HIGH_SIFTER_OUTPUT;
+import static gregtech.common.items.MetaItems.CERAMIC_BALL;
+import static gregtech.common.items.MetaItems.STEEL_BALL;
 
 public class OreRecipeHandler {
     // Make sure to update OreByProduct jei page with any byproduct changes made here!
@@ -47,6 +52,22 @@ public class OreRecipeHandler {
         OrePrefix.crushedCentrifuged.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::processCrushedCentrifuged);
         OrePrefix.dustImpure.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::processDirtyDust);
         OrePrefix.dustPure.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::processPureDust);
+
+        OrePrefix.ore.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millOre);
+        OrePrefix.oreEndstone.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millOre);
+        OrePrefix.oreNetherrack.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millOre);
+        OrePrefix.oreGranite.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millOre);
+        OrePrefix.oreDiorite.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millOre);
+        OrePrefix.oreAndesite.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millOre);
+        OrePrefix.oreBasalt.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millOre);
+        OrePrefix.oreLimestone.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millOre);
+        OrePrefix.oreMarble.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millOre);
+        OrePrefix.oreSand.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millOre);
+        OrePrefix.oreRedSand.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millOre);
+
+        OrePrefix.crushed.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millCrushedOre);
+        OrePrefix.crushedCentrifuged.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millCrushedCentrifuged);
+        OrePrefix.crushedPurified.addProcessingHandler(PropertyKey.ORE, OreRecipeHandler::millCrushedPurified);
     }
 
     public static void processOre(OrePrefix orePrefix, Material material, OreProperty property) {
@@ -349,5 +370,73 @@ public class OreRecipeHandler {
 
     private static boolean doesMaterialUseNormalFurnace(Material material) {
         return !material.hasProperty(PropertyKey.BLAST);
+    }
+
+    public static void millOre(OrePrefix orePrefix, Material material, OreProperty property) {
+        Material byproductMaterial = property.getOreByProduct(0, material);
+        ItemStack byproductStack = OreDictUnifier.get(OrePrefix.gem, byproductMaterial);
+        if (byproductStack.isEmpty()) byproductStack = OreDictUnifier.get(OrePrefix.dust, byproductMaterial);
+        ItemStack crushedStack = OreDictUnifier.get(OrePrefix.crushed, material);
+        double amountOfCrushedOre = property.getOreMultiplier();
+        int oreTypeMultiplier = orePrefix == OrePrefix.oreNetherrack || orePrefix == OrePrefix.oreEndstone ? 2 : 1;
+        crushedStack.setCount(crushedStack.getCount() * property.getOreMultiplier());
+
+        if (!crushedStack.isEmpty()) {
+            RecipeBuilder<?> builder = RecipeMaps.MILLING_RECIPES.recipeBuilder()
+                    .input(orePrefix, material, 40)
+                    .outputs(GTUtility.copy((int) Math.round(amountOfCrushedOre) * 80 * oreTypeMultiplier, crushedStack))
+                    .chancedOutput(GTUtility.copy(40, byproductStack),1400, 850)
+                    .input(new GTRecipeItemInput(STEEL_BALL.getStackForm(), 64).setNonConsumable())
+                    .duration(400);
+            for (MaterialStack secondaryMaterial : orePrefix.secondaryMaterials) {
+                if (secondaryMaterial.material.hasProperty(PropertyKey.DUST)) {
+                    ItemStack dustStack = OreDictUnifier.getGem(secondaryMaterial);
+                    builder.chancedOutput(GTUtility.copy(40, dustStack), 6700, 800);
+                }
+            }
+
+            builder.buildAndRegister();
+        }
+    }
+
+    public static void millCrushedOre(OrePrefix crushedPrefix, Material material, OreProperty property) {
+        ItemStack impureDustStack = OreDictUnifier.get(OrePrefix.dustImpure, material);
+        Material byproductMaterial = property.getOreByProduct(0, material);
+
+        RecipeMaps.MILLING_RECIPES.recipeBuilder()
+                .input(crushedPrefix, material, 40)
+                .outputs(GTUtility.copy(40, impureDustStack))
+                .duration(400)
+                .chancedOutput(GTUtility.copy(40, OreDictUnifier.get(OrePrefix.dust, byproductMaterial, property.getByProductMultiplier())),
+                        1400, 850)
+                .input(new GTRecipeItemInput(CERAMIC_BALL.getStackForm(), 64).setNonConsumable())
+                .buildAndRegister();
+    }
+
+    public static void millCrushedCentrifuged(OrePrefix centrifugedPrefix, Material material, OreProperty property) {
+        ItemStack dustStack = OreDictUnifier.get(OrePrefix.dust, material);
+        ItemStack byproductStack = OreDictUnifier.get(OrePrefix.dust, property.getOreByProduct(2, material), 1);
+
+        RecipeMaps.MILLING_RECIPES.recipeBuilder()
+                .input(centrifugedPrefix, material, 40)
+                .input(new GTRecipeItemInput(CERAMIC_BALL.getStackForm(), 64).setNonConsumable())
+                .outputs(GTUtility.copy(40, dustStack))
+                .chancedOutput(GTUtility.copy(40, byproductStack), 1400, 850)
+                .duration(400)
+                .buildAndRegister();
+    }
+    public static void millCrushedPurified(OrePrefix purifiedPrefix, Material material, OreProperty property) {
+        ItemStack crushedCentrifugedStack = OreDictUnifier.get(OrePrefix.crushedCentrifuged, material);
+        ItemStack dustStack = OreDictUnifier.get(OrePrefix.dustPure, material);
+        Material byproductMaterial = property.getOreByProduct(1, material);
+        ItemStack byproductStack = OreDictUnifier.get(OrePrefix.dust, byproductMaterial);
+
+        RecipeMaps.MILLING_RECIPES.recipeBuilder()
+                .input(purifiedPrefix, material, 40)
+                .input(new GTRecipeItemInput(CERAMIC_BALL.getStackForm(), 64).setNonConsumable())
+                .outputs(GTUtility.copy(40, dustStack))
+                .chancedOutput(GTUtility.copy(40, byproductStack), 1400, 850)
+                .duration(400)
+                .buildAndRegister();
     }
 }

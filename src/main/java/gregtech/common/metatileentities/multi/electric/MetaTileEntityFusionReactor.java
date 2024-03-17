@@ -31,6 +31,7 @@ import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.recipeproperties.FusionEUToStartProperty;
 import gregtech.api.recipes.recipeproperties.IRecipePropertyStorage;
+import gregtech.api.unification.material.Materials;
 import gregtech.api.util.RelativeDirection;
 import gregtech.api.util.TextComponentUtil;
 import gregtech.api.util.TextFormattingUtil;
@@ -83,12 +84,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.DoubleSupplier;
 
+import static gregtech.api.util.RelativeDirection.*;
+
 public class MetaTileEntityFusionReactor extends RecipeMapMultiblockController
                                          implements IFastRenderMetaTileEntity, IBloomEffect {
 
     protected static final int NO_COLOR = 0;
 
-    private final int tier;
+    int tier;
     private EnergyContainerList inputEnergyContainers;
     private long heat = 0; // defined in TileEntityFusionReactor but serialized in FusionRecipeLogic
     private int fusionRingColor = NO_COLOR;
@@ -120,41 +123,200 @@ public class MetaTileEntityFusionReactor extends RecipeMapMultiblockController
     @NotNull
     @Override
     protected BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("###############", "######OGO######", "###############")
-                .aisle("######ICI######", "####GGAAAGG####", "######ICI######")
-                .aisle("####CC###CC####", "###EAAOGOAAE###", "####CC###CC####")
-                .aisle("###C#######C###", "##EKEG###GEKE##", "###C#######C###")
-                .aisle("##C#########C##", "#GAE#######EAG#", "##C#########C##")
-                .aisle("##C#########C##", "#GAG#######GAG#", "##C#########C##")
-                .aisle("#I###########I#", "OAO#########OAO", "#I###########I#")
-                .aisle("#C###########C#", "GAG#########GAG", "#C###########C#")
-                .aisle("#I###########I#", "OAO#########OAO", "#I###########I#")
-                .aisle("##C#########C##", "#GAG#######GAG#", "##C#########C##")
-                .aisle("##C#########C##", "#GAE#######EAG#", "##C#########C##")
-                .aisle("###C#######C###", "##EKEG###GEKE##", "###C#######C###")
-                .aisle("####CC###CC####", "###EAAOGOAAE###", "####CC###CC####")
-                .aisle("######ICI######", "####GGAAAGG####", "######ICI######")
-                .aisle("###############", "######OSO######", "###############")
+
+        return FactoryBlockPattern.start(RIGHT, FRONT, UP)
+                .aisle( "                                               ",
+                        "                                               ", "                    FCCCCCF                    ",
+                        "                    FCIBICF                    ", "                    FCCCCCF                    ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "  FFF                                     FFF  ",
+                        "  CCC                                     CCC  ", "  CIC                                     CIC  ",
+                        "  CBC                                     CBC  ", "  CIC                                     CIC  ",
+                        "  CCC                                     CCC  ", "  FFF                                     FFF  ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                    FCCCCCF                    ",
+                        "                    FCIBICF                    ", "                    FCCCCCF                    ",
+                        "                                               ", "                                               ")
+                .aisle( "                                               ",
+                        "                    FCBBBCF                    ", "                   CC     CC                   ",
+                        "                CCCCC     CCCCC                ", "              CCCCCCC     CCCCCCC              ",
+                        "            CCCCCCC FCBBBCF CCCCCCC            ", "           CCCCC               CCCCC           ",
+                        "          CCCC                   CCCC          ", "         CCC                       CCC         ",
+                        "        CCC                         CCC        ", "       CCC                           CCC       ",
+                        "      CCC                             CCC      ", "     CCC                               CCC     ",
+                        "     CCC                               CCC     ", "    CCC                                 CCC    ",
+                        "    CCC                                 CCC    ", "   CCC                                   CCC   ",
+                        "   CCC                                   CCC   ", "   CCC                                   CCC   ",
+                        "  CCC                                     CCC  ", " FCCCF                                   FCCCF ",
+                        " C   C                                   C   C ", " B   B                                   B   B ",
+                        " B   B                                   B   B ", " B   B                                   B   B ",
+                        " C   C                                   C   C ", " FCCCF                                   FCCCF ",
+                        "  CCC                                     CCC  ", "   CCC                                   CCC   ",
+                        "   CCC                                   CCC   ", "   CCC                                   CCC   ",
+                        "    CCC                                 CCC    ", "    CCC                                 CCC    ",
+                        "     CCC                               CCC     ", "     CCC                               CCC     ",
+                        "      CCC                             CCC      ", "       CCC                           CCC       ",
+                        "        CCC                         CCC        ", "         CCC                       CCC         ",
+                        "          CCCC                   CCCC          ", "           CCCCC               CCCCC           ",
+                        "            CCCCCCC FCBBBCF CCCCCCC            ", "              CCCCCCC     CCCCCCC              ",
+                        "                CCCCC     CCCCC                ", "                   CC     CC                   ",
+                        "                    FCBBBCF                    ", "                                               ")
+                .aisle("                    FCCCCCF                    ",
+                        "                   CC     CC                   ", "                CCCCC     CCCCC                ",
+                        "              CCCCCHHHHHHHHHCCCCC              ", "            CCCCHHHCC     CCHHHCCCC            ",
+                        "           CCCHHCCCCC     CCCCCHHCCC           ", "          ECHHCCCCC FCCCCCF CCCCCHHCE          ",
+                        "         CCHCCCC               CCCCHCC         ", "        CCHCCC                   CCCHCC        ",
+                        "       CCHCE                       ECHCC       ", "      ECHCC                         CCHCE      ",
+                        "     CCHCE                           ECHCC     ", "    CCHCC                             CCHCC    ",
+                        "    CCHCC                             CCHCC    ", "   CCHCC                               CCHCC   ",
+                        "   CCHCC                               CCHCC   ", "  CCHCC                                 CCHCC  ",
+                        "  CCHCC                                 CCHCC  ", "  CCHCC                                 CCHCC  ",
+                        " CCHCC                                   CCHCC ", "FCCHCCF                                 FCCHCCF",
+                        "C  H  C                                 C  H  C", "C  H  C                                 C  H  C",
+                        "C  H  C                                 C  H  C", "C  H  C                                 C  H  C",
+                        "C  H  C                                 C  H  C", "FCCHCCF                                 FCCHCCF",
+                        " CCHCC                                   CCHCC ", "  CCHCC                                 CCHCC  ",
+                        "  CCHCC                                 CCHCC  ", "  CCHCC                                 CCHCC  ",
+                        "   CCHCC                               CCHCC   ", "   CCHCC                               CCHCC   ",
+                        "    CCHCC                             CCHCC    ", "    CCHCC                             CCHCC    ",
+                        "     CCHCE                           ECHCC     ", "      ECHCC                         CCHCE      ",
+                        "       CCHCE                       ECHCC       ", "        CCHCCC                   CCCHCC        ",
+                        "         CCHCCCC               CCCCHCC         ", "          ECHHCCCCC FCCCCCF CCCCCHHCE          ",
+                        "           CCCHHCCCCC     CCCCCHHCCC           ", "            CCCCHHHCC     CCHHHCCCC            ",
+                        "              CCCCCHHHHHHHHHCCCCC              ", "                CCCCC     CCCCC                ",
+                        "                   CC     CC                   ", "                    FCCCCCF                    ")
+                .aisle("                    FCIBICF                    ",
+                        "                   CC     CC                   ", "                CCCHHHHHHHHHCCC                ",
+                        "              CCHHHHHHHHHHHHHHHCC              ", "            CCHHHHHHHHHHHHHHHHHHHCC            ",
+                        "           CHHHHHHHCC     CCHHHHHHHC           ", "          CHHHHHCCC FCIBICF CCCHHHHHC          ",
+                        "         CHHHHCC               CCHHHHC         ", "        CHHHCC                   CCHHHC        ",
+                        "       CHHHC                       CHHHC       ", "      CHHHC                         CHHHC      ",
+                        "     CHHHC                           CHHHC     ", "    CHHHC                             CHHHC    ",
+                        "    CHHHC                             CHHHC    ", "   CHHHC                               CHHHC   ",
+                        "   CHHHC                               CHHHC   ", "  CHHHC                                 CHHHC  ",
+                        "  CHHHC                                 CHHHC  ", "  CHHHC                                 CHHHC  ",
+                        " CHHHC                                   CHHHC ", "FCHHHCF                                 FCHHHCF",
+                        "C HHH C                                 C HHH C", "I HHH I                                 I HHH I",
+                        "B HHH B                                 B HHH B", "I HHH I                                 I HHH I",
+                        "C HHH C                                 C HHH C", "FCHHHCF                                 FCHHHCF",
+                        " CHHHC                                   CHHHC ", "  CHHHC                                 CHHHC  ",
+                        "  CHHHC                                 CHHHC  ", "  CHHHC                                 CHHHC  ",
+                        "   CHHHC                               CHHHC   ", "   CHHHC                               CHHHC   ",
+                        "    CHHHC                             CHHHC    ", "    CHHHC                             CHHHC    ",
+                        "     CHHHC                           CHHHC     ", "      CHHHC                         CHHHC      ",
+                        "       CHHHC                       CHHHC       ", "        CHHHCC                   CCHHHC        ",
+                        "         CHHHHCC               CCHHHHC         ", "          CHHHHHCCC FCISICF CCCHHHHHC          ",
+                        "           CHHHHHHHCC     CCHHHHHHHC           ", "            CCHHHHHHHHHHHHHHHHHHHCC            ",
+                        "              CCHHHHHHHHHHHHHHHCC              ", "                CCCHHHHHHHHHCCC                ",
+                        "                   CC     CC                   ", "                    FCIBICF                    ")
+                .aisle("                    FCCCCCF                    ",
+                        "                   CC     CC                   ", "                CCCCC     CCCCC                ",
+                        "              CCCCCHHHHHHHHHCCCCC              ", "            CCCCHHHCC     CCHHHCCCC            ",
+                        "           CCCHHCCCCC     CCCCCHHCCC           ", "          ECHHCCCCC FCCCCCF CCCCCHHCE          ",
+                        "         CCHCCCC               CCCCHCC         ", "        CCHCCC                   CCCHCC        ",
+                        "       CCHCE                       ECHCC       ", "      ECHCC                         CCHCE      ",
+                        "     CCHCE                           ECHCC     ", "    CCHCC                             CCHCC    ",
+                        "    CCHCC                             CCHCC    ", "   CCHCC                               CCHCC   ",
+                        "   CCHCC                               CCHCC   ", "  CCHCC                                 CCHCC  ",
+                        "  CCHCC                                 CCHCC  ", "  CCHCC                                 CCHCC  ",
+                        " CCHCC                                   CCHCC ", "FCCHCCF                                 FCCHCCF",
+                        "C  H  C                                 C  H  C", "C  H  C                                 C  H  C",
+                        "C  H  C                                 C  H  C", "C  H  C                                 C  H  C",
+                        "C  H  C                                 C  H  C", "FCCHCCF                                 FCCHCCF",
+                        " CCHCC                                   CCHCC ", "  CCHCC                                 CCHCC  ",
+                        "  CCHCC                                 CCHCC  ", "  CCHCC                                 CCHCC  ",
+                        "   CCHCC                               CCHCC   ", "   CCHCC                               CCHCC   ",
+                        "    CCHCC                             CCHCC    ", "    CCHCC                             CCHCC    ",
+                        "     CCHCE                           ECHCC     ", "      ECHCC                         CCHCE      ",
+                        "       CCHCE                       ECHCC       ", "        CCHCCC                   CCCHCC        ",
+                        "         CCHCCCC               CCCCHCC         ", "          ECHHCCCCC FCCCCCF CCCCCHHCE          ",
+                        "           CCCHHCCCCC     CCCCCHHCCC           ", "            CCCCHHHCC     CCHHHCCCC            ",
+                        "              CCCCCHHHHHHHHHCCCCC              ", "                CCCCC     CCCCC                ",
+                        "                   CC     CC                   ", "                    FCCCCCF                    ")
+                .aisle( "                                               ",
+                        "                    FCBBBCF                    ", "                   CC     CC                   ",
+                        "                CCCCC     CCCCC                ", "              CCCCCCC     CCCCCCC              ",
+                        "            CCCCCCC FCBBBCF CCCCCCC            ", "           CCCCC               CCCCC           ",
+                        "          CCCC                   CCCC          ", "         CCC                       CCC         ",
+                        "        CCC                         CCC        ", "       CCC                           CCC       ",
+                        "      CCC                             CCC      ", "     CCC                               CCC     ",
+                        "     CCC                               CCC     ", "    CCC                                 CCC    ",
+                        "    CCC                                 CCC    ", "   CCC                                   CCC   ",
+                        "   CCC                                   CCC   ", "   CCC                                   CCC   ",
+                        "  CCC                                     CCC  ", " FCCCF                                   FCCCF ",
+                        " C   C                                   C   C ", " B   B                                   B   B ",
+                        " B   B                                   B   B ", " B   B                                   B   B ",
+                        " C   C                                   C   C ", " FCCCF                                   FCCCF ",
+                        "  CCC                                     CCC  ", "   CCC                                   CCC   ",
+                        "   CCC                                   CCC   ", "   CCC                                   CCC   ",
+                        "    CCC                                 CCC    ", "    CCC                                 CCC    ",
+                        "     CCC                               CCC     ", "     CCC                               CCC     ",
+                        "      CCC                             CCC      ", "       CCC                           CCC       ",
+                        "        CCC                         CCC        ", "         CCC                       CCC         ",
+                        "          CCCC                   CCCC          ", "           CCCCC               CCCCC           ",
+                        "            CCCCCCC FCBBBCF CCCCCCC            ", "              CCCCCCC     CCCCCCC              ",
+                        "                CCCCC     CCCCC                ", "                   CC     CC                   ",
+                        "                    FCBBBCF                    ", "                                               ")
+                .aisle("                                               ",
+                        "                                               ", "                    FCCCCCF                    ",
+                        "                    FCIBICF                    ", "                    FCCCCCF                    ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "  FFF                                     FFF  ",
+                        "  CCC                                     CCC  ", "  CIC                                     CIC  ",
+                        "  CBC                                     CBC  ", "  CIC                                     CIC  ",
+                        "  CCC                                     CCC  ", "  FFF                                     FFF  ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                                               ",
+                        "                                               ", "                    FCCCCCF                    ",
+                        "                    FCIBICF                    ", "                    FCCCCCF                    ",
+                        "                                               ", "                                               ")
                 .where('S', selfPredicate())
-                .where('G', states(getCasingState(), getGlassState()))
+                .where('B', states(getGlassState()))
                 .where('E',
                         states(getCasingState(), getGlassState()).or(metaTileEntities(Arrays
                                 .stream(MetaTileEntities.ENERGY_INPUT_HATCH)
                                 .filter(mte -> mte != null && tier <= mte.getTier() && mte.getTier() <= GTValues.UV)
                                 .toArray(MetaTileEntity[]::new))
-                                        .setMinGlobalLimited(1).setPreviewCount(16)))
+                                .setMinGlobalLimited(1).setPreviewCount(16)))
                 .where('C', states(getCasingState()))
-                .where('K', states(getCoilState()))
-                .where('O', states(getCasingState(), getGlassState()).or(abilities(MultiblockAbility.EXPORT_FLUIDS)))
+                .where('H', states(getCoilState()))
+                .where('I', states(getCasingState(), getGlassState()).or(abilities(MultiblockAbility.EXPORT_FLUIDS)).or(abilities(MultiblockAbility.IMPORT_FLUIDS).setMinGlobalLimited(2)))
                 .where('A', air())
-                .where('I',
-                        states(getCasingState()).or(abilities(MultiblockAbility.IMPORT_FLUIDS).setMinGlobalLimited(2)))
-                .where('#', any())
+                .where('F', states(getFrameState()))
+                .where(' ', any())
                 .build();
     }
-
-    @Override
+    IBlockState getFrameState() {
+        if (tier == GTValues.LuV)
+            return MetaBlocks.FRAMES.get(Materials.HSSS).getBlock(Materials.HSSS);
+        if (tier == GTValues.ZPM)
+            return MetaBlocks.FRAMES.get(Materials.NaquadahAlloy).getBlock(Materials.NaquadahAlloy);
+        return MetaBlocks.FRAMES.get(Materials.Neutronium).getBlock(Materials.Neutronium);
+    }
+    /*@Override
     public List<MultiblockShapeInfo> getMatchingShapes() {
         List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
 
@@ -197,7 +359,7 @@ public class MetaTileEntityFusionReactor extends RecipeMapMultiblockController
         shapeInfos.add(baseBuilder.build());
         return shapeInfos;
     }
-
+*/
     @SideOnly(Side.CLIENT)
     @Override
     public ICubeRenderer getBaseTexture(IMultiblockPart sourcePart) {
@@ -208,11 +370,11 @@ public class MetaTileEntityFusionReactor extends RecipeMapMultiblockController
         }
     }
 
-    private IBlockState getGlassState() {
+    IBlockState getGlassState() {
         return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.FUSION_GLASS);
     }
 
-    private IBlockState getCasingState() {
+    IBlockState getCasingState() {
         if (tier == GTValues.LuV)
             return MetaBlocks.FUSION_CASING.getState(BlockFusionCasing.CasingType.FUSION_CASING);
         if (tier == GTValues.ZPM)
@@ -221,7 +383,7 @@ public class MetaTileEntityFusionReactor extends RecipeMapMultiblockController
         return MetaBlocks.FUSION_CASING.getState(BlockFusionCasing.CasingType.FUSION_CASING_MK3);
     }
 
-    private IBlockState getCoilState() {
+    IBlockState getCoilState() {
         if (tier == GTValues.LuV)
             return MetaBlocks.FUSION_CASING.getState(BlockFusionCasing.CasingType.SUPERCONDUCTOR_COIL);
 
@@ -676,7 +838,7 @@ public class MetaTileEntityFusionReactor extends RecipeMapMultiblockController
         }
     }
 
-    @Override
+    /*@Override
     @SideOnly(Side.CLIENT)
     public void renderBloomEffect(@NotNull BufferBuilder buffer, @NotNull EffectRenderContext context) {
         if (!this.hasFusionRingColor()) return;
@@ -696,6 +858,28 @@ public class MetaTileEntityFusionReactor extends RecipeMapMultiblockController
                 getPos().getY() - context.cameraY() + relativeBack.getYOffset() * 7 + 0.5,
                 getPos().getZ() - context.cameraZ() + relativeBack.getZOffset() * 7 + 0.5,
                 6, 0.2, 10, 20,
+                r, g, b, a, axis);
+    }*/
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void renderBloomEffect(@NotNull BufferBuilder buffer, @NotNull EffectRenderContext context) {
+        if (!this.hasFusionRingColor()) return;
+        int color = RenderUtil.interpolateColor(this.getFusionRingColor(), -1, Eases.QUAD_IN.getInterpolation(
+                Math.abs((Math.abs(getOffsetTimer() % 50) + context.partialTicks()) - 25) / 25));
+        float a = (float) (color >> 24 & 255) / 255.0F;
+        float r = (float) (color >> 16 & 255) / 255.0F;
+        float g = (float) (color >> 8 & 255) / 255.0F;
+        float b = (float) (color & 255) / 255.0F;
+        EnumFacing relativeBack = RelativeDirection.BACK.getRelativeFacing(getFrontFacing(), getUpwardsFacing(),
+                isFlipped());
+        EnumFacing.Axis axis = RelativeDirection.UP.getRelativeFacing(getFrontFacing(), getUpwardsFacing(), isFlipped())
+                .getAxis();
+
+        RenderBufferHelper.renderRing(buffer,
+                getPos().getX() - context.cameraX() + relativeBack.getXOffset() * -17 + 0.5,
+                getPos().getY() - context.cameraY() + relativeBack.getYOffset() * -17 + 0.5,
+                getPos().getZ() - context.cameraZ() + relativeBack.getZOffset() * -17 + 0.5,
+                20, 1, 30, 60,
                 r, g, b, a, axis);
     }
 

@@ -1310,6 +1310,17 @@ public final class RecipeMaps {
             .sound(GTSoundEvents.BATH)
             .build();
 
+    @ZenProperty
+    public static final RecipeMap<SimpleRecipeBuilder> MILLING_RECIPES = new RecipeMapBuilder<>(
+            "ball_mill", new SimpleRecipeBuilder().duration(400).EUt(16))
+            .itemInputs(4)
+            .itemOutputs(4)
+            .fluidInputs(2)
+            .fluidOutputs(4)
+            .progressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE)
+            .sound(GTSoundEvents.MACERATOR)
+            .build();
+
     /**
      * Example:
      *
@@ -1510,6 +1521,17 @@ public final class RecipeMaps {
             .fluidOutputs(0)
             .progressBar(GuiTextures.PROGRESS_BAR_EXTRACT)
             .sound(GTSoundEvents.BATH)
+            .build();
+
+    public static final RecipeMap<PrimitiveRecipeBuilder> PRIMITIVE_BLAST_FURNACE_RECIPES = new RecipeMapBuilder<>(
+            "primitive_blast_furnace", new PrimitiveRecipeBuilder())
+            .itemInputs(3)
+            .modifyItemInputs(false)
+            .itemOutputs(3)
+            .modifyItemOutputs(false)
+            .modifyFluidInputs(false)
+            .modifyFluidOutputs(false)
+            .sound(GTSoundEvents.FIRE)
             .build();
 
     //////////////////////////////////////

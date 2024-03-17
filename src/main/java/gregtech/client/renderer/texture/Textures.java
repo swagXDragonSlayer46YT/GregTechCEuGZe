@@ -94,6 +94,10 @@ public class Textures {
             "casings/solid/machine_casing_pipe_stabilizer");
     public static final SimpleOverlayRenderer INERT_PTFE_CASING = new SimpleOverlayRenderer(
             "casings/solid/machine_casing_inert_ptfe");
+    public static final SimpleOverlayRenderer CERAMIC_MILL = new SimpleOverlayRenderer(
+            "casings/solid/machine_casing_ceramic_mill");
+    public static final SimpleOverlayRenderer STRUCTURAL = new SimpleOverlayRenderer(
+            "casings/solid/machine_casing_structural");
     public static final SimpleOverlayRenderer PLASCRETE = new SimpleOverlayRenderer("casings/cleanroom/plascrete");
     public static final SimpleOverlayRenderer FUSION_TEXTURE = new SimpleOverlayRenderer(
             "casings/fusion/machine_casing_fusion_hatch");
@@ -265,6 +269,7 @@ public class Textures {
     public static final OrientedOverlayRenderer CVD_OVERLAY = new OrientedOverlayRenderer("machines/cvd");
     public static final OrientedOverlayRenderer ION_EXCHANGER_OVERLAY = new OrientedOverlayRenderer("machines/ion_exchanger");
     public static final OrientedOverlayRenderer CRYSTALLIZER_OVERLAY = new OrientedOverlayRenderer("machines/crystallizer_overlay");
+    public static final OrientedOverlayRenderer WELDER_OVERLAY = new OrientedOverlayRenderer("machines/welder");
     public static final OrientedOverlayRenderer ION_IMPLANTER_OVERLAY = new OrientedOverlayRenderer("machines/ion_implanter");
     public static final OrientedOverlayRenderer UV_LIGHT_BOX_OVERLAY = new OrientedOverlayRenderer("machines/uv_light_box");
     public static final OrientedOverlayRenderer MASS_FABRICATOR_OVERLAY = new OrientedOverlayRenderer(

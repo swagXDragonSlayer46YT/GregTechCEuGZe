@@ -1902,7 +1902,6 @@ gregtech.material.pcb_coolant=Dielectric PCB Coolant
 gregtech.material.mash=Mash
 gregtech.material.alcohol=Alcohol
 gregtech.material.vinegar=Vinegar
-gregtech.material.fracturing_fluid=Fracturing Fluid
 
 # Unknown Composition Materials
 gregtech.material.latex=Latex
@@ -2033,7 +2032,8 @@ gregtech.material.acidic_naquadria_solution=Acidic Naquadria Solution
 gregtech.material.naquadria_waste=Naquadria Waste
 gregtech.material.lapotron=Lapotron
 gregtech.material.uu_matter=UU-Matter
-
+gregtech.material.fracturing_fluid=Fracturing Fluid
+gregtech.material.slag=Slag
 
 # Second Degree Materials
 gregtech.material.glass=Glass
@@ -2346,6 +2346,7 @@ recipemap.ion_exchanger.name=Ion Exchange Column
 recipemap.polymerization_tank.name=Polymerization Tank
 recipemap.fluidized_bed_reactor.name=Fluidized Bed Reactor
 recipemap.coagulation_tank.name=Coagulation Tank
+recipemap.welder.name=Welder
 
 gregtech.recipe.category.arc_furnace_recycling=Smelt Recycling
 gregtech.recipe.category.macerator_recycling=Macerator Recycling
@@ -2497,6 +2498,11 @@ tile.casing.mv=MV Machine Casing
 tile.casing.hv=HV Machine Casing
 tile.casing.ev=EV Machine Casing
 tile.casing.iv=IV Machine Casing
+
+# Turbine coil blocks
+tile.turbine_coil.energy_multiplier=§cTurbine Power Multiplier: §f%s%%
+
+tile.turbine_coil.copper.name=Copper Turbine Coil Block
 
 # Wire coil blocks
 tile.wire_coil.tooltip_extended_info=Hold SHIFT to show Coil Bonus Info
@@ -4115,6 +4121,16 @@ gregtech.machine.crystallizer.zpm.name=Elite Crystallizer III
 gregtech.machine.crystallizer.zpm.tooltip=Crystal Clear
 gregtech.machine.crystallizer.uv.name=Ultimate Crystallizer
 gregtech.machine.crystallizer.uv.tooltip=The Final Boule-ification
+
+# Welder
+gregtech.machine.welder.lv.name=Basic Welder
+gregtech.machine.welder.mv.name=Advanced Welder
+gregtech.machine.welder.hv.name=Advanced Welder II
+gregtech.machine.welder.ev.name=Advanced Welder III
+gregtech.machine.welder.iv.name=Elite Welder
+gregtech.machine.welder.luv.name=Elite Welder II
+gregtech.machine.welder.zpm.name=Elite Welder III
+gregtech.machine.welder.uv.name=Ultimate Welder
 
 # Ion Implanter
 gregtech.machine.ion_implanter.lv.name=Basic Ion Implanter
@@ -6165,6 +6181,7 @@ gregtech.key.armor_charging=Armor Charging to Inventory Toggle
 gregtech.key.tool_aoe_change=Tool AoE Mode Switch
 
 gregtech.subtitle.tick.forge_hammer=Hammer smashes
+gregtech.subtitle.tick.energy=Energy pulsating
 gregtech.subtitle.tick.macerator=Items macerating
 gregtech.subtitle.tick.chemical_reactor=Chemicals reacting
 gregtech.subtitle.tick.assembler=Items assembling
@@ -6198,7 +6215,7 @@ gregtech.subtitle.use.spray_can=Paint sprays
 gregtech.subtitle.use.tricorder=Beep beep
 gregtech.subtitle.use.mortar=Grinding
 gregtech.subtitle.record.sus=Sus
-gregtech.subtitle.tick.fluid_drill.Rigs drilling
+gregtech.subtitle.tick.fluid_drill=Rigs drilling
 gregtech.subtitle.entity.portal_opening=Portal opens
 gregtech.subtitle.entity.portal_closing=Portal closes
 gregtech.subtitle.maintenance.electrical=Electrical breakdown

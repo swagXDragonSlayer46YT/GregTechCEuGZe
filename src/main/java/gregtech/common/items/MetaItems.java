@@ -541,6 +541,10 @@ public final class MetaItems {
 
     public static MetaItem<?>.MetaValueItem GRAPHITE_ELECTRODE;
 
+    public static MetaItem<?>.MetaValueItem STEEL_BALL;
+    public static MetaItem<?>.MetaValueItem CERAMIC_BALL;
+    public static MetaItem<?>.MetaValueItem TUNGSTENCARBIDE_BALL;
+
     private static final List<OrePrefix> orePrefixes = new ArrayList<>();
 
     static {
