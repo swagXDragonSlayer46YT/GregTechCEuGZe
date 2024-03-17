@@ -4878,6 +4878,7 @@ behaviour.prospecting=Usable for Prospecting
 gregtech.machine.primitive_water_pump.name=Primitive Water Pump
 gregtech.machine.primitive_blast_furnace.bronze.name=Primitive Blast Furnace
 gregtech.machine.electric_blast_furnace.name=Electric Blast Furnace
+gregtech.machine.blast_furnace.name=Blast Furnace
 gregtech.machine.electric_blast_furnace.tooltip.1=For every §f900K§7 above the recipe temperature, a multiplicative §f95%%§7 energy multiplier is applied pre-overclocking.
 gregtech.machine.electric_blast_furnace.tooltip.2=For every §f1800K§7 above the recipe temperature, one overclock becomes §f100%% efficient§7 (perfect overclock).
 gregtech.machine.electric_blast_furnace.tooltip.3=For every voltage tier above §bMV§7, temperature is increased by §f100K§7.
@@ -5800,6 +5801,9 @@ gregtech.multiblock.large_boiler.rate_tooltip=§7Produces §f%d L §7of Steam wi
 gregtech.multiblock.large_boiler.heat_time_tooltip=§7Takes §f%,d seconds §7to heat up
 gregtech.multiblock.large_boiler.explosion_tooltip=Will explode if provided Fuel with no Water
 gregtech.multiblock.large_boiler.water_bar_hover=Water: %s
+gregtech.multiblock.large_boiler.no_water=No Water!
+
+gregtech.multiblock.blast_furnace.heat_bar_hover=Heat: %s
 gregtech.multiblock.large_boiler.no_water=No Water!
 
 gregtech.machine.miner.done=Done!

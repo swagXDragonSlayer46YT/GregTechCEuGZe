@@ -132,6 +132,7 @@ import gregtech.common.metatileentities.multi.multiblockpart.hpca.MetaTileEntity
 import gregtech.common.metatileentities.multi.multiblockpart.hpca.MetaTileEntityHPCACooler;
 import gregtech.common.metatileentities.multi.multiblockpart.hpca.MetaTileEntityHPCAEmpty;
 import gregtech.common.metatileentities.multi.primitive.BoilerType;
+import gregtech.common.metatileentities.multi.primitive.MetaTileEntityBlastFurnace;
 import gregtech.common.metatileentities.multi.primitive.MetaTileEntityCokeOven;
 import gregtech.common.metatileentities.multi.primitive.MetaTileEntityCokeOvenHatch;
 import gregtech.common.metatileentities.multi.primitive.MetaTileEntityMultiblockTank;
@@ -371,6 +372,7 @@ public class MetaTileEntities {
     public static MetaTileEntityPowerSubstation POWER_SUBSTATION;
     public static MetaTileEntityActiveTransformer ACTIVE_TRANSFORMER;
     public static MetaTileEntityReverberatoryFurnace REVERBERATORY_FURNACE;
+    public static MetaTileEntityBlastFurnace BLAST_FURNACE;
     public static MetaTileEntitySteamEngine STEAM_ENGINE;
     public static MetaTileEntityLargeMacerator LARGE_MACERATOR;
     public static MetaTileEntityAlloyBlastSmelter ALLOY_BLAST_SMELTER;
@@ -914,7 +916,6 @@ public class MetaTileEntities {
 
         FROTH_FLOTATION_TANK = registerMetaTileEntity(1073,
                 new MetaTileEntityFrothFlotationTank(gregtechId("froth_flotation_tank")));
-
         ROTARY_KILN = registerMetaTileEntity(1074,
                 new MetaTileEntityRotaryKiln(gregtechId("rotary_kiln")));
 
@@ -926,7 +927,6 @@ public class MetaTileEntities {
 
         ELECTROLYTIC_CELL = registerMetaTileEntity(1077,
                 new MetaTileEntityElectrolyticCell(gregtechId("electrolytic_cell")));
-
         FRACKER = registerMetaTileEntity(1078,
                 new MetaTileEntityFracker(gregtechId("fracker"), 2));
 
@@ -934,6 +934,8 @@ public class MetaTileEntities {
                 new MetaTileEntityBallMill(gregtechId("ball_mill")));
 
         PRIMITIVE_BLAST_FURNACE = registerMetaTileEntity(1080, new MetaTileEntityPrimitiveBlastFurnace(gregtechId("primitive_blast_furnace")));
+        
+        BLAST_FURNACE = registerMetaTileEntity(1081, new MetaTileEntityBlastFurnace(gregtechId("blast_furnace")));
 
         // MISC MTE's START: IDs 1150-2000
 
