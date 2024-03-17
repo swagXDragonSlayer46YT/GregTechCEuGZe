@@ -32,7 +32,6 @@ import static gregtech.api.capability.GregtechDataCodes.BOILER_LAST_TICK_STEAM;
 
 public class BlastFurnaceRecipeLogic extends AbstractRecipeLogic {
 
-    private static final long STEAM_PER_WATER = 160;
 
     private static final int FLUID_DRAIN_MULTIPLIER = 100;
     private static final int FLUID_BURNTIME_TO_EU = 800 / FLUID_DRAIN_MULTIPLIER;
@@ -142,21 +141,6 @@ public class BlastFurnaceRecipeLogic extends AbstractRecipeLogic {
     @Override
     protected void updateRecipeProgress() {
         if (canRecipeProgress) {
-            int generatedSteam = this.recipeEUt * getMaximumHeatFromMaintenance() / getMaximumHeat();
-            if (generatedSteam > 0) {
-                long amount = (generatedSteam + STEAM_PER_WATER) / STEAM_PER_WATER;
-                excessWater += amount * STEAM_PER_WATER - generatedSteam;
-                amount -= excessWater / STEAM_PER_WATER;
-                excessWater %= STEAM_PER_WATER;
-
-                FluidStack drainedWater = getBoilerFluidFromContainer(getInputTank(), (int) amount);
-                if (amount != 0 && (drainedWater == null || drainedWater.amount < amount)) {
-                    getMetaTileEntity().explodeMultiblock((1.0f * currentHeat / getMaximumHeat()) * 8.0f);
-                } else {
-                    setLastTickSteam(generatedSteam);
-                    getOutputTank().fill(Materials.Steam.getFluid(generatedSteam), true);
-                }
-            }
             if (currentHeat < getMaximumHeat()) {
                 setHeat(currentHeat + 1);
             }
@@ -175,7 +159,7 @@ public class BlastFurnaceRecipeLogic extends AbstractRecipeLogic {
     }
 
     private int adjustEUtForThrottle(int rawEUt) {
-        int throttle = ((MetaTileEntityBlastFurnace) metaTileEntity).getThrottle();
+        int throttle = 100;
         return Math.max(25, (int) (rawEUt * (throttle / 100.0)));
     }
 
@@ -193,7 +177,7 @@ public class BlastFurnaceRecipeLogic extends AbstractRecipeLogic {
         return currentHeat;
     }
     private int getMaximumHeat() {
-        return 1800;
+        return getMetaTileEntity().getMaximumheat();
     }
 
     public int getHeatScaled() {

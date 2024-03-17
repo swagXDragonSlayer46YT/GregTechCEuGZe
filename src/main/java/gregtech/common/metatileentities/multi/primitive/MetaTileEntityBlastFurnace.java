@@ -1,5 +1,8 @@
 package gregtech.common.metatileentities.multi.primitive;
 
+import gregtech.api.GTValues;
+import gregtech.api.block.IHeatingCoilBlockStats;
+import gregtech.api.block.IRefractoryBrickBlockStats;
 import gregtech.api.capability.impl.BlastFurnaceRecipeLogic;
 import gregtech.api.capability.impl.BoilerRecipeLogic;
 import gregtech.api.capability.impl.CommonFluidFilters;
@@ -22,11 +25,14 @@ import gregtech.api.metatileentity.multiblock.MultiblockWithDisplayBase;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.pattern.PatternMatchContext;
+import gregtech.api.util.GTUtility;
 import gregtech.api.util.TextComponentUtil;
 import gregtech.api.util.TextFormattingUtil;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.client.utils.TooltipHelper;
+import gregtech.common.blocks.BlockRefractoryBrick;
+import gregtech.common.blocks.BlockWireCoil;
 import gregtech.core.sound.GTSoundEvents;
 
 import net.minecraft.client.resources.I18n;
@@ -61,8 +67,8 @@ public class MetaTileEntityBlastFurnace extends MultiblockWithDisplayBase implem
     private ItemHandlerList itemImportInventory;
     private FluidTankList steamOutputTank;
     private final int tier = 1;
-    private int throttlePercentage = 100;
-    private int maximumheat = 0;
+
+    private int maximumheat;
     public MetaTileEntityBlastFurnace(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId);
         this.recipeLogic = new BlastFurnaceRecipeLogic(this);
@@ -77,6 +83,12 @@ public class MetaTileEntityBlastFurnace extends MultiblockWithDisplayBase implem
     @Override
     protected void formStructure(PatternMatchContext context) {
         super.formStructure(context);
+        Object type = context.get("RefractoryBrickType");
+        if (type instanceof IRefractoryBrickBlockStats) {
+            this.maximumheat = ((IRefractoryBrickBlockStats) type).getRefractoryBrickTemperature();
+        } else {
+            this.maximumheat = BlockRefractoryBrick.RefractoryBrickType.TIER1.getRefractoryBrickTemperature();
+        }
         initializeAbilities();
     }
 
@@ -84,7 +96,6 @@ public class MetaTileEntityBlastFurnace extends MultiblockWithDisplayBase implem
     public void invalidateStructure() {
         super.invalidateStructure();
         resetTileAbilities();
-        this.throttlePercentage = 100;
         this.recipeLogic.invalidate();
     }
 
@@ -106,35 +117,7 @@ public class MetaTileEntityBlastFurnace extends MultiblockWithDisplayBase implem
                 .setWorkingStatus(recipeLogic.isWorkingEnabled(), recipeLogic.isActive())
                 .addCustom(tl -> {
                     if (isStructureFormed()) {
-                        // Steam Output line
-                        ITextComponent steamOutput = TextComponentUtil.stringWithColor(
-                                TextFormatting.AQUA,
-                                TextFormattingUtil.formatNumbers(recipeLogic.getLastTickSteam()) + " L/t");
 
-                        tl.add(TextComponentUtil.translationWithColor(
-                                TextFormatting.GRAY,
-                                "gregtech.multiblock.large_boiler.steam_output",
-                                steamOutput));
-
-                        // Efficiency line
-                        ITextComponent efficiency = TextComponentUtil.stringWithColor(
-                                getNumberColor(recipeLogic.getHeatScaled()),
-                                recipeLogic.getHeatScaled() + "%");
-
-                        tl.add(TextComponentUtil.translationWithColor(
-                                TextFormatting.GRAY,
-                                "gregtech.multiblock.large_boiler.efficiency",
-                                efficiency));
-
-                        // Throttle line
-                        ITextComponent throttle = TextComponentUtil.stringWithColor(
-                                getNumberColor(getThrottle()),
-                                getThrottle() + "%");
-
-                        tl.add(TextComponentUtil.translationWithColor(
-                                TextFormatting.GRAY,
-                                "gregtech.multiblock.large_boiler.throttle",
-                                throttle));
                     }
                 })
                 .addWorkingStatusLine();
@@ -166,25 +149,7 @@ public class MetaTileEntityBlastFurnace extends MultiblockWithDisplayBase implem
         }
     }
 
-    @Override
-    protected @NotNull Widget getFlexButton(int x, int y, int width, int height) {
-        WidgetGroup group = new WidgetGroup(x, y, width, height);
-        group.addWidget(new ClickButtonWidget(0, 0, 9, 18, "", this::decrementThrottle)
-                .setButtonTexture(GuiTextures.BUTTON_THROTTLE_MINUS)
-                .setTooltipText("gregtech.multiblock.large_boiler.throttle_decrement"));
-        group.addWidget(new ClickButtonWidget(9, 0, 9, 18, "", this::incrementThrottle)
-                .setButtonTexture(GuiTextures.BUTTON_THROTTLE_PLUS)
-                .setTooltipText("gregtech.multiblock.large_boiler.throttle_increment"));
-        return group;
-    }
 
-    private void incrementThrottle(ClickData clickData) {
-        this.throttlePercentage = MathHelper.clamp(throttlePercentage + 5, 25, 100);
-    }
-
-    private void decrementThrottle(ClickData clickData) {
-        this.throttlePercentage = MathHelper.clamp(throttlePercentage - 5, 25, 100);
-    }
 
     @Override
     public boolean isActive() {
@@ -199,10 +164,7 @@ public class MetaTileEntityBlastFurnace extends MultiblockWithDisplayBase implem
                 .aisle("XXX", "XSX", "XXX", "XXX")
                 .where('S', selfPredicate())
                 .where('X', refractoryBricks()
-                        .or(abilities(MultiblockAbility.IMPORT_FLUIDS).setMinGlobalLimited(1))
-                        .or(abilities(MultiblockAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
-                        .or(abilities(MultiblockAbility.EXPORT_FLUIDS).setMinGlobalLimited(1))
-                        .or(autoAbilities())) // muffler, maintenance
+                        .or(abilities(MultiblockAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))) // muffler, maintenance
                 .where('A', air())
                 .build();
     }
@@ -250,7 +212,16 @@ public class MetaTileEntityBlastFurnace extends MultiblockWithDisplayBase implem
 
     @Override
     public boolean hasMufflerMechanics() {
-        return true;
+        return false;
+    }
+
+    @Override
+    public boolean hasMaintenanceMechanics() {
+        return false;
+    }
+
+    public int getMaximumheat() {
+        return maximumheat;
     }
 
     @Override
@@ -263,33 +234,10 @@ public class MetaTileEntityBlastFurnace extends MultiblockWithDisplayBase implem
         this.recipeLogic.update();
     }
 
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound data) {
-        data.setInteger("ThrottlePercentage", throttlePercentage);
-        return super.writeToNBT(data);
-    }
 
-    @Override
-    public void readFromNBT(NBTTagCompound data) {
-        throttlePercentage = data.getInteger("ThrottlePercentage");
-        super.readFromNBT(data);
-    }
 
-    @Override
-    public void writeInitialSyncData(PacketBuffer buf) {
-        super.writeInitialSyncData(buf);
-        buf.writeVarInt(throttlePercentage);
-    }
 
-    @Override
-    public void receiveInitialSyncData(PacketBuffer buf) {
-        super.receiveInitialSyncData(buf);
-        throttlePercentage = buf.readVarInt();
-    }
 
-    public int getThrottle() {
-        return throttlePercentage;
-    }
 
     @Override
     public IItemHandlerModifiable getImportItems() {
@@ -319,9 +267,7 @@ public class MetaTileEntityBlastFurnace extends MultiblockWithDisplayBase implem
     @Override
     public double getFillPercentage(int index) {
         if (!isStructureFormed()) return 0;
-        int[] waterAmount = getWaterAmount();
-        if (waterAmount[1] == 0) return 0; // no water capacity
-        return recipeLogic.getHeatScaled() / 100.0;
+        return (1.0 * recipeLogic.getCurrentHeat() )/ maximumheat;
     }
 
     @Override
@@ -336,13 +282,13 @@ public class MetaTileEntityBlastFurnace extends MultiblockWithDisplayBase implem
                     "gregtech.multiblock.invalid_structure"));
         } else {
             ITextComponent waterInfo = TextComponentUtil.translationWithColor(
-                        TextFormatting.BLUE,
-                        "%s / %s K",
+                    TextFormatting.BLUE,
+                    "%s / %s K",
                     this.recipeLogic.getCurrentHeat(), this.maximumheat);
-                hoverList.add(TextComponentUtil.translationWithColor(
-                        TextFormatting.GRAY,
-                        "Heat: %s",
-                        waterInfo));
+            hoverList.add(TextComponentUtil.translationWithColor(
+                    TextFormatting.GRAY,
+                    "Heat: %s",
+                    waterInfo));
         }
     }
 
