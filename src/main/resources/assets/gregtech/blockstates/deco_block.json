@@ -15,8 +15,39 @@
         "model": "minecraft:cube_column",
         "textures": {
           "end": "gregtech:blocks/casings/deco/server_1_top",
-          "side": "gregtech:blocks/casings/deco/server_1_side",
-          "side_emissive": "gregtech:blocks/casings/deco/server_1_side_emissive"
+          "side": "gregtech:blocks/casings/deco/server_1_side"
+        }
+      },
+      "server_2": {
+        "transform": "forge:default-block",
+        "model": "minecraft:cube_column",
+        "textures": {
+          "end": "gregtech:blocks/casings/deco/server_1_top",
+          "side": "gregtech:blocks/casings/deco/server_2_side"
+        }
+      },
+      "server_trays": {
+        "transform": "forge:default-block",
+        "model": "minecraft:cube_column",
+        "textures": {
+          "end": "gregtech:blocks/casings/deco/server_1_top",
+          "side": "gregtech:blocks/casings/deco/server_trays"
+        }
+      },
+      "server_vents": {
+        "transform": "forge:default-block",
+        "model": "minecraft:cube_column",
+        "textures": {
+          "end": "gregtech:blocks/casings/deco/server_1_top",
+          "side": "gregtech:blocks/casings/deco/server_vents"
+        }
+      },
+      "server_vents_trays": {
+        "transform": "forge:default-block",
+        "model": "minecraft:cube_column",
+        "textures": {
+          "end": "gregtech:blocks/casings/deco/server_1_top",
+          "side": "gregtech:blocks/casings/deco/server_vents_trays"
         }
       }
     }
