@@ -44,7 +44,7 @@ public class BlockGlassCasing extends VariantActiveBlock<BlockGlassCasing.Casing
 
     @Override
     public boolean canRenderInLayer(@NotNull IBlockState state, @NotNull BlockRenderLayer layer) {
-        if (getState(state) == CasingType.TEMPERED_GLASS || getState(state) == CasingType.UV_RESISTANT_GLASS) {
+        if (getState(state) == CasingType.TEMPERED_GLASS || getState(state) == CasingType.UV_RESISTANT_GLASS || getState(state) == CasingType.CHEMICAL_SYNTHESIS_GLASS) {
             return layer == BlockRenderLayer.TRANSLUCENT;
         } else {
             return super.canRenderInLayer(state, layer);
@@ -81,7 +81,8 @@ public class BlockGlassCasing extends VariantActiveBlock<BlockGlassCasing.Casing
         FUSION_GLASS("fusion_glass"),
         LAMINATED_GLASS("laminated_glass"),
         CLEANROOM_GLASS("cleanroom_glass"),
-        UV_RESISTANT_GLASS("uv_resistant_glass");
+        UV_RESISTANT_GLASS("uv_resistant_glass"),
+        CHEMICAL_SYNTHESIS_GLASS("chemical_synthesis_glass");
 
         private final String name;
 

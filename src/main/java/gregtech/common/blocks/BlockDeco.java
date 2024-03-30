@@ -33,7 +33,11 @@ public class BlockDeco extends VariantBlock<BlockDeco.DecoBlockType> {
 
     public enum DecoBlockType implements IStringSerializable, IStateHarvestLevel {
 
-        SERVER_1("server_1", 8);
+        SERVER_1("server_1", 25),
+        SERVER_2("server_2", 25),
+        SERVER_TRAYS("server_trays", 25),
+        SERVER_VENTS("server_vents", 25),
+        SERVER_VENTS_TRAYS("server_vents_trays", 25);
         private final String name;
         private final int harvestLevel;
 
