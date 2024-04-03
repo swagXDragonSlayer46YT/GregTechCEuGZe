@@ -7,6 +7,7 @@ import gregtech.api.gui.widgets.LabelWidget;
 import gregtech.api.gui.widgets.ProgressWidget;
 import gregtech.api.gui.widgets.RecipeProgressWidget;
 import gregtech.api.gui.widgets.SlotWidget;
+import gregtech.api.gui.widgets.TankWidget;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
@@ -27,7 +28,10 @@ import gregtech.common.ConfigHolder;
 import gregtech.common.blocks.BlockMetalCasing;
 import gregtech.common.blocks.MetaBlocks;
 
+import gregtech.common.metatileentities.MetaTileEntities;
+
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -49,7 +53,6 @@ REMOVE WHEN REFRACTORY DONE
  */
 
 public class MetaTileEntityPrimitiveBlastFurnace extends RecipeMapPrimitiveMultiblockController {
-
     private static final TraceabilityPredicate SNOW_PREDICATE = new TraceabilityPredicate(
             bws -> GTUtility.isBlockSnow(bws.getBlockState()));
 
@@ -69,7 +72,8 @@ public class MetaTileEntityPrimitiveBlastFurnace extends RecipeMapPrimitiveMulti
                 .aisle("XXX", "XXX", "XXX", "XXX")
                 .aisle("XXX", "X&X", "X#X", "X#X")
                 .aisle("XXX", "XYX", "XXX", "XXX")
-                .where('X', states(MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.PRIMITIVE_BRICKS)))
+                .where('X', states(MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.PRIMITIVE_BRICKS)).or(metaTileEntities(
+                        MetaTileEntities.COKE_OVEN_HATCH).setMaxGlobalLimited(5)))
                 .where('#', air())
                 .where('&', air().or(SNOW_PREDICATE)) // this won't stay in the structure, and will be broken while
                 // running
@@ -88,21 +92,23 @@ public class MetaTileEntityPrimitiveBlastFurnace extends RecipeMapPrimitiveMulti
         return ModularUI.builder(GuiTextures.PRIMITIVE_BACKGROUND, 176, 166)
                 .shouldColor(false)
                 .widget(new LabelWidget(5, 5, getMetaFullName()))
-                .widget(new SlotWidget(importItems, 0, 52, 20, true, true)
+                .widget(new SlotWidget(importItems, 0, 34, 29, true, true)
                         .setBackgroundTexture(GuiTextures.PRIMITIVE_SLOT, GuiTextures.PRIMITIVE_INGOT_OVERLAY))
-                .widget(new SlotWidget(importItems, 1, 52, 38, true, true)
+                .widget(new SlotWidget(importItems, 1, 52, 29, true, true)
                         .setBackgroundTexture(GuiTextures.PRIMITIVE_SLOT, GuiTextures.PRIMITIVE_DUST_OVERLAY))
-                .widget(new SlotWidget(importItems, 2, 52, 56, true, true)
+                .widget(new SlotWidget(importItems, 2, 34, 47, true, true)
                         .setBackgroundTexture(GuiTextures.PRIMITIVE_SLOT, GuiTextures.PRIMITIVE_FURNACE_OVERLAY))
+                .widget(new TankWidget(importFluids.getTankAt(0), 52, 47, 18, 18).setBackgroundTexture(GuiTextures.FLUID_TANK_BACKGROUND, GuiTextures.PRIMITIVE_SLOT))
                 .widget(new RecipeProgressWidget(recipeMapWorkable::getProgressPercent, 77, 39, 20, 15,
                         GuiTextures.PRIMITIVE_BLAST_FURNACE_PROGRESS_BAR, ProgressWidget.MoveType.HORIZONTAL,
                         RecipeMaps.PRIMITIVE_BLAST_FURNACE_RECIPES))
-                .widget(new SlotWidget(exportItems, 0, 104, 38, true, false)
+                .widget(new SlotWidget(exportItems, 0, 104, 47, true, false)
+                        .setBackgroundTexture(GuiTextures.PRIMITIVE_SLOT, GuiTextures.PRIMITIVE_DUST_OVERLAY))
+                .widget(new SlotWidget(exportItems, 1, 104, 29, true, false)
                         .setBackgroundTexture(GuiTextures.PRIMITIVE_SLOT, GuiTextures.PRIMITIVE_INGOT_OVERLAY))
-                .widget(new SlotWidget(exportItems, 1, 122, 38, true, false)
+                .widget(new SlotWidget(exportItems, 2, 122, 29, true, false)
                         .setBackgroundTexture(GuiTextures.PRIMITIVE_SLOT, GuiTextures.PRIMITIVE_DUST_OVERLAY))
-                .widget(new SlotWidget(exportItems, 2, 140, 38, true, false)
-                        .setBackgroundTexture(GuiTextures.PRIMITIVE_SLOT, GuiTextures.PRIMITIVE_DUST_OVERLAY))
+                .widget(new TankWidget(exportFluids.getTankAt(0), 122, 47, 18, 18).setBackgroundTexture(GuiTextures.FLUID_TANK_BACKGROUND, GuiTextures.PRIMITIVE_SLOT))
                 .bindPlayerInventory(entityPlayer.inventory, GuiTextures.PRIMITIVE_SLOT, 0);
     }
 

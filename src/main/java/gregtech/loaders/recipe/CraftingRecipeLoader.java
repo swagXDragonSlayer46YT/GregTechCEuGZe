@@ -311,6 +311,9 @@ public class CraftingRecipeLoader {
                 'P', new UnificationEntry(OrePrefix.plate, Wood),
                 'S', new ItemStack(Items.STRING),
                 'G', new UnificationEntry(OrePrefix.dust, Gunpowder));
+
+        ModHandler.addShapelessRecipe("sand_cast", SAND_MOLD_INGOT.getStackForm(),
+                Items.BRICK, "sand");
     }
 
     private static void registerFacadeRecipe(Material material, int facadeAmount) {

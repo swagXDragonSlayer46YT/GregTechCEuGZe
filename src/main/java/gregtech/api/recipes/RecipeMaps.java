@@ -1525,9 +1525,11 @@ public final class RecipeMaps {
 
     public static final RecipeMap<PrimitiveRecipeBuilder> PRIMITIVE_BLAST_FURNACE_RECIPES = new RecipeMapBuilder<>(
             "primitive_blast_furnace", new PrimitiveRecipeBuilder())
-            .itemInputs(3)
+            .itemInputs(4)
+            .fluidInputs(1)
             .modifyItemInputs(false)
             .itemOutputs(3)
+            .fluidOutputs(1)
             .modifyItemOutputs(false)
             .modifyFluidInputs(false)
             .modifyFluidOutputs(false)
