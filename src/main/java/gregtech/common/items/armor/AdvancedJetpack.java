@@ -70,7 +70,7 @@ public class AdvancedJetpack extends Jetpack {
 
     @Override
     public double getVerticalHoverSlowSpeed() {
-        return 0.03D;
+        return 0D;
     }
 
     @Override

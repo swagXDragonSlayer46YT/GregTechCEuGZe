@@ -7,6 +7,8 @@ import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.properties.BlastProperty.GasTier;
 import gregtech.api.unification.material.properties.ToolProperty;
 
+import net.minecraftforge.client.model.obj.OBJModel;
+
 import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
@@ -145,5 +147,10 @@ public class HigherDegreeMaterials {
                 .iconSet(ROUGH)
                 .components(Mirabilite, 2, Clay, 7)
                 .build();
+
+        Snowchestite = new Material.Builder(2527, gregtechId("snowchestite"))
+                .dust(7).ore()
+                .color(0x1b80ff).iconSet(SHINY)
+                .build().setFormula("(NqRb2)(IrF6)(AlAr)[CH2CHCN]5(?)", true);
     }
 }

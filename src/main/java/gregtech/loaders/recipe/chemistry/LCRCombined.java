@@ -10,27 +10,6 @@ public class LCRCombined {
     static void init() {
         LARGE_CHEMICAL_RECIPES.recipeBuilder()
                 .circuitMeta(24)
-                .fluidInputs(Methane.getFluid(3000))
-                .fluidInputs(Nitrogen.getFluid(4000))
-                .fluidInputs(Oxygen.getFluid(3000))
-                .fluidOutputs(Ammonia.getFluid(4000))
-                .fluidOutputs(CarbonMonoxide.getFluid(3000))
-                .EUt(VA[HV])
-                .duration(320)
-                .buildAndRegister();
-
-        LARGE_CHEMICAL_RECIPES.recipeBuilder()
-                .circuitMeta(24)
-                .fluidInputs(Hydrogen.getFluid(6000))
-                .fluidInputs(CarbonMonoxide.getFluid(1000))
-                .fluidOutputs(Methane.getFluid(1000))
-                .fluidOutputs(Water.getFluid(1000))
-                .EUt(VA[LV])
-                .duration(160)
-                .buildAndRegister();
-
-        LARGE_CHEMICAL_RECIPES.recipeBuilder()
-                .circuitMeta(24)
                 .fluidInputs(Propene.getFluid(1000))
                 .fluidInputs(Benzene.getFluid(1000))
                 .fluidInputs(Oxygen.getFluid(1000))

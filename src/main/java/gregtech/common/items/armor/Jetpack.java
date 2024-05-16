@@ -140,7 +140,7 @@ public class Jetpack extends ArmorLogicSuite implements IJetpack {
 
     @Override
     public double getVerticalHoverSlowSpeed() {
-        return 0.1D;
+        return 0D;
     }
 
     @Override

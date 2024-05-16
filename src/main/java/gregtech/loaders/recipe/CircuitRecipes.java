@@ -596,7 +596,7 @@ public class CircuitRecipes {
                 STICKY_RESIN.getStackForm());
 
         ModHandler.addShapedRecipe("basic_circuit_board", BASIC_CIRCUIT_BOARD.getStackForm(),
-                "WWW", "WBW", "WWW",
+                " W ", "WBW", " W ",
                 'W', new UnificationEntry(wireGtSingle, Copper),
                 'B', COATED_BOARD.getStackForm());
 
@@ -618,7 +618,7 @@ public class CircuitRecipes {
 
         // Good Circuit Board
         ModHandler.addShapedRecipe("good_circuit_board", GOOD_CIRCUIT_BOARD.getStackForm(),
-                "WWW", "WBW", "WWW",
+                " W ", "WBW", " W ",
                 'W', new UnificationEntry(wireGtSingle, Silver),
                 'B', PHENOLIC_BOARD.getStackForm());
 

@@ -6613,3 +6613,6 @@ gregtech.machine.latex_collector.mv.tooltip=Extracts latex from living trees
 gregtech.machine.latex_collector.hv.tooltip=Extracts latex from living trees
 gregtech.machine.latex_collector.ev.tooltip=Extracts latex from living trees
 gregtech.machine.latex_collector.bronze.tooltip=Extracts latex from living trees
+
+gregtech.material.snowchestite.name=Snowchestite
+gregtech.material.syngas.name=Syngas

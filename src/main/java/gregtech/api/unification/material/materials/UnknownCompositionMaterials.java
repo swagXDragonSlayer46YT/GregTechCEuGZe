@@ -670,9 +670,9 @@ public class UnknownCompositionMaterials {
                 .color(0xfffcd9)
                 .build();
 
-        PigIron = new Material.Builder(1661, gregtechId("pig_iron"))
-                .ingot()
-                .color(0x6a5f55).iconSet(DULL)
+        Syngas = new Material.Builder(1661, gregtechId("syngas"))
+                .gas()
+                .color(0xfffbe5)
                 .build();
     }
 }

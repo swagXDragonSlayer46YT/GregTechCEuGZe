@@ -44,6 +44,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
@@ -67,7 +68,8 @@ public class GuildZCraftRecipes {
     public static void init() {
         controllerRecipes();
         casingRecipes();
-        chemRecipes();
+        miscRecipes();
+        steamReforming();
     }
 
     public static void controllerRecipes() {
@@ -143,7 +145,7 @@ public class GuildZCraftRecipes {
 
     }
 
-    public static void chemRecipes() {
+    public static void miscRecipes() {
         MIXER_RECIPES.recipeBuilder()
                 .input(dust, Stone,5)
                 .input(dust, SiliconDioxide, 5)
@@ -153,6 +155,108 @@ public class GuildZCraftRecipes {
                 .fluidOutputs(CeramicGlaze.getFluid(8000))
                 .EUt(VA[LV])
                 .duration(200)
+                .buildAndRegister();
+    }
+
+    public static void steamReforming() {
+        FIXED_BED_REACTOR_RECIPES.recipeBuilder()
+                .notConsumable(catalyst_bed, Nickel)
+                .fluidInputs(Methanol.getFluid(1000))
+                .fluidInputs(Steam.getFluid(5000))
+                .fluidOutputs(Water.getFluid(20))
+                .fluidOutputs(Syngas.getFluid(2500))
+                .EUt(VA[LV])
+                .duration(300)
+                .buildAndRegister();
+
+        FIXED_BED_REACTOR_RECIPES.recipeBuilder()
+                .notConsumable(catalyst_bed, Nickel)
+                .fluidInputs(Glycerol.getFluid(1000))
+                .fluidInputs(Steam.getFluid(5000))
+                .fluidOutputs(Water.getFluid(20))
+                .fluidOutputs(Syngas.getFluid(2000))
+                .EUt(VA[LV])
+                .duration(300)
+                .buildAndRegister();
+
+        FIXED_BED_REACTOR_RECIPES.recipeBuilder()
+                .notConsumable(catalyst_bed, Nickel)
+                .fluidInputs(Propane.getFluid(1000))
+                .fluidInputs(Steam.getFluid(5000))
+                .fluidOutputs(Water.getFluid(20))
+                .fluidOutputs(Syngas.getFluid(1750))
+                .EUt(VA[LV])
+                .duration(300)
+                .buildAndRegister();
+
+        FIXED_BED_REACTOR_RECIPES.recipeBuilder()
+                .notConsumable(catalyst_bed, Nickel)
+                .fluidInputs(Methane.getFluid(1000))
+                .fluidInputs(Steam.getFluid(5000))
+                .fluidOutputs(Water.getFluid(20))
+                .fluidOutputs(Syngas.getFluid(1500))
+                .EUt(VA[LV])
+                .duration(300)
+                .buildAndRegister();
+
+        FIXED_BED_REACTOR_RECIPES.recipeBuilder()
+                .notConsumable(catalyst_bed, Nickel)
+                .fluidInputs(NaturalGas.getFluid(2000))
+                .fluidInputs(Steam.getFluid(5000))
+                .fluidOutputs(Water.getFluid(20))
+                .fluidOutputs(Syngas.getFluid(1000))
+                .EUt(VA[LV])
+                .duration(300)
+                .buildAndRegister();
+
+        FIXED_BED_REACTOR_RECIPES.recipeBuilder()
+                .notConsumable(catalyst_bed, Platinum)
+                .fluidInputs(Methanol.getFluid(1000))
+                .fluidInputs(Steam.getFluid(5000))
+                .fluidOutputs(Water.getFluid(20))
+                .fluidOutputs(Syngas.getFluid(2500))
+                .EUt(VA[LV])
+                .duration(100)
+                .buildAndRegister();
+
+        FIXED_BED_REACTOR_RECIPES.recipeBuilder()
+                .notConsumable(catalyst_bed, Platinum)
+                .fluidInputs(Glycerol.getFluid(1000))
+                .fluidInputs(Steam.getFluid(5000))
+                .fluidOutputs(Water.getFluid(20))
+                .fluidOutputs(Syngas.getFluid(2000))
+                .EUt(VA[LV])
+                .duration(100)
+                .buildAndRegister();
+
+        FIXED_BED_REACTOR_RECIPES.recipeBuilder()
+                .notConsumable(catalyst_bed, Platinum)
+                .fluidInputs(Propane.getFluid(1000))
+                .fluidInputs(Steam.getFluid(5000))
+                .fluidOutputs(Water.getFluid(20))
+                .fluidOutputs(Syngas.getFluid(1750))
+                .EUt(VA[LV])
+                .duration(100)
+                .buildAndRegister();
+
+        FIXED_BED_REACTOR_RECIPES.recipeBuilder()
+                .notConsumable(catalyst_bed, Platinum)
+                .fluidInputs(Methane.getFluid(1000))
+                .fluidInputs(Steam.getFluid(5000))
+                .fluidOutputs(Water.getFluid(20))
+                .fluidOutputs(Syngas.getFluid(1500))
+                .EUt(VA[LV])
+                .duration(100)
+                .buildAndRegister();
+
+        FIXED_BED_REACTOR_RECIPES.recipeBuilder()
+                .notConsumable(catalyst_bed, Platinum)
+                .fluidInputs(NaturalGas.getFluid(2000))
+                .fluidInputs(Steam.getFluid(5000))
+                .fluidOutputs(Water.getFluid(20))
+                .fluidOutputs(Syngas.getFluid(1000))
+                .EUt(VA[LV])
+                .duration(100)
                 .buildAndRegister();
     }
 }

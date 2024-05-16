@@ -28,7 +28,7 @@ public interface IJetpack {
     }
 
     default double getVerticalHoverSlowSpeed() {
-        return 0.14D;
+        return 0D;
     }
 
     default double getVerticalAcceleration() {
