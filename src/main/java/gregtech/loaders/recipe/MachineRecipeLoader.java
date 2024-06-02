@@ -1508,11 +1508,26 @@ public class MachineRecipeLoader {
                 .blastFurnaceTemp(1700)
                 .duration(1600).EUt(VA[HV]).buildAndRegister();
 
+        // Antimony chain
+        BLAST_RECIPES.recipeBuilder()
+                .input(dust, Stibnite, 5)
+                .input(dust, Iron, 3)
+                .output(dust, Antimony, 2)
+                .output(dust, Pyrite, 6)
+                .blastFurnaceTemp(1100)
+                .duration(300).EUt(VA[LV]).buildAndRegister();
+
+        BLAST_RECIPES.recipeBuilder()
+                .input(dust, Stibnite, 10)
+                .input(dust, Coke, 3)
+                .output(dust, Antimony, 4)
+                .blastFurnaceTemp(1100)
+                .duration(500).EUt(VA[LV]).buildAndRegister();
+
         registerBlastFurnaceMetallurgyRecipes();
     }
 
     private static void registerBlastFurnaceMetallurgyRecipes() {
-        createSulfurDioxideRecipe(Stibnite, AntimonyTrioxide, 1500);
         createSulfurDioxideRecipe(Sphalerite, Zincite, 1000);
         createSulfurDioxideRecipe(Pyrite, BandedIron, 2000);
         createSulfurDioxideRecipe(Pentlandite, Garnierite, 1000);

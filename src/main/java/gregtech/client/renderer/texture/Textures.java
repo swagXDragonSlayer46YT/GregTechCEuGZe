@@ -125,6 +125,13 @@ public class Textures {
             "casings/magic/absorber/active");
     public static final SimpleSidedCubeRenderer DRUM_OVERLAY = new SimpleSidedCubeRenderer("storage/drums/drum_top");
 
+    public static final SimpleOverlayRenderer TIER_1_REFRACTORY_BRICKS = new SimpleOverlayRenderer(
+            "casings/refractory_bricks/machine_refractory_bricks_tier_1");
+    public static final SimpleOverlayRenderer TIER_2_REFRACTORY_BRICKS = new SimpleOverlayRenderer(
+            "casings/refractory_bricks/machine_refractory_bricks_tier_2");
+    public static final SimpleOverlayRenderer TIER_3_REFRACTORY_BRICKS = new SimpleOverlayRenderer(
+            "casings/refractory_bricks/machine_refractory_bricks_tier_3");
+
     // Simple Oriented Cube Renderers
     public static final SimpleOrientedCubeRenderer CRAFTING_TABLE = new SimpleOrientedCubeRenderer(
             "casings/crafting_table");

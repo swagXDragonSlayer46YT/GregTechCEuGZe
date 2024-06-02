@@ -30,7 +30,7 @@ public class GregtechDataCodes {
     public static final int NEEDS_VENTING = assignId();
     public static final int VENTING_SIDE = assignId();
     public static final int VENTING_STUCK = assignId();
-    public static final int BOILER_HEAT = assignId();
+    public static final int MULTIBLOCK_HEAT = assignId();
     public static final int BOILER_LAST_TICK_STEAM = assignId();
 
     // Misc TEs (Transformer, World Accelerator)
@@ -85,6 +85,7 @@ public class GregtechDataCodes {
     public static final int MAINTENANCE_MULTIPLIER = assignId();
     public static final int UPDATE_UPWARDS_FACING = assignId();
     public static final int UPDATE_FLIP = assignId();
+    public static final int UPDATE_TIER = assignId();
 
     // Item Bus Item Stack Auto Collapsing
     public static final int TOGGLE_COLLAPSE_ITEMS = assignId();

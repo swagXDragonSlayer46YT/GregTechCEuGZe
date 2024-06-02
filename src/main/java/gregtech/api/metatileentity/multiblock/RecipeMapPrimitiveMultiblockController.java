@@ -36,7 +36,7 @@ public abstract class RecipeMapPrimitiveMultiblockController extends MultiblockW
         this.fluidInventory = new FluidHandlerProxy(this.importFluids, this.exportFluids);
     }
 
-    private List<FluidTank> makeFluidTanks(int length, boolean isExport) {
+    public List<FluidTank> makeFluidTanks(int length, boolean isExport) {
         List<FluidTank> fluidTankList = new ArrayList<>(length);
         for (int i = 0; i < length; i++) {
             fluidTankList.add(new NotifiableFluidTank(32000, this, isExport));

@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-import static gregtech.api.capability.GregtechDataCodes.BOILER_HEAT;
+import static gregtech.api.capability.GregtechDataCodes.MULTIBLOCK_HEAT;
 import static gregtech.api.capability.GregtechDataCodes.BOILER_LAST_TICK_STEAM;
 
 public class BoilerRecipeLogic extends AbstractRecipeLogic {
@@ -199,7 +199,7 @@ public class BoilerRecipeLogic extends AbstractRecipeLogic {
 
     public void setHeat(int heat) {
         if (heat != this.currentHeat && !metaTileEntity.getWorld().isRemote) {
-            writeCustomData(BOILER_HEAT, b -> b.writeVarInt(heat));
+            writeCustomData(MULTIBLOCK_HEAT, b -> b.writeVarInt(heat));
         }
         this.currentHeat = heat;
     }
@@ -284,7 +284,7 @@ public class BoilerRecipeLogic extends AbstractRecipeLogic {
     @Override
     public void receiveCustomData(int dataId, @NotNull PacketBuffer buf) {
         super.receiveCustomData(dataId, buf);
-        if (dataId == BOILER_HEAT) {
+        if (dataId == MULTIBLOCK_HEAT) {
             this.currentHeat = buf.readVarInt();
         } else if (dataId == BOILER_LAST_TICK_STEAM) {
             this.lastTickSteamOutput = buf.readVarInt();

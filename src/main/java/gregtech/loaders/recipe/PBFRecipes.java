@@ -84,10 +84,10 @@ public class PBFRecipes {
 
         //do NOT set duration as a number less than 201
         IPBFFuel Coal = new IPBFFuel(Materials.Coal);
-        Coal.setDuration(800);
+        Coal.setDuration(80);
         Coal.setAmount(3);
         IPBFFuel Coke = new IPBFFuel(Materials.Coke);
-        Coke.setDuration(400);
+        Coke.setDuration(40);
         Coke.setAmount(1);
         IPBFFuel[] PBFFuels = {
             Coal,
@@ -99,8 +99,6 @@ public class PBFRecipes {
                 PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder()
                         .input(ore, material, 2)
                         .input(gem, fuel.getMaterial(), fuel.getAmount())
-                        .input(new GTRecipeItemInput(SAND_MOLD_INGOT.getStackForm(), 1).setNonConsumable())
-                        .output(dust, DarkAsh, fuel.getAmount())
                         .output(ingot, Iron, 2)
                         .duration(fuel.getDuration())
                         .buildAndRegister();
@@ -150,6 +148,7 @@ public class PBFRecipes {
         }
 
         for (IPBFFuel fuel : PBFFuels) {
+                        /*
             PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder()
                     .input(gem, fuel.getMaterial(), fuel.getAmount())
                     .input(ingot, Iron, 2)
@@ -157,7 +156,7 @@ public class PBFRecipes {
                     .output(ingot, Steel, 2)
                     .duration(fuel.getDuration())
                     .buildAndRegister();
-            /*
+
             PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder()
                     .input(gem, fuel.getMaterial(), fuel.getAmount())
                     .fluidInputs(Iron.getFluid(288))

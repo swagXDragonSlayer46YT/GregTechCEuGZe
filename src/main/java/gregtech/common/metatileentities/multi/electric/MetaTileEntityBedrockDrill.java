@@ -224,12 +224,12 @@ public class MetaTileEntityBedrockDrill extends MultiblockWithDisplayBase
                     if (isStructureFormed()) {
                         if (minerLogic.getDrilledOres() != null) {
                             // Fluid name
-                            String drilledFluid = minerLogic.getVeinDisplayName();
+                            String drilledOre = minerLogic.getVeinDisplayName();
 
                             tl.add(TextComponentUtil.translationWithColor(
                                     TextFormatting.GRAY,
-                                    "gregtech.multiblock.fluid_rig.drilled_fluid",
-                                    drilledFluid));
+                                    "gregtech.multiblock.bedrock_rig.drilled_ore",
+                                    drilledOre));
 
                             // Fluid amount
                             ITextComponent amountInfo = TextComponentUtil.stringWithColor(
@@ -239,14 +239,14 @@ public class MetaTileEntityBedrockDrill extends MultiblockWithDisplayBase
                                             " Blocks/s");
                             tl.add(TextComponentUtil.translationWithColor(
                                     TextFormatting.GRAY,
-                                    "gregtech.multiblock.fluid_rig.fluid_amount",
+                                    "gregtech.multiblock.bedrock_rig.ore_amount",
                                     amountInfo));
                         } else {
                             ITextComponent noFluid = TextComponentUtil.translationWithColor(TextFormatting.RED,
-                                    "gregtech.multiblock.fluid_rig.no_fluid_in_area");
+                                    "gregtech.multiblock.bedrock_rig.no_fluid_in_area");
                             tl.add(TextComponentUtil.translationWithColor(
                                     TextFormatting.GRAY,
-                                    "gregtech.multiblock.fluid_rig.drilled_fluid",
+                                    "gregtech.multiblock.bedrock_rig.drilled_ore",
                                     noFluid));
                         }
                     }
@@ -270,15 +270,15 @@ public class MetaTileEntityBedrockDrill extends MultiblockWithDisplayBase
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, boolean advanced) {
-        tooltip.add(I18n.format("gregtech.machine.fluid_drilling_rig.description"));
-        tooltip.add(I18n.format("gregtech.machine.fluid_drilling_rig.depletion",
+        tooltip.add(I18n.format("gregtech.machine.bedrock_drilling_rig.description"));
+        tooltip.add(I18n.format("gregtech.machine.bedrock_drilling_rig.depletion",
                 TextFormattingUtil.formatNumbers(100.0 / getDepletionChance())));
         tooltip.add(I18n.format("gregtech.universal.tooltip.energy_tier_range", GTValues.VNF[this.tier],
                 GTValues.VNF[this.tier + 1]));
-        tooltip.add(I18n.format("gregtech.machine.fluid_drilling_rig.production", getRigMultiplier(),
+        tooltip.add(I18n.format("gregtech.machine.bedrock_drilling_rig.production", getRigMultiplier(),
                 TextFormattingUtil.formatNumbers(getRigMultiplier() * 1.5)));
         if (tier > GTValues.MV) {
-            tooltip.add(I18n.format("gregtech.machine.fluid_drilling_rig.shows_depletion"));
+            tooltip.add(I18n.format("gregtech.machine.bedrock_drilling_rig.shows_depletion"));
         }
     }
 

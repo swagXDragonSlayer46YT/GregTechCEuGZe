@@ -149,14 +149,6 @@ public final class RecipeMaps {
                     .build()
                     .onRecipeBuild(recipeBuilder -> {
                         recipeBuilder.invalidateOnBuildAction();
-                        var fluidInputs = recipeBuilder.getFluidInputs();
-                        if (fluidInputs.size() == 1 && fluidInputs.get(0).getInputFluidStack().getFluid() ==
-                                Materials.SolderingAlloy.getFluid()) {
-                            int amount = fluidInputs.get(0).getInputFluidStack().amount;
-
-                            recipeBuilder.copy().clearFluidInputs().fluidInputs(Materials.Tin.getFluid(amount * 2))
-                                    .buildAndRegister();
-                        }
 
                         if (recipeBuilder.isWithRecycling()) {
                             // ignore input fluids for recycling
@@ -1525,14 +1517,10 @@ public final class RecipeMaps {
 
     public static final RecipeMap<PrimitiveRecipeBuilder> PRIMITIVE_BLAST_FURNACE_RECIPES = new RecipeMapBuilder<>(
             "primitive_blast_furnace", new PrimitiveRecipeBuilder())
-            .itemInputs(4)
+            .itemInputs(3)
             .fluidInputs(1)
-            .modifyItemInputs(false)
-            .itemOutputs(3)
-            .fluidOutputs(1)
-            .modifyItemOutputs(false)
-            .modifyFluidInputs(false)
-            .modifyFluidOutputs(false)
+            .fluidOutputs(2)
+            .itemOutputs(2)
             .sound(GTSoundEvents.FIRE)
             .build();
 
