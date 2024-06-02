@@ -50,6 +50,8 @@ import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
@@ -76,6 +78,20 @@ import java.util.function.Predicate;
 import static gregtech.api.GTValues.V;
 
 public class GTUtility {
+
+    public static BlockPos.MutableBlockPos copy(BlockPos pos) {
+        return new BlockPos.MutableBlockPos(pos.toImmutable());
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void addPotionTooltip(List<RandomPotionEffect> effects, List<String> list) {
+        list.add(new TextComponentTranslation("gregtechfoodoption.tooltip.potion.header").getFormattedText());
+        effects.forEach((effect) -> list.add(new TextComponentTranslation("gregtechfoodoption.tooltip.potion.each",
+                new TextComponentTranslation(effect.effect.getEffectName()).getFormattedText(),
+                new TextComponentTranslation("enchantment.level." + (effect.effect.getAmplifier() + 1)),
+                effect.effect.getDuration(),
+                100 - effect.chance).getFormattedText()));
+    }
 
     public static <T> String[] mapToString(T[] array, Function<T, String> mapper) {
         String[] result = new String[array.length];

@@ -549,6 +549,58 @@ public final class MetaItems {
     public static MetaItem<?>.MetaValueItem CERAMIC_BALL;
     public static MetaItem<?>.MetaValueItem TUNGSTENCARBIDE_BALL;
 
+    //Crops
+    public static MetaItem<?>.MetaValueItem CORN_EAR;
+    public static MetaItem<?>.MetaValueItem TOMATO;
+    public static MetaItem<?>.MetaValueItem ONION;
+    public static MetaItem<?>.MetaValueItem CUCUMBER;
+    public static MetaItem<?>.MetaValueItem GRAPES;
+    public static MetaItem<?>.MetaValueItem COFFEE_CHERRY;
+
+    //seed
+    public static MetaItem<?>.MetaValueItem UNKNOWN_SEED;
+    public static MetaItem<?>.MetaValueItem ONION_SEED;
+    public static MetaItem<?>.MetaValueItem SOYBEAN;
+    public static MetaItem<?>.MetaValueItem SOYBEAN_SEED;
+    public static MetaItem<?>.MetaValueItem TOMATO_SEED;
+    public static MetaItem<?>.MetaValueItem GRAPE_SEED;
+    public static MetaItem<?>.MetaValueItem CUCUMBER_SEED;
+    public static MetaItem<?>.MetaValueItem COFFEE_SEED;
+
+    public static MetaItem<?>.MetaValueItem PEA_POD;
+    public static MetaItem<?>.MetaValueItem PEAS;
+    public static MetaItem<?>.MetaValueItem BEANS;
+    public static MetaItem<?>.MetaValueItem GARLIC_BULB;
+    public static MetaItem<?>.MetaValueItem GARLIC_CLOVE;
+    public static MetaItem<?>.MetaValueItem OREGANO;
+    public static MetaItem<?>.MetaValueItem OREGANO_SEED;
+    public static MetaItem<?>.MetaValueItem BASIL;
+    public static MetaItem<?>.MetaValueItem BASIL_SEED;
+    public static MetaItem<?>.MetaValueItem HORSERADISH;
+    public static MetaItem<?>.MetaValueItem HORSERADISH_SEED;
+    public static MetaItem<?>.MetaValueItem AUBERGINE;
+    public static MetaItem<?>.MetaValueItem AUBERGINE_SEED;
+    public static MetaItem<?>.MetaValueItem ARTICHOKE_HEART;
+    public static MetaItem<?>.MetaValueItem ARTICHOKE_SEED;
+    public static MetaItem<?>.MetaValueItem BLACK_PEPPERCORN;
+    public static MetaItem<?>.MetaValueItem RICE;
+
+    public static MetaItem<?>.MetaValueItem WHITE_GRAPES;
+    public static MetaItem<?>.MetaValueItem WHITE_GRAPE_SEED;
+
+    public static MetaItem<?>.MetaValueItem BLUEBERRY;
+    public static MetaItem<?>.MetaValueItem BLACKBERRY;
+    public static MetaItem<?>.MetaValueItem RASPBERRY;
+    public static MetaItem<?>.MetaValueItem STRAWBERRY;
+    public static MetaItem<?>.MetaValueItem RED_CURRANT;
+    public static MetaItem<?>.MetaValueItem BLACK_CURRANT;
+    public static MetaItem<?>.MetaValueItem WHITE_CURRANT;
+    public static MetaItem<?>.MetaValueItem LINGONBERRY;
+    public static MetaItem<?>.MetaValueItem ELDERBERRY;
+    public static MetaItem<?>.MetaValueItem CRANBERRY;
+
+    public static MetaItem<?>.MetaValueItem COCONUT;
+
     private static final List<OrePrefix> orePrefixes = new ArrayList<>();
 
     static {

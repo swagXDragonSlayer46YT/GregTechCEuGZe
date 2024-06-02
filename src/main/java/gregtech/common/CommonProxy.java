@@ -21,6 +21,8 @@ import gregtech.api.unification.stack.ItemMaterialInfo;
 import gregtech.api.util.AssemblyLineManager;
 import gregtech.api.util.GTLog;
 import gregtech.common.blocks.*;
+import gregtech.common.blocks.crops.BlockGTCrop;
+import gregtech.common.blocks.crops.GTCrops;
 import gregtech.common.items.MetaItems;
 import gregtech.common.items.ToolItems;
 import gregtech.common.pipelike.cable.BlockCable;
@@ -178,6 +180,8 @@ public class CommonProxy {
         for (BlockFrame block : FRAME_BLOCKS) registry.register(block);
         for (BlockSurfaceRock block : SURFACE_ROCK_BLOCKS) registry.register(block);
         for (BlockOre block : ORES) registry.register(block);
+
+        BlockGTCrop.CROP_BLOCKS.forEach(registry::register);
     }
 
     private static void createOreBlock(Material material) {
