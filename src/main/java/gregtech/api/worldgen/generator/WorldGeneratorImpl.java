@@ -1,6 +1,7 @@
 package gregtech.api.worldgen.generator;
 
 import gregtech.common.ConfigHolder;
+import gregtech.common.worldgen.GTFeature;
 import gregtech.common.worldgen.WorldGenRubberTree;
 
 import net.minecraft.init.Biomes;
@@ -55,6 +56,11 @@ public class WorldGeneratorImpl implements IWorldGenerator {
         if (!ConfigHolder.worldgen.disableRubberTreeGeneration) {
             generateRubberTree(random, rubberTreeSeed, chunkProvider.provideChunk(chunkX, chunkZ),
                     ConfigHolder.worldgen.rubberTreeRateIncrease);
+        }
+
+        for (GTFeature feature : GTFeature.FEATURES) {
+            feature.setWorld(world);
+            feature.getWorldGenInstance().generateInChunk(world, random, chunkX, chunkZ);
         }
     }
 

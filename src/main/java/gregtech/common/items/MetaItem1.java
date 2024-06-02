@@ -1259,5 +1259,34 @@ public class MetaItem1 extends StandardMetaItem {
         WHITE_GRAPE_SEED.addComponents(new CropSeedBehaviour(GTCrops.CROP_WHITE_GRAPE, WHITE_GRAPE_SEED.getStackForm(), WHITE_GRAPES.getStackForm()));
 
         UNKNOWN_SEED = addItem(1229, "seed.unknown");
+
+        //Tree crops
+        COCONUT = addItem(1300, "crop.coconut")
+                .addComponents(new GTFoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f));
+        LEMON = addItem(1301, "crop.lemon").addComponents(new GTFoodStats(1, 0.5f)
+                        .nutrients(0, 1f, 0, 0, 0))
+                .addOreDict("cropLemon").addOreDict("listAllfruit");
+        LIME = addItem(1302, "crop.lime").addComponents(new GTFoodStats(1, 0.5f)
+                        .nutrients(0, 1f, 0, 0, 0))
+                .addOreDict("cropLime").addOreDict("listAllfruit");
+        OLIVE = addItem(1303, "crop.olive")
+                .addOreDict("cropOlive")
+                .addComponents(new GTFoodStats(2, 0.5f).setEatingDuration(64)
+                        .nutrients(0, 0, 0, 0, 1f));
+        BANANA = addItem(1304, "crop.banana").addComponents(new GTFoodStats(2, 1f)
+                        .setEatingDuration(60)
+                        .nutrients(0f, 1f, 0f, 0f, 0f))
+                .addOreDict("cropBanana").addOreDict("listAllfruit");
+        ORANGE = addItem(1305, "crop.orange").addComponents(new GTFoodStats(2, 1f)
+                        .setEatingDuration(50)
+                        .nutrients(0f, 1f, 0f, 0f, 0f))
+                .addOreDict("cropOrange").addOreDict("listAllfruit");
+        MANGO = addItem(1306, "crop.mango").addComponents(new GTFoodStats(2, 1f)
+                        .nutrients(0f, 1f, 0f, 0f, 0f))
+                .addOreDict("cropMango").addOreDict("listAllfruit");
+        APRICOT = addItem(1307, "crop.apricot").addComponents(new GTFoodStats(2, 1f)
+                        .nutrients(0f, 1f, 0f, 0f, 0f))
+                .addOreDict("cropApricot").addOreDict("listAllfruit");
+        NUTMEG_SEED = addItem(1308, "crop.nutmeg");
     }
 }

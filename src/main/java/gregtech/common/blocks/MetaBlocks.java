@@ -1,5 +1,6 @@
 package gregtech.common.blocks;
 
+import gregtech.api.GTValues;
 import gregtech.api.GregTechAPI;
 import gregtech.api.block.machines.BlockMachine;
 import gregtech.api.metatileentity.MetaTileEntityHolder;
@@ -11,6 +12,8 @@ import gregtech.api.unification.material.properties.PropertyKey;
 import gregtech.api.unification.material.registry.MaterialRegistry;
 import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.unification.ore.StoneType;
+import gregtech.api.unification.stack.ItemMaterialInfo;
+import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.util.BlockUtility;
 import gregtech.api.util.GTUtility;
 import gregtech.api.util.function.TriConsumer;
@@ -24,6 +27,12 @@ import gregtech.client.renderer.pipe.ItemPipeRenderer;
 import gregtech.client.renderer.pipe.LaserPipeRenderer;
 import gregtech.client.renderer.pipe.OpticalPipeRenderer;
 import gregtech.common.ConfigHolder;
+import gregtech.common.blocks.crop_tree.CropLeaves;
+import gregtech.common.blocks.crop_tree.CropLog;
+import gregtech.common.blocks.crop_tree.CropPlanks;
+import gregtech.common.blocks.crop_tree.CropSapling;
+import gregtech.common.blocks.crop_tree.CropTree;
+import gregtech.common.blocks.crop_tree.CropTrees;
 import gregtech.common.blocks.crops.GTCrops;
 import gregtech.common.blocks.explosive.BlockITNT;
 import gregtech.common.blocks.explosive.BlockPowderbarrel;
@@ -78,6 +87,7 @@ import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -196,6 +206,11 @@ public class MetaBlocks {
 
     public static final List<BlockOre> ORES = new ArrayList<>();
     public static final List<BlockFluidBase> FLUID_BLOCKS = new ArrayList<>();
+
+    public static List<CropLeaves> CROP_LEAVES = new ArrayList<>();
+    public static List<CropLog> CROP_LOGS = new ArrayList<gregtech.common.blocks.crop_tree.CropLog>();
+    public static List<CropPlanks> CROP_PLANKS = new ArrayList<>();
+    public static List<CropSapling> CROP_SAPLINGS = new ArrayList<>();
 
     public static void init() {
         GregTechAPI.MACHINE = MACHINE = new BlockMachine();
@@ -395,6 +410,26 @@ public class MetaBlocks {
 
         // Crops
         GTCrops.init();
+        CropTrees.init();
+
+        for (int i = 0; i <= (CropTree.TREES.size() - 1) / 4; i++) {
+            CropLeaves leaves = new CropLeaves(i);
+            leaves.setRegistryName("crop_leaves_" + i);
+        }
+        for (int i = 0; i <= (CropTree.TREES.size() - 1) / 4; i++) {
+            CropLog log = new CropLog(i);
+            log.setRegistryName("crop_log_" + i);
+        }
+        for (int i = 0; i <= (CropTree.TREES.size() - 1) / 8; i++) {
+            CropSapling sapling = new CropSapling(i);
+            sapling.setRegistryName("crop_sapling_" + i);
+        }
+        for (int i = 0; i <= (CropTree.TREES.size() - 1) / 16; i++) {
+            CropPlanks planks = new CropPlanks(i);
+            planks.setRegistryName("crop_planks_" + i);
+        }
+
+        CropTree.TREES.forEach(CropTree::setupBlocks);
     }
 
     /**
@@ -549,6 +584,21 @@ public class MetaBlocks {
         registerItemModel(LARGE_MULTIBLOCK_CASING);
         registerItemModel(METAL_CASING_2);
         registerItemModel(DECO_BLOCK);
+
+        CROP_LEAVES.forEach(MetaBlocks::registerItemModel);
+        CROP_SAPLINGS.forEach(MetaBlocks::registerItemModel);
+
+        for (CropSapling sapling : CROP_SAPLINGS) {
+            registerItemModel(sapling);
+            for (int v = 0; v < 8; v++)
+                ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(sapling), v << 1,
+                        new ModelResourceLocation(sapling.getRegistryName() + "_" + v, "inventory"));
+        }
+        for (CropLog log : CROP_LOGS) {
+            registerItemModelWithOverride(log, ImmutableMap.of(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Y));
+        }
+
+        CROP_PLANKS.forEach(MetaBlocks::registerItemModel);
     }
 
     @SideOnly(Side.CLIENT)
@@ -642,6 +692,7 @@ public class MetaBlocks {
 
         blockColors.registerBlockColorHandler((s, w, p, i) -> rubberLeavesColor, RUBBER_LEAVES);
         itemColors.registerItemColorHandler((s, i) -> rubberLeavesColor, RUBBER_LEAVES);
+        CROP_LEAVES.forEach(CropLeaves::registerColors);
 
         for (BlockCompressed block : COMPRESSED_BLOCKS) {
             blockColors.registerBlockColorHandler((s, w, p, i) -> block.getGtMaterial(s).getMaterialRGB(), block);
@@ -747,6 +798,23 @@ public class MetaBlocks {
                 }
             }
         }
+
+        CROP_LEAVES.forEach(leaves -> {
+            OreDictUnifier.registerOre(new ItemStack(leaves, 1, GTValues.W), "treeLeaves");
+        });
+        CROP_SAPLINGS.forEach(sapling -> {
+            OreDictUnifier.registerOre(new ItemStack(sapling, 1, GTValues.W), "treeSapling");
+        });
+        CROP_LOGS.forEach(log -> {
+            OreDictUnifier.registerOre(new ItemStack(log, 1, GTValues.W), OrePrefix.log, Materials.Wood);
+            if (!ConfigHolder.recipes.harderCharcoalRecipe) {
+                GameRegistry.addSmelting(new ItemStack(log, 1, GTValues.W), new ItemStack(Items.COAL, 1, 1), 0.15F);
+            }
+        });
+        CROP_PLANKS.forEach(planks -> {
+            OreDictUnifier.registerOre(new ItemStack(planks, 1, GTValues.W), OrePrefix.plank, Materials.Wood);
+            OreDictUnifier.registerOre(new ItemStack(planks, 1, GTValues.W), new ItemMaterialInfo(new MaterialStack(Materials.Wood, GTValues.M)));
+        });
     }
 
     public static String statePropertiesToString(Map<IProperty<?>, Comparable<?>> properties) {

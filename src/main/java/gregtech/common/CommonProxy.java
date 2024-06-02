@@ -23,6 +23,7 @@ import gregtech.api.util.GTLog;
 import gregtech.common.blocks.*;
 import gregtech.common.blocks.crops.BlockGTCrop;
 import gregtech.common.items.MetaItems;
+import gregtech.common.items.SpecialVariantItemBlock;
 import gregtech.common.items.ToolItems;
 import gregtech.common.pipelike.cable.BlockCable;
 import gregtech.common.pipelike.cable.ItemBlockCable;
@@ -181,6 +182,11 @@ public class CommonProxy {
         for (BlockOre block : ORES) registry.register(block);
 
         BlockGTCrop.CROP_BLOCKS.forEach(registry::register);
+
+        CROP_LEAVES.forEach(registry::register);
+        CROP_LOGS.forEach(registry::register);
+        CROP_PLANKS.forEach(registry::register);
+        CROP_SAPLINGS.forEach(registry::register);
     }
 
     private static void createOreBlock(Material material) {
@@ -310,6 +316,11 @@ public class CommonProxy {
         for (BlockOre block : ORES) {
             registry.register(createItemBlock(block, OreItemBlock::new));
         }
+
+        CROP_LEAVES.forEach(leaves -> registry.register(createItemBlock(leaves, SpecialVariantItemBlock::new)));
+        CROP_LOGS.forEach(log -> registry.register(createItemBlock(log, SpecialVariantItemBlock::new)));
+        CROP_SAPLINGS.forEach(sapling -> registry.register(createItemBlock(sapling, SpecialVariantItemBlock::new)));
+        CROP_PLANKS.forEach(sapling -> registry.register(createItemBlock(sapling, SpecialVariantItemBlock::new)));
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

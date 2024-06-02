@@ -1,0 +1,72 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "minecraft:cube_all",
+    "textures": {
+      "all": "gregtech:blocks/rendering_error"
+    }
+  },
+  "variants": {
+    "variant": {
+      "0": {
+        "textures": {
+          "all": "gregtech:blocks/planks/banana"
+        }
+      },
+      "1": {
+        "textures": {
+          "all": "gregtech:blocks/planks/orange"
+        }
+      },
+      "2": {
+        "textures": {
+          "all": "gregtech:blocks/planks/mango"
+        }
+      },
+      "3": {
+        "textures": {
+          "all": "gregtech:blocks/planks/apricot"
+        }
+      },
+      "4": {
+        "textures": {
+          "all": "gregtech:blocks/planks/lemon"
+        }
+      },
+      "5": {
+        "textures": {
+          "all": "gregtech:blocks/planks/lime"
+        }
+      },
+      "6": {
+        "textures": {
+          "all": "gregtech:blocks/planks/olive"
+        }
+      },
+      "7": {
+        "textures": {
+          "all": "gregtech:blocks/planks/nutmeg"
+        }
+      },
+      "8": {
+        "textures": {
+          "all": "gregtech:blocks/planks/coconut"
+        }
+      },
+      "9": {
+      },
+      "10": {
+      },
+      "11": {
+      },
+      "12": {
+      },
+      "13": {
+      },
+      "14": {
+      },
+      "15": {
+      }
+    }
+  }
+}

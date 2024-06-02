@@ -12,6 +12,7 @@ import gregtech.api.recipes.builders.ComputationRecipeBuilder;
 import gregtech.api.recipes.builders.FuelRecipeBuilder;
 import gregtech.api.recipes.builders.FusionRecipeBuilder;
 import gregtech.api.recipes.builders.GasCollectorRecipeBuilder;
+import gregtech.api.recipes.builders.MobProximityRecipeBuilder;
 import gregtech.api.recipes.builders.NoEnergyRecipeBuilder;
 import gregtech.api.recipes.builders.PrimitiveRecipeBuilder;
 import gregtech.api.recipes.builders.PseudoMultiRecipeBuilder;
@@ -1524,6 +1525,43 @@ public final class RecipeMaps {
             .sound(GTSoundEvents.FIRE)
             .build();
 
+    public static final RecipeMap<NoEnergyRecipeBuilder> HEAT_EXCHANGER_RECIPES = new RecipeMapBuilder<>(
+            "heat_exchanger", new NoEnergyRecipeBuilder())
+            .fluidInputs(2).fluidOutputs(2).itemInputs(1)
+            .progressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, MoveType.HORIZONTAL)
+            .sound(GTSoundEvents.COOLING)
+            .build();
+
+    public static final RecipeMap<SimpleRecipeBuilder> FROTH_FLOTATION = new RecipeMapBuilder<>(
+            "froth_flotation", new SimpleRecipeBuilder())
+            .itemInputs(3).itemOutputs(2).fluidInputs(4).fluidOutputs(2)
+            .progressBar(GuiTextures.PROGRESS_BAR_MIXER, MoveType.CIRCULAR)
+            .sound(GTSoundEvents.BATH)
+            .build();
+
+    public static final RecipeMap<PseudoMultiRecipeBuilder> LATEX_COLLECTOR_RECIPES = new RecipeMapBuilder<>(
+            "latex_collector", new PseudoMultiRecipeBuilder())
+            .itemInputs(0).itemOutputs(2).fluidInputs(1).fluidOutputs(2)
+            .progressBar(GuiTextures.PROGRESS_BAR_EXTRACTION, MoveType.VERTICAL_DOWNWARDS)
+            .sound(GTSoundEvents.DRILL_TOOL)
+            .build();
+
+    public static final RecipeMap<MobProximityRecipeBuilder> MOB_EXTRACTOR_RECIPES = new RecipeMapBuilder<>("mob_extractor", new MobProximityRecipeBuilder())
+            .itemInputs(1)
+            .itemOutputs(1)
+            .fluidOutputs(1)
+            .progressBar(GuiTextures.PROGRESS_BAR_EXTRACT, ProgressWidget.MoveType.HORIZONTAL)
+            .sound(GTSoundEvents.COMPRESSOR)
+            .build();
+
+    public static final RecipeMap<SimpleRecipeBuilder> GREENHOUSE_RECIPES = new RecipeMapBuilder<>("greenhouse", new SimpleRecipeBuilder())
+            .itemInputs(4)
+            .itemOutputs(4)
+            .fluidInputs(1)
+            .fluidOutputs(1)
+            .sound(GTSoundEvents.COOLING)
+            .build();
+
     //////////////////////////////////////
     // Fuel Recipe Maps //
     //////////////////////////////////////
@@ -1568,30 +1606,6 @@ public final class RecipeMaps {
                     .sound(GTSoundEvents.COMBUSTION)
                     .allowEmptyOutputs()
                     .build();
-
-    @ZenProperty
-    public static final RecipeMap<NoEnergyRecipeBuilder> HEAT_EXCHANGER_RECIPES = new RecipeMapBuilder<>(
-            "heat_exchanger", new NoEnergyRecipeBuilder())
-            .fluidInputs(2).fluidOutputs(2).itemInputs(1)
-            .progressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, MoveType.HORIZONTAL)
-            .sound(GTSoundEvents.COOLING)
-            .build();
-
-    @ZenProperty
-    public static final RecipeMap<SimpleRecipeBuilder> FROTH_FLOTATION = new RecipeMapBuilder<>(
-            "froth_flotation", new SimpleRecipeBuilder())
-            .itemInputs(3).itemOutputs(2).fluidInputs(4).fluidOutputs(2)
-            .progressBar(GuiTextures.PROGRESS_BAR_MIXER, MoveType.CIRCULAR)
-            .sound(GTSoundEvents.BATH)
-            .build();
-
-    @ZenProperty
-    public static final RecipeMap<PseudoMultiRecipeBuilder> LATEX_COLLECTOR_RECIPES = new RecipeMapBuilder<>(
-            "latex_collector", new PseudoMultiRecipeBuilder())
-            .itemInputs(0).itemOutputs(2).fluidInputs(1).fluidOutputs(2)
-            .progressBar(GuiTextures.PROGRESS_BAR_EXTRACTION, MoveType.VERTICAL_DOWNWARDS)
-            .sound(GTSoundEvents.DRILL_TOOL)
-            .build();
 
     private RecipeMaps() {}
 }

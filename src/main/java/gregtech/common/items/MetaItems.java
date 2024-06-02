@@ -600,6 +600,14 @@ public final class MetaItems {
     public static MetaItem<?>.MetaValueItem CRANBERRY;
 
     public static MetaItem<?>.MetaValueItem COCONUT;
+    public static MetaItem<?>.MetaValueItem LEMON;
+    public static MetaItem<?>.MetaValueItem LIME;
+    public static MetaItem<?>.MetaValueItem OLIVE;
+    public static MetaItem<?>.MetaValueItem BANANA;
+    public static MetaItem<?>.MetaValueItem ORANGE;
+    public static MetaItem<?>.MetaValueItem MANGO;
+    public static MetaItem<?>.MetaValueItem APRICOT;
+    public static MetaItem<?>.MetaValueItem NUTMEG_SEED;
 
     private static final List<OrePrefix> orePrefixes = new ArrayList<>();
 
