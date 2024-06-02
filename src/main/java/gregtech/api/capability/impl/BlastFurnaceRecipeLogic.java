@@ -68,7 +68,7 @@ public class BlastFurnaceRecipeLogic extends PrimitiveRecipeLogic {
                 }
             }
 
-            progressTime += (int) (GTValues.RNG.nextFloat() * (currentHeat - 293f) / 1200f);
+            progressTime += (int) (GTValues.RNG.nextFloat() * currentHeat / 600f);
 
             if (progressTime > maxProgressTime) {
                 completeRecipe();

@@ -15,10 +15,16 @@ import gregtech.api.capability.impl.ItemHandlerList;
 import gregtech.api.capability.impl.ItemHandlerProxy;
 import gregtech.api.capability.impl.NotifiableItemStackHandler;
 import gregtech.api.gui.GuiTextures;
+import gregtech.api.gui.ModularUI;
 import gregtech.api.gui.Widget;
 import gregtech.api.gui.Widget.ClickData;
 import gregtech.api.gui.resources.TextureArea;
 import gregtech.api.gui.widgets.ClickButtonWidget;
+import gregtech.api.gui.widgets.LabelWidget;
+import gregtech.api.gui.widgets.ProgressWidget;
+import gregtech.api.gui.widgets.RecipeProgressWidget;
+import gregtech.api.gui.widgets.SlotWidget;
+import gregtech.api.gui.widgets.TankWidget;
 import gregtech.api.gui.widgets.WidgetGroup;
 import gregtech.api.metatileentity.MTETrait;
 import gregtech.api.metatileentity.MetaTileEntity;
@@ -33,6 +39,7 @@ import gregtech.api.metatileentity.multiblock.RecipeMapPrimitiveMultiblockContro
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.pattern.PatternMatchContext;
+import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.util.GTLog;
 import gregtech.api.util.GTTransferUtils;
@@ -56,6 +63,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
@@ -84,7 +92,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockController implements IProgressBarMultiblock {
+public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockController {
 
     private int tier = 1;
     private AxisAlignedBB areaBoundingBox;
@@ -119,26 +127,13 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
             this.maximumHeat = BlockRefractoryBrick.RefractoryBrickType.TIER1.getRefractoryBrickTemperature();
         }
 
-        initializeAbilities();
-    }
-
-    @Override
-    public void invalidateStructure() {
-        super.invalidateStructure();
-        resetTileAbilities();
-        this.recipeMapWorkable.invalidate();
+        this.exportItems = new ItemHandlerList(getAbilities(MultiblockAbility.EXPORT_ITEMS));
     }
 
     @Override
     protected void initializeAbilities() {
-        super.initializeAbilities();
-        this.importItems = new NotifiableItemStackHandler(this, 25, this, false);
-        this.exportItems = new ItemHandlerList(getAbilities(MultiblockAbility.EXPORT_ITEMS));
-    }
-
-    private void resetTileAbilities() {
-        this.importItems = new ItemHandlerList(Collections.emptyList());
-        this.exportItems = new ItemHandlerList(Collections.emptyList());
+        this.importItems = new NotifiableItemStackHandler(this, 27, this, false);
+        this.itemInventory = new ItemHandlerProxy(this.importItems, this.exportItems);
     }
 
     @Override
@@ -151,15 +146,21 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
     @Override
     protected BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start()
-                .aisle("XXX", "XXX", "XXX", "XXX")
-                .aisle("XXX", "XAX", "XAX", "XAX")
-                .aisle("XXX", "XSX", "XXX", "XXX")
+                .aisle(" XXX ", " XXX ", " XXX ", "  X  ", "     ", "     ", "     ")
+                .aisle("XXXXX", "XXXXX", "XXXXX", " XXX ", " XXX ", " XXX ", "  X  ")
+                .aisle("XXXXX", "XX&XX", "XXAXX", "XXAXX", " XAX ", " XAX ", " XAX ")
+                .aisle("XXXXX", "XXXXX", "XXXXX", " XXX ", " XXX ", " XXX ", "  X  ")
+                .aisle(" XXX ", " XSX ", " XXX ", "  X  ", "     ", "     ", "     ")
                 .where('S', selfPredicate())
                 .where('X', refractoryBricks()
                         .or(abilities(MultiblockAbility.EXPORT_ITEMS).setMaxGlobalLimited(2)))
                 .where('A', air())
+                .where('&', air().or(SNOW_PREDICATE)) // this won't stay in the structure, and will be broken while running
                 .build();
     }
+
+    private static final TraceabilityPredicate SNOW_PREDICATE = new TraceabilityPredicate(
+            bws -> GTUtility.isBlockSnow(bws.getBlockState()));
 
     @Override
     public String[] getDescription() {
@@ -174,7 +175,7 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
 
         if (recipeMapWorkable.isActive() && isStructureFormed()) {
             EnumFacing back = getFrontFacing().getOpposite();
-            Matrix4 offset = translation.copy().translate(back.getXOffset(), -0.3, back.getZOffset());
+            Matrix4 offset = translation.copy().translate(back.getXOffset() * 2, 0.5f, back.getZOffset() * 2);
             CubeRendererState op = Textures.RENDER_STATE.get();
             Textures.RENDER_STATE.set(new CubeRendererState(op.layer, CubeRendererState.PASS_MASK, op.world));
             Textures.renderFace(renderState, offset,
@@ -224,12 +225,12 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void updateFormedValid() {
+        super.updateFormedValid();
 
         BlockPos selfPos = getPos();
         if (areaCenterPos == null || areaBoundingBox == null) {
-            this.areaCenterPos = selfPos.offset(this.getFrontFacing().getOpposite(), 1);
+            this.areaCenterPos = selfPos.offset(this.getFrontFacing().getOpposite(), 2);
             this.areaBoundingBox = new AxisAlignedBB(areaCenterPos).grow(1, 0, 1);
         }
 
@@ -241,6 +242,29 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
                 item.setDead();
             }
         }
+    }
+
+    @Override
+    protected ModularUI.Builder createUITemplate(EntityPlayer entityPlayer) {
+        //Allow players to see what's inside the furnace without interacting with it
+        ModularUI.Builder builder = ModularUI.builder(GuiTextures.PRIMITIVE_BACKGROUND, 176, 166).shouldColor(false)
+                .widget(new LabelWidget(7, 8, "Temperature: " + ((BlastFurnaceRecipeLogic) recipeMapWorkable).getCurrentHeat() + "K"));
+
+        for (int i = 0; i < 9; i++){
+            builder.widget(new SlotWidget(importItems, i, 7 + i * 18, 20, false, false)
+                    .setBackgroundTexture(GuiTextures.PRIMITIVE_SLOT, GuiTextures.PRIMITIVE_FURNACE_OVERLAY));
+            builder.widget(new SlotWidget(importItems, i + 9, 7 + i * 18, 38, false, false)
+                    .setBackgroundTexture(GuiTextures.PRIMITIVE_SLOT, GuiTextures.PRIMITIVE_FURNACE_OVERLAY));
+            builder.widget(new SlotWidget(importItems, i + 18, 7 + i * 18, 56, false, false)
+                    .setBackgroundTexture(GuiTextures.PRIMITIVE_SLOT, GuiTextures.PRIMITIVE_FURNACE_OVERLAY));
+        }
+
+        return builder.bindPlayerInventory(entityPlayer.inventory, GuiTextures.PRIMITIVE_SLOT, 0);
+    }
+
+    @Override
+    public void update() {
+        super.update();
 
         if (this.isActive()) {
             if (getWorld().isRemote) {
@@ -251,49 +275,15 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
         }
     }
 
-
     private void damageEntitiesAndBreakSnow() {
         BlockPos middlePos = this.getPos();
-        middlePos = middlePos.offset(getFrontFacing().getOpposite());
+        middlePos = middlePos.offset(getFrontFacing().getOpposite()).offset(getFrontFacing().getOpposite());
         this.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(middlePos))
                 .forEach(entity -> entity.attackEntityFrom(DamageSource.LAVA, 3.0f));
 
         if (getOffsetTimer() % 10 == 0) {
             IBlockState state = getWorld().getBlockState(middlePos);
             GTUtility.tryBreakSnow(getWorld(), middlePos, state, true);
-        }
-    }
-
-    @Override
-    protected boolean shouldShowVoidingModeButton() {
-        return false;
-    }
-
-    @Override
-    public double getFillPercentage(int index) {
-        if (!isStructureFormed()) return 0;
-        return (1.0 * ((BlastFurnaceRecipeLogic) recipeMapWorkable).getCurrentHeat() )/ maximumHeat;
-    }
-
-    @Override
-    public TextureArea getProgressBarTexture(int index) {
-        return GuiTextures.PROGRESS_BAR_FLUID_RIG_DEPLETION;
-    }
-
-    @Override
-    public void addBarHoverText(List<ITextComponent> hoverList, int index) {
-        if (!isStructureFormed()) {
-            hoverList.add(TextComponentUtil.translationWithColor(TextFormatting.GRAY,
-                    "gregtech.multiblock.invalid_structure"));
-        } else {
-            ITextComponent heatInfo = TextComponentUtil.translationWithColor(
-                    TextFormatting.BLUE,
-                    "%s / %s K",
-                    ((BlastFurnaceRecipeLogic) recipeMapWorkable).getCurrentHeat(), this.maximumHeat);
-            hoverList.add(TextComponentUtil.translationWithColor(
-                    TextFormatting.GRAY,
-                    "Heat: %s",
-                    heatInfo));
         }
     }
 

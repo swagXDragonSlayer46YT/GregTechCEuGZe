@@ -31,9 +31,9 @@ public enum VanillaParticleEffects implements IMachineParticleEffect {
 
         BlockPos pos = mte.getPos();
         EnumFacing facing = mte.getFrontFacing().getOpposite();
-        float xPos = facing.getXOffset() * 0.76F + pos.getX() + 0.5F;
-        float yPos = facing.getYOffset() * 0.76F + pos.getY() + 0.25F;
-        float zPos = facing.getZOffset() * 0.76F + pos.getZ() + 0.5F;
+        float xPos = facing.getXOffset() * 2F + pos.getX() + 0.5F;
+        float yPos = facing.getYOffset() * 2F + pos.getY() + 1.5F;
+        float zPos = facing.getZOffset() * 2F + pos.getZ() + 0.5F;
 
         float ySpd = facing.getYOffset() * 0.1F + 0.2F + 0.1F * GTValues.RNG.nextFloat();
         mte.getWorld().spawnParticle(EnumParticleTypes.SMOKE_LARGE, xPos, yPos, zPos, 0, ySpd, 0);

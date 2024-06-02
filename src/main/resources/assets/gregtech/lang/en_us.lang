@@ -6623,11 +6623,11 @@ gregtech.machine.latex_collector.lv.name=Basic Latex Collector
 gregtech.machine.latex_collector.mv.name=Advanced Latex Collector
 gregtech.machine.latex_collector.hv.name=Advanced Latex Collector II
 gregtech.machine.latex_collector.ev.name=Advanced Latex Collector III
-gregtech.machine.latex_collector.lv.tooltip=Extracts latex from living trees
-gregtech.machine.latex_collector.mv.tooltip=Extracts latex from living trees
-gregtech.machine.latex_collector.hv.tooltip=Extracts latex from living trees
-gregtech.machine.latex_collector.ev.tooltip=Extracts latex from living trees
-gregtech.machine.latex_collector.bronze.tooltip=Extracts latex from living trees
+gregtech.machine.latex_collector.lv.tooltip=Collects latex when next to rubber logs. More logs = faster output
+gregtech.machine.latex_collector.mv.tooltip=Collects latex when next to rubber logs. More logs = faster output
+gregtech.machine.latex_collector.hv.tooltip=Collects latex when next to rubber logs. More logs = faster output
+gregtech.machine.latex_collector.ev.tooltip=Collects latex when next to rubber logs. More logs = faster output
+gregtech.machine.latex_collector.bronze.tooltip=Collects latex when rubber logs are in front
 
 gregtech.material.snowchestite.name=Snowchestite
 gregtech.material.syngas.name=Syngas

@@ -187,9 +187,9 @@ public class MetaTileEntitySteamLatexCollector extends MetaTileEntity {
         if(this.getWorld() != null){
             this.hasRubberLog = false;
             if(!this.getWorld().isRemote) {
-                EnumFacing back = this.getFrontFacing().getOpposite();
+                EnumFacing front = this.getFrontFacing();
 
-                Block block = this.getWorld().getBlockState(this.getPos().offset(back)).getBlock();
+                Block block = this.getWorld().getBlockState(this.getPos().offset(front)).getBlock();
                 if (block == MetaBlocks.RUBBER_LOG) {
                     this.hasRubberLog = true;
                 }

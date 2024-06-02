@@ -33,6 +33,7 @@ import gregtech.common.blocks.crop_tree.CropPlanks;
 import gregtech.common.blocks.crop_tree.CropSapling;
 import gregtech.common.blocks.crop_tree.CropTree;
 import gregtech.common.blocks.crop_tree.CropTrees;
+import gregtech.common.blocks.crops.GTBerries;
 import gregtech.common.blocks.crops.GTCrops;
 import gregtech.common.blocks.explosive.BlockITNT;
 import gregtech.common.blocks.explosive.BlockPowderbarrel;
@@ -410,6 +411,7 @@ public class MetaBlocks {
 
         // Crops
         GTCrops.init();
+        GTBerries.init();
         CropTrees.init();
 
         for (int i = 0; i <= (CropTree.TREES.size() - 1) / 4; i++) {
