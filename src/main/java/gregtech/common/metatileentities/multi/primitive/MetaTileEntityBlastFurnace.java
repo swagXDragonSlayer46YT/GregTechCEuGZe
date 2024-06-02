@@ -1,5 +1,8 @@
 package gregtech.common.metatileentities.multi.primitive;
 
+import codechicken.lib.texture.TextureUtils;
+import codechicken.lib.vec.Cuboid6;
+
 import gregtech.api.GTValues;
 import gregtech.api.block.IHeatingCoilBlockStats;
 import gregtech.api.block.IRefractoryBrickBlockStats;
@@ -36,13 +39,19 @@ import gregtech.api.util.GTTransferUtils;
 import gregtech.api.util.GTUtility;
 import gregtech.api.util.TextComponentUtil;
 import gregtech.api.util.TextFormattingUtil;
+import gregtech.client.particle.VanillaParticleEffects;
+import gregtech.client.renderer.CubeRendererState;
 import gregtech.client.renderer.ICubeRenderer;
+import gregtech.client.renderer.cclop.ColourOperation;
+import gregtech.client.renderer.cclop.LightMapOperation;
 import gregtech.client.renderer.texture.Textures;
+import gregtech.client.utils.BloomEffectUtil;
 import gregtech.client.utils.TooltipHelper;
 import gregtech.common.blocks.BlockRefractoryBrick;
 import gregtech.common.blocks.BlockWireCoil;
 import gregtech.core.sound.GTSoundEvents;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -50,6 +59,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -66,6 +77,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import codechicken.lib.render.CCRenderState;
 import codechicken.lib.render.pipeline.IVertexOperation;
 import codechicken.lib.vec.Matrix4;
+import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -144,7 +156,7 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
                 .aisle("XXX", "XSX", "XXX", "XXX")
                 .where('S', selfPredicate())
                 .where('X', refractoryBricks()
-                        .or(abilities(MultiblockAbility.EXPORT_ITEMS).setMaxGlobalLimited(1)))
+                        .or(abilities(MultiblockAbility.EXPORT_ITEMS).setMaxGlobalLimited(2)))
                 .where('A', air())
                 .build();
     }
@@ -159,6 +171,18 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
         super.renderMetaTileEntity(renderState, translation, pipeline);
         this.getFrontOverlay().renderOrientedState(renderState, translation, pipeline, getFrontFacing(), isActive(),
                 recipeMapWorkable.isWorkingEnabled());
+
+        if (recipeMapWorkable.isActive() && isStructureFormed()) {
+            EnumFacing back = getFrontFacing().getOpposite();
+            Matrix4 offset = translation.copy().translate(back.getXOffset(), -0.3, back.getZOffset());
+            CubeRendererState op = Textures.RENDER_STATE.get();
+            Textures.RENDER_STATE.set(new CubeRendererState(op.layer, CubeRendererState.PASS_MASK, op.world));
+            Textures.renderFace(renderState, offset,
+                    ArrayUtils.addAll(pipeline, new LightMapOperation(240, 240), new ColourOperation(0xFFFFFFFF)),
+                    EnumFacing.UP, Cuboid6.full, TextureUtils.getBlockTexture("lava_still"),
+                    BloomEffectUtil.getEffectiveBloomLayer());
+            Textures.RENDER_STATE.set(op);
+        }
     }
 
     @SideOnly(Side.CLIENT)
@@ -216,6 +240,27 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
                 GTTransferUtils.insertItem(this.importItems, item.getItem(), false);
                 item.setDead();
             }
+        }
+
+        if (this.isActive()) {
+            if (getWorld().isRemote) {
+                VanillaParticleEffects.PBF_SMOKE.runEffect(this);
+            } else {
+                damageEntitiesAndBreakSnow();
+            }
+        }
+    }
+
+
+    private void damageEntitiesAndBreakSnow() {
+        BlockPos middlePos = this.getPos();
+        middlePos = middlePos.offset(getFrontFacing().getOpposite());
+        this.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(middlePos))
+                .forEach(entity -> entity.attackEntityFrom(DamageSource.LAVA, 3.0f));
+
+        if (getOffsetTimer() % 10 == 0) {
+            IBlockState state = getWorld().getBlockState(middlePos);
+            GTUtility.tryBreakSnow(getWorld(), middlePos, state, true);
         }
     }
 

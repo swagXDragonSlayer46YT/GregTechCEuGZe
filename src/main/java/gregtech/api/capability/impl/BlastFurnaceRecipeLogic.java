@@ -60,7 +60,7 @@ public class BlastFurnaceRecipeLogic extends PrimitiveRecipeLogic {
             if (currentHeat < getMaximumHeat()) {
                 ticksUntilNextHeat++;
 
-                int ticksPerHeat = 5;
+                int ticksPerHeat = 10;
 
                 if (ticksUntilNextHeat % ticksPerHeat == 0) {
                     ticksUntilNextHeat = 0;
@@ -94,14 +94,6 @@ public class BlastFurnaceRecipeLogic extends PrimitiveRecipeLogic {
     @Override
     public boolean consumesEnergy() {
         return false;
-    }
-
-    @Override
-    protected void completeRecipe() {
-        progressTime = 0;
-        setMaxProgress(0);
-        recipeEUt = 0;
-        wasActiveAndNeedsUpdate = true;
     }
 
     @NotNull
