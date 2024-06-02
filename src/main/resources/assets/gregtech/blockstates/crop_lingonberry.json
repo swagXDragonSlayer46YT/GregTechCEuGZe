@@ -21,9 +21,9 @@
         }
       },
       "2": {
-        "model": "gregtechfoodoption:large_berry_bush",
+        "model": "gregtech:large_berry_bush",
         "textures": {
-          "all": "gregtechfoodoption:blocks/berry/lingonberry_ripe"
+          "all": "gregtech:blocks/berry/lingonberry_ripe"
         }
       }
     },

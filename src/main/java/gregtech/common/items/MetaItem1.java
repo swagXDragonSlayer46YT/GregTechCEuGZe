@@ -1186,7 +1186,7 @@ public class MetaItem1 extends StandardMetaItem {
         CORN_EAR = addItem(1200, "seed.corn");
         CORN_EAR.addComponents(new CropSeedBehaviour(GTCrops.CROP_CORN, CORN_EAR.getStackForm(), CORN_EAR.getStackForm()));
 
-        CUCUMBER = addItem(1201, "seed.cucumber")
+        CUCUMBER = addItem(1201, "crop.cucumber")
                 .addOreDict("cropCucumber").addComponents(new GTFoodStats(2, 0.5f).nutrients(0, 0, 0, 0, 1f));
         CUCUMBER.addComponents(new CropSeedBehaviour(GTCrops.CROP_CUCUMBER, CUCUMBER.getStackForm(), CUCUMBER.getStackForm()));
 
@@ -1225,7 +1225,7 @@ public class MetaItem1 extends StandardMetaItem {
 
         ONION_SEED = addItem(1212, "seed.onion");
         ONION_SEED.addComponents(new CropSeedBehaviour(GTCrops.CROP_ONION, ONION_SEED.getStackForm(), ONION.getStackForm()));
-        SOYBEAN_SEED = addItem(1213, "seed.soy");
+        SOYBEAN_SEED = addItem(1213, "seed.soybean");
         SOYBEAN_SEED.addComponents(new CropSeedBehaviour(GTCrops.CROP_SOY, SOYBEAN_SEED.getStackForm(), SOYBEAN.getStackForm()));
         TOMATO_SEED = addItem(1214, "seed.tomato");
         TOMATO_SEED.addComponents(new CropSeedBehaviour(GTCrops.CROP_TOMATO, TOMATO_SEED.getStackForm(), TOMATO.getStackForm()));

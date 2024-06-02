@@ -119,7 +119,7 @@ public class GTFoodStats implements IFoodBehavior, IItemBehaviour { // These nam
         }
         list.add(new TextComponentTranslation("gregtech.tooltip.food.lacing").getFormattedText());
         if (this.eatingDuration != 32) {
-            list.add(new TextComponentTranslation("gregtechfoodoption.tooltip.food.duration", this.eatingDuration).getFormattedText());
+            list.add(new TextComponentTranslation("gregtech.tooltip.food.duration", this.eatingDuration).getFormattedText());
         }
     }
 

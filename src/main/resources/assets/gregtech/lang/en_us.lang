@@ -6657,6 +6657,7 @@ gregtech.seed.root_crop=§rThe Crop can §4only§r be harvested §4just before§
 
 metaitem.crop.onion.name=Onion
 metaitem.crop.onion.tooltip=Don't cry
+metaitem.crop.cucumber.name=Cucumber
 metaitem.crop.soybean.name=Soybean
 metaitem.crop.tomato.name=Tomato
 metaitem.crop.tomato.tooltip=Solid Ketchup
@@ -6691,8 +6692,9 @@ metaitem.seed.berry.elderberry.tooltip=For Confucians
 metaitem.seed.berry.huckleberry.name=Huckleberry
 metaitem.seed.berry.cranberry.name=Cranberry
 metaitem.seed.berry.cranberry.tooltip=Tastes of holiday Cheer
-metaitem.seed.corn.name=Corn
 
+metaitem.seed.corn.name=Corn
+metaitem.seed.black_pepper.name=Black Pepper
 metaitem.seed.cucumber.name=Cucumber
 metaitem.seed.cucumber.tooltip=Not a Pickle.
 metaitem.seed.onion.name=Onion Seeds
@@ -6720,3 +6722,4 @@ metaitem.seed.unknown.tooltip=Found by breaking §2Grass/n§6Craft§r to get any
 gregtech.seed.0=§bCan be used as a Seed
 gregtech.seed.root_crop=§rThe Crop can §4only§r be harvested §4just before§r the Seed is harvestable!
 gregtech.tooltip.food.lacing=§2May be laced with fun Chemicals
+gregtech.tooltip.food.duration=§aTakes §f%s§a ticks to eat (compared to the normal 32)

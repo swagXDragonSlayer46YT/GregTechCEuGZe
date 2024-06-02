@@ -24,6 +24,7 @@ import gregtech.client.renderer.pipe.ItemPipeRenderer;
 import gregtech.client.renderer.pipe.LaserPipeRenderer;
 import gregtech.client.renderer.pipe.OpticalPipeRenderer;
 import gregtech.common.ConfigHolder;
+import gregtech.common.blocks.crops.GTCrops;
 import gregtech.common.blocks.explosive.BlockITNT;
 import gregtech.common.blocks.explosive.BlockPowderbarrel;
 import gregtech.common.blocks.foam.BlockFoam;
@@ -391,6 +392,9 @@ public class MetaBlocks {
         Blocks.FIRE.setFireInfo(RUBBER_WOOD_DOOR, 5, 20);
         Blocks.FIRE.setFireInfo(TREATED_WOOD_DOOR, 5, 20);
         Blocks.FIRE.setFireInfo(BRITTLE_CHARCOAL, 5, 5);
+
+        // Crops
+        GTCrops.init();
     }
 
     /**
