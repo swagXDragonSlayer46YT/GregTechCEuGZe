@@ -9,9 +9,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
+
 import org.jetbrains.annotations.Nullable;
 
 public class DamageSources {
+    public static FakePlayer EXTERMINATOR;
 
     private static final DamageSource EXPLOSION = new DamageSource("explosion").setExplosion();
     private static final DamageSource HEAT = new DamageSource("heat").setFireDamage();
@@ -20,6 +24,12 @@ public class DamageSources {
     private static final DamageSource ELECTRIC = new DamageSource("electric");
     private static final DamageSource RADIATION = new DamageSource("radiation").setDamageBypassesArmor();
     private static final DamageSource TURBINE = new DamageSource("turbine");
+    public static final DamageSource EXTRACTION = new DamageSource("extraction").setDamageBypassesArmor();
+    public static final DamageSource CYANIDE = new DamageSource("cyanide").setDamageBypassesArmor();
+
+    public static DamageSource getExterminationDamage(World worldIn) {
+        return new EntityDamageSource("extermination", EXTERMINATOR).setDamageBypassesArmor();
+    }
 
     public static DamageSource getExplodingDamage() {
         return EXPLOSION;

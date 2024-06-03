@@ -79,6 +79,7 @@ public class MachineRecipeLoader {
         WoodRecipeLoader.registerRecipes();
         GuildZCraftRecipes.init();
         PBFRecipes.init();
+        AgricultureRecipes.init();
 
         registerDecompositionRecipes();
         registerBlastFurnaceRecipes();
@@ -91,8 +92,27 @@ public class MachineRecipeLoader {
         registerRecyclingRecipes();
         registerStoneBricksRecipes();
         registerOldGCYMRecipes();
+        registerOldGTFORecipes();
         registerNBTRemoval();
         ConvertHatchToHatch();
+    }
+
+    private static void registerOldGTFORecipes() {
+        ASSEMBLER_RECIPES.recipeBuilder().EUt(120).duration(400)
+                .inputs(MetaTileEntities.HULL[GTValues.MV].getStackForm(), MetaItems.ELECTRIC_PUMP_MV.getStackForm(2))
+                .input(circuit, MarkerMaterials.Tier.HV, 4)
+                .inputs(MetaBlocks.FRAMES.get(Steel).getItem(Steel))
+                .input(OrePrefix.plate, SterlingSilver, 6)
+                .circuitMeta(3)
+                .outputs(MetaTileEntities.GREENHOUSE.getStackForm())
+                .buildAndRegister();
+
+        ASSEMBLER_RECIPES.recipeBuilder().EUt(16).duration(200)
+                .input(plate, Iron)
+                .input(pipeFluid, Steel)
+                .inputs(MetaItems.FLUID_FILTER.getStackForm())
+                .outputs(COVER_SPRINKLER.getStackForm())
+                .buildAndRegister();
     }
 
     private static void registerOldGCYMRecipes() {
@@ -726,11 +746,6 @@ public class MachineRecipeLoader {
                 .input(OrePrefix.dust, Materials.Quartzite)
                 .output(OrePrefix.plate, Materials.Quartzite)
                 .duration(400).EUt(2).buildAndRegister();
-
-        COMPRESSOR_RECIPES.recipeBuilder()
-                .input(COKE_OVEN_BRICK, 4)
-                .outputs(MetaBlocks.METAL_CASING.getItemVariant(MetalCasingType.COKE_BRICKS))
-                .duration(300).EUt(2).buildAndRegister();
     }
 
     private static void registerCokeOvenRecipes() {
@@ -907,9 +922,6 @@ public class MachineRecipeLoader {
         ALLOY_SMELTER_RECIPES.recipeBuilder().duration(100).EUt(VA[ULV]).input(OrePrefix.dust, Materials.Sulfur)
                 .input(OrePrefix.dust, Materials.RawRubber, 3).output(OrePrefix.ingot, Materials.Rubber)
                 .buildAndRegister();
-
-        ALLOY_SMELTER_RECIPES.recipeBuilder().duration(150).EUt(VA[ULV]).inputs(OreDictUnifier.get("sand"))
-                .inputs(new ItemStack(Items.CLAY_BALL)).outputs(COKE_OVEN_BRICK.getStackForm(2)).buildAndRegister();
     }
 
     private static void registerAssemblerRecipes() {

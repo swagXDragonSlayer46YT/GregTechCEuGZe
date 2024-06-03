@@ -146,13 +146,6 @@ public class RecyclingRecipes {
                         .EUt(GTValues.VA[GTValues.LV] * multiplier)
                         .buildAndRegister();
 
-                RecipeMaps.ARC_FURNACE_RECIPES.recipeBuilder()
-                        .inputs(input.copy())
-                        .fluidOutputs(m.getFluid((int) (ms.amount * L / M)))
-                        .duration((int) (125 * ms.amount / M))
-                        .EUt(GTValues.VA[GTValues.LV] * multiplier)
-                        .buildAndRegister();
-
                 return;
             }
 
@@ -172,13 +165,6 @@ public class RecyclingRecipes {
                         .inputs(input.copy())
                         .fluidOutputs(m.getFluid((int) (ms.amount * L / M)))
                         .duration((int) (150 * ms.amount / M))
-                        .EUt(GTValues.VA[GTValues.LV] * multiplier)
-                        .buildAndRegister();
-
-                RecipeMaps.ARC_FURNACE_RECIPES.recipeBuilder()
-                        .inputs(input.copy())
-                        .fluidOutputs(m.getFluid((int) (ms.amount * L / M)))
-                        .duration((int) (125 * ms.amount / M))
                         .EUt(GTValues.VA[GTValues.LV] * multiplier)
                         .buildAndRegister();
             }
@@ -219,7 +205,7 @@ public class RecyclingRecipes {
                 .collect(Collectors.toList()));
 
         // Exit if no valid outputs exist for this recycling Recipe.
-        if (materials.size() == 0) return;
+        if (materials.isEmpty()) return;
 
         int maxBlastTemp = 0;
 

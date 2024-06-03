@@ -51,6 +51,13 @@ public class GuiTextures {
     public static final TextureArea SLOT_DARKENED = TextureArea.fullImage("textures/gui/base/darkened_slot.png");
     public static final SteamTexture SLOT_STEAM = SteamTexture.fullImage("textures/gui/base/slot_%s.png");
 
+    public static final TextureArea CROP_OVERLAY = TextureArea.fullImage("textures/gui/overlay/crop_overlay.png");
+    public static final TextureArea SEED_OVERLAY = TextureArea.fullImage("textures/gui/overlay/seed_overlay.png");
+    public static final TextureArea BUTTON_MOB_SORTER_MODE = TextureArea.fullImage("textures/gui/widget/button_mob_sorter_mode.png");
+    public static final TextureArea BUTTON_ADAPTABILITY = TextureArea.fullImage("textures/gui/widget/button_adaptability.png");
+    public static final TextureArea BUTTON_LEFT = TextureArea.fullImage("textures/gui/widget/button_left.png");
+    public static final TextureArea BUTTON_RIGHT = TextureArea.fullImage("textures/gui/widget/button_right.png");
+
     public static final SteamTexture INT_CIRCUIT_OVERLAY_STEAM = SteamTexture.fullImage(
             "textures/gui/progress_bar/int_circuit_overlay_%s.png");
     public static final SteamTexture FLUID_SLOT_STEAM = SteamTexture.fullImage(
@@ -91,12 +98,10 @@ public class GuiTextures {
             .fullImage("textures/gui/widget/button_void_none.png");
     public static final TextureArea BUTTON_VOID_MULTIBLOCK = TextureArea
             .fullImage("textures/gui/widget/button_void_multiblock.png");
-    public static final TextureArea BUTTON_LEFT = TextureArea.fullImage("textures/gui/widget/left.png");
     public static final TextureArea BUTTON_OVERCLOCK = TextureArea
             .fullImage("textures/gui/widget/button_overclock.png");
     public static final TextureArea BUTTON_PUBLIC_PRIVATE = TextureArea
             .fullImage("textures/gui/widget/button_public_private.png");
-    public static final TextureArea BUTTON_RIGHT = TextureArea.fullImage("textures/gui/widget/right.png");
     public static final TextureArea BUTTON_SWITCH_VIEW = TextureArea
             .fullImage("textures/gui/widget/button_switch_view.png");
     public static final TextureArea BUTTON_WORKING_ENABLE = TextureArea

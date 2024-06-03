@@ -138,6 +138,7 @@ public class FirstDegreeMaterials {
         Water = new Material.Builder(269, gregtechId("water"))
                 .fluid(FluidRegistry.WATER, FluidStorageKeys.LIQUID, FluidState.LIQUID)
                 .color(0x0000FF)
+                .fertilizerProperty(5)
                 .components(Hydrogen, 2, Oxygen, 1)
                 .build();
 
@@ -1591,5 +1592,10 @@ public class FirstDegreeMaterials {
                 .components(Calcium, 1, Carbon, 1, Oxygen, 3)
                 .build();
 
+        SodiumCyanide = new Material.Builder(473, gregtechId("sodium_cyanide"))
+                .dust()
+                .components(Sodium, 1, Carbon, 1, Nitrogen, 1)
+                .colorAverage()
+                .build();
     }
 }

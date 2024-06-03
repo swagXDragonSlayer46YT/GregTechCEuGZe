@@ -1,3 +1,7 @@
+gregtech.cyanide.1=§cYou feel really nauseous...
+gregtech.cyanide.2=§cYou can't breathe anymore...
+gregtech.cyanide.3=§cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
 death.attack.heat=%s was boiled alive
 death.attack.frost=%s explored cryogenics
 death.attack.chemical=%s had a chemical accident
@@ -7,6 +11,9 @@ death.attack.turbine=%s put their head into a turbine
 death.attack.explosion=%s exploded
 death.attack.explosion.player=%s exploded with help of %s
 death.attack.heat.player=%s was boiled alive by %s
+death.attack.extermination=%s was exterminated
+death.attack.extraction=%s's internal organs were harvested
+death.attack.cyanide=%s smelled some almonds
 
 death.attack.pickaxe=%s got mined by %s
 death.attack.shovel=%s got dug up by %s
@@ -52,6 +59,9 @@ gregtech.machine.steam_oven.name=Steam Oven
 gregtech.multiblock.steam_oven.description=A Multi Smelter at the Steam Age. Requires at least 6 Bronze Casings to form. Cannot use normal Input/Output busses, nor Fluid Hatches other than the Steam Hatch. Steam Hatch must be on the bottom layer, no more than one.
 gregtech.multiblock.require_steam_parts=Requires Steam Hatches and Buses!
 gregtech.multiblock.steam_.duration_modifier=Takes §f1.5x §7base duration to process, not affected by number of items.
+
+gregtech.machine.primitive_import_bus.name=Primitive Input Bus
+gregtech.machine.primitive_export_bus.name=Primitive Output Bus
 
 gregtech.top.working_disabled=Working Disabled
 
@@ -906,6 +916,9 @@ metaitem.cover.infinite_water.name=Infinite Water Cover
 metaitem.cover.infinite_water.tooltip.1=Fills attached containers with §9Water§7 as §fCover§7.
 metaitem.cover.ender_fluid_link.name=Ender Fluid Link Cover
 metaitem.cover.ender_fluid_link.tooltip=Transports §fFluids§7 with a §fWireless §dEnder§f Connection§7 as §fCover§7.
+
+metaitem.cover.sprinkler.name=Sprinkler
+metaitem.cover.sprinkler.tooltip=As a §4downwards-facing§7 Cover, Sprays Fluids onto a 9x9 Area of Crops/nLeave a §63-Block Space§7 between This and the Ground/nLeft click with a Soft Mallet to turn off Particles
 
 metaitem.gelled_toluene.name=Gelled Toluene
 metaitem.gelled_toluene.tooltip=Raw Explosive
@@ -2035,7 +2048,11 @@ gregtech.material.lapotron=Lapotron
 gregtech.material.uu_matter=UU-Matter
 gregtech.material.fracturing_fluid=Fracturing Fluid
 gregtech.material.slag=Slag
-
+gregtech.material.snowchestite=Snowchestite
+gregtech.material.syngas=Syngas
+gregtech.material.blood=Blood
+gregtech.material.fertilizer_solution=Fertilizer Solution
+gregtech.material.sodium_cyanide=Sodium Cyanide
 # Second Degree Materials
 gregtech.material.glass=Glass
 gregtech.material.perlite=Perlite
@@ -2348,6 +2365,7 @@ recipemap.polymerization_tank.name=Polymerization Tank
 recipemap.fluidized_bed_reactor.name=Fluidized Bed Reactor
 recipemap.coagulation_tank.name=Coagulation Tank
 recipemap.welder.name=Welder
+recipemap.greenhouse.name=Greenhouse
 
 gregtech.recipe.category.arc_furnace_recycling=Smelt Recycling
 gregtech.recipe.category.macerator_recycling=Macerator Recycling
@@ -2529,7 +2547,7 @@ tile.wire_coil.tritanium.name=Tritanium Coil Block
 
 # Refractory Bricks
 tile.refractory_brick.tooltip_heat=§cBase Heat Capacity: §f%,d K
-tile.refractory_brick.tier_1.name=Tier 1 Refractory Brick
+tile.refractory_brick.tier_1.name=Refractory Bricks
 tile.refractory_brick.tier_2.name=Tier 2 Refractory Brick
 tile.refractory_brick.tier_3.name=Tier 3 Refractory Brick
 
@@ -4899,6 +4917,11 @@ gregtech.machine.advanced_processing_array.name=Advanced Processing Array
 gregtech.machine.coke_oven_hatch.name=Primitive Hatch
 gregtech.machine.coke_oven_hatch.tooltip=Allows automation access for the Coke Oven and Primitive Blast Furnace.
 gregtech.machine.large_chemical_reactor.name=Large Chemical Reactor
+gregtech.machine.greenhouse.name=Greenhouse
+gregtech.machine.greenhouse.tooltip.1=Simulates the growth of Trees inside.
+gregtech.machine.greenhouse.tooltip.2=Takes twice as long to run a Recipe if Any Part of the Roof is blocked, or it is Night.
+gregtech.machine.greenhouse.tooltip.3=This is weather-resistant!
+
 gregtech.machine.reverberatory_furnace.name=Reverberatory Furnace
 gregtech.machine.blast_furnace.tooltip=Insert items by throwing them in through the top.
 gregtech.machine.large_combustion_engine.name=Large Combustion Engine
@@ -6235,6 +6258,7 @@ gregtech.subtitle.entity.portal_opening=Portal opens
 gregtech.subtitle.entity.portal_closing=Portal closes
 gregtech.subtitle.maintenance.electrical=Electrical breakdown
 gregtech.subtitle.maintenance.mechanical=Mechanical breakdown
+gregtech.subtitle.farmer_laser=Farmer farming crops
 
 # Debug messaging
 gregtech.debug.f3_h.enabled=GregTech has modified the debug info! For Developers: enable the misc:debug config option in the GregTech config file to see more
@@ -6629,8 +6653,7 @@ gregtech.machine.latex_collector.hv.tooltip=Collects latex when next to rubber l
 gregtech.machine.latex_collector.ev.tooltip=Collects latex when next to rubber logs. More logs = faster output
 gregtech.machine.latex_collector.bronze.tooltip=Collects latex when rubber logs are in front
 
-gregtech.material.snowchestite.name=Snowchestite
-gregtech.material.syngas.name=Syngas
+
 
 # Crops
 tile.gregtech_crop_coffee.name=Coffee
@@ -6775,3 +6798,63 @@ gregtech.leaves.coconut.name=Coconut Leaves
 gregtech.log.coconut.name=Coconut Wood
 gregtech.sapling.coconut.name=Coconut Sapling
 gregtech.planks.coconut.name=Coconut Planks
+
+# Farmer
+gregtech.machine.farmer.lv.name=Basic Farmer
+gregtech.machine.farmer.mv.name=Advanced Farmer
+gregtech.machine.farmer.hv.name=Advanced Farmer II
+gregtech.machine.farmer.ev.name=Advanced Farmer III
+gregtech.machine.farmer.tooltip.flavor=Applies laser Technology to Farming
+gregtech.machine.farmer.tooltip.consumption=While working, consumes %,d EU/t per operation
+gregtech.machine.farmer.tooltip.working=Works on a 9x9 Farm in front
+gregtech.machine.farmer.tooltip.speed=Works on one Block every %d Ticks
+
+# Mob Exterminator
+gregtech.machine.mob_exterminator.lv.name=Basic Mob Exterminator
+gregtech.machine.mob_exterminator.mv.name=Advanced Mob Exterminator
+gregtech.machine.mob_exterminator.hv.name=Advanced Mob Exterminator II
+gregtech.machine.mob_exterminator.ev.name=Advanced Mob Exterminator III
+
+gregtech.machine.mob_exterminator.tooltip="Kills" (deals 40 health) 4 mobs each second in a 9x9 square in front per tick with looting %s
+gregtech.machine.mob_exterminator.tooltip.consumption=Consumes %s EU for each kill
+gregtech.machine.mob_exterminator.tooltip.nitrous=Can kill up to 12 more mobs each second when boosted with Nitrous Oxide
+
+# Mob Extractor
+gregtech.machine.mob_extractor.lv.name=Basic Mob Extractor
+gregtech.machine.mob_extractor.mv.name=Advanced Mob Extractor
+gregtech.machine.mob_extractor.hv.name=Advanced Mob Extractor II
+gregtech.machine.mob_extractor.ev.name=Advanced Mob Extractor III
+gregtech.machine.mob_extractor.iv.name=Elite Mob Extractor
+gregtech.machine.mob_extractor.luv.name=Elite Mob Extractor II
+gregtech.machine.mob_extractor.zpm.name=Elite Mob Extractor III
+gregtech.machine.mob_extractor.uv.name=Elite Mob Extractor IV
+gregtech.machine.mob_extractor.uhv.name=High-Tech Mob Extractor
+gregtech.machine.mob_extractor.uev.name=High-Tech Mob Extractor II
+gregtech.machine.mob_extractor.uiv.name=High-Tech Mob Extractor III
+gregtech.machine.mob_extractor.uxv.name=High-Tech Mob Extractor IV
+gregtech.machine.mob_extractor.opv.name=Legendary Mob Extractor
+
+gregtech.machine.mob_extractor.tooltip=Entity Essence Extraction Enters Electric Era
+
+recipemap.mob_extractor.name=Mob Extractor
+
+# Mob Age Sorter
+gregtech.machine.mob_age_sorter.lv.name=Basic Mob Age Sorter
+gregtech.machine.mob_age_sorter.mv.name=Advanced Mob Age Sorter
+gregtech.machine.mob_age_sorter.hv.name=Advanced Mob Age Sorter II
+gregtech.machine.mob_age_sorter.ev.name=Advanced Mob Age Sorter III
+
+gregtech.machine.mob_age_sorter.range=Moves animals in a %sx%s square in front
+
+gregtech.fluid.fertilizer=§2%d%% effective as a Sprinkler Fertilizer
+
+gregtech.blocked=This blocks a berry bush at %s!
+
+gregtech.berry.description.0=§4Grows very slowly by itself!
+gregtech.berry.description.1=§bGrows faster in higher tiers
+gregtech.berry.description.2=Place §5three§r grown berry bushes of the previous tier in the 3x3 centered on the bush to get to the next tier
+gregtech.berry.description.3=§4The 3x3 centered on the bush must not be filled!
+
+gregtech.potion.cyanidepoisoning=Cyanide Poisoning
+gregtech.tooltip.potion.each=   §e%s %s§r for §c%s§r ticks with a §a%s%%§r chance of happening
+gregtech.tooltip.potion.header=§6Contains effects:

@@ -99,110 +99,11 @@ public class PBFRecipes {
                 PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder()
                         .input(ore, material, 2)
                         .input(gem, fuel.getMaterial(), fuel.getAmount())
-                        .output(ingot, Iron, 2)
+                        .fluidOutputs(Iron.getFluid(432))
+                        .fluidOutputs(Slag.getFluid(50))
                         .duration(fuel.getDuration())
                         .buildAndRegister();
-                /*
-                PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder()
-                        .input(ore, material, 2)
-                        .input(gem, fuel.getMaterial(), fuel.getAmount())
-                        .input()
-                        .output(dust, DarkAsh, fuel.getAmount())
-                        .output(ingot)
-                        .duration(fuel.getDuration())
-                        .buildAndRegister();
-                */
-                /*
-                PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder()
-                        .input(ore, material, 2)
-                        .input(gem, fuel.getMaterial(), fuel.getAmount())
-                        .input(dust, Limestone)
-                        .output(dust, DarkAsh, fuel.getAmount())
-                        .fluidOutputs(Iron.getFluid(432))
-                        .duration((fuel.getDuration() - 100))
-                        .buildAndRegister();
-
-                PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder()
-                        .input(ore, material, 2)
-                        .input(dust, fuel.getMaterial(), fuel.getAmount())
-                        .output(dust, DarkAsh, fuel.getAmount())
-                        .fluidOutputs(Iron.getFluid(288))
-                        .duration((fuel.getDuration() - 100))
-                        .buildAndRegister();
-
-                PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder()
-                        .input(ore, material, 2)
-                        .input(dust, fuel.getMaterial(), fuel.getAmount())
-                        .input(dust, Limestone)
-                        .output(dust, DarkAsh, fuel.getAmount())
-                        .fluidOutputs(Iron.getFluid(432))
-                        .duration((fuel.getDuration() - 200))
-                        .buildAndRegister();
-                */
-
-                /*
-                TODO
-                Add recipes with sand cast
-                 */
             }
         }
-
-        for (IPBFFuel fuel : PBFFuels) {
-                        /*
-            PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder()
-                    .input(gem, fuel.getMaterial(), fuel.getAmount())
-                    .input(ingot, Iron, 2)
-                    .output(dust, DarkAsh, fuel.getAmount())
-                    .output(ingot, Steel, 2)
-                    .duration(fuel.getDuration())
-                    .buildAndRegister();
-
-            PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder()
-                    .input(gem, fuel.getMaterial(), fuel.getAmount())
-                    .fluidInputs(Iron.getFluid(288))
-                    .output(dust, DarkAsh, fuel.getAmount())
-                    .fluidOutputs(Steel.getFluid(288))
-                    .duration(fuel.getDuration())
-                    .buildAndRegister();
-
-            PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder()
-                    .input(gem, fuel.getMaterial(), fuel.getAmount())
-                    .input(dust, Limestone)
-                    .fluidInputs(Iron.getFluid(288))
-                    .output(dust, DarkAsh, fuel.getAmount())
-                    .fluidOutputs(Steel.getFluid(288))
-                    .duration((fuel.getDuration() - 100))
-                    .buildAndRegister();
-
-            PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder()
-                    .input(dust, fuel.getMaterial(), fuel.getAmount())
-                    .output(dust, DarkAsh, fuel.getAmount())
-                    .fluidInputs(Iron.getFluid(288))
-                    .fluidOutputs(Steel.getFluid(288))
-                    .duration((fuel.getDuration() - 100))
-                    .buildAndRegister();
-
-            PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder()
-                    .input(dust, fuel.getMaterial(), fuel.getAmount())
-                    .input(dust, Limestone)
-                    .fluidInputs(Steel.getFluid(288))
-                    .output(dust, DarkAsh, fuel.getAmount())
-                    .fluidOutputs(Iron.getFluid(288))
-                    .duration((fuel.getDuration() - 200))
-                    .buildAndRegister();
-            */
-        }
-
-        /*
-        FORGE_HAMMER_RECIPES.recipeBuilder()
-                .input(ingot, PigIron)
-                .output(ingot, WroughtIron)
-                .EUt(16)
-                .duration(5)
-                .buildAndRegister();
-
-         */
-
-
     }
 }

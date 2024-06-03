@@ -10,7 +10,9 @@ import gregtech.api.recipes.GTRecipeInputCache;
 import gregtech.api.recipes.ModHandler;
 import gregtech.api.recipes.recipeproperties.FusionEUToStartProperty;
 import gregtech.api.terminal.TerminalRegistry;
+import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Material;
+import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.material.info.MaterialFlags;
 import gregtech.api.unification.material.properties.DustProperty;
 import gregtech.api.unification.material.properties.PropertyKey;
@@ -35,6 +37,9 @@ import gregtech.common.pipelike.laser.BlockLaserPipe;
 import gregtech.common.pipelike.laser.ItemBlockLaserPipe;
 import gregtech.common.pipelike.optical.BlockOpticalPipe;
 import gregtech.common.pipelike.optical.ItemBlockOpticalPipe;
+import gregtech.common.potion.CyanidePoisoningPotion;
+import gregtech.common.potion.GTPotions;
+import gregtech.common.potion.LacingEntry;
 import gregtech.loaders.MaterialInfoLoader;
 import gregtech.loaders.OreDictionaryLoader;
 import gregtech.loaders.recipe.CraftingComponent;
@@ -46,6 +51,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSlab;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config.Type;
@@ -419,12 +425,20 @@ public class CommonProxy {
         return itemBlock;
     }
 
-    public void onPreLoad() {}
+    public void onPreLoad() {
+        GTPotions.initPotionInstances();
+    }
 
     public void onLoad() {}
 
     public void onPostLoad() {
         TerminalRegistry.init();
+
+        MinecraftForge.addGrassSeed(MetaItems.UNKNOWN_SEED.getStackForm(), 5);
+
+        LacingEntry.LACING_REGISTRY.register(0, "cyanide", new LacingEntry(OreDictUnifier.get(OrePrefix.dust, Materials.SodiumCyanide),
+                new PotionEffect(CyanidePoisoningPotion.INSTANCE, 500, 0),
+                "5dkcap/2/4/"));
 
         if (ConfigHolder.compat.removeSmeltingForEBFMetals) {
             ModHandler.removeSmeltingEBFMetals();

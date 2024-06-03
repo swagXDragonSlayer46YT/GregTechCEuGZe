@@ -661,6 +661,7 @@ public class UnknownCompositionMaterials {
                 .build();
 
         Slag = new Material.Builder(1659, gregtechId("slag"))
+                .dust()
                 .liquid(new FluidBuilder().temperature(1700))
                 .color(0xD4D4D4)
                 .build();
@@ -673,6 +674,18 @@ public class UnknownCompositionMaterials {
         Syngas = new Material.Builder(1661, gregtechId("syngas"))
                 .gas()
                 .color(0xfffbe5)
+                .build();
+
+        Blood = new Material.Builder(1662, gregtechId("blood"))
+                .fluid()
+                .fertilizerProperty(15)
+                .color(0x691a15)
+                .build();
+
+        FertilizerSolution = new Material.Builder(1663, gregtechId("fertilizer_solution"))
+                .fluid()
+                .fertilizerProperty(30)
+                .color(0x947760)
                 .build();
     }
 }

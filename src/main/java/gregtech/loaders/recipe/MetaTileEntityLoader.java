@@ -16,6 +16,7 @@ import gregtech.common.blocks.BlockGlassCasing;
 import gregtech.common.blocks.BlockMetalCasing.MetalCasingType;
 import gregtech.common.blocks.BlockMultiblockCasing;
 import gregtech.common.blocks.BlockMultiblockCasing.MultiblockCasingType;
+import gregtech.common.blocks.BlockRefractoryBrick;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.blocks.wood.BlockGregPlanks;
 import gregtech.common.items.MetaItems;
@@ -93,8 +94,6 @@ public class MetaTileEntityLoader {
                     MetaItems.FIRECLAY_BRICK);
         }
 
-        ModHandler.addShapedRecipe(true, "casing_coke_bricks", MetaBlocks.METAL_CASING.getItemVariant(COKE_BRICKS, 1),
-                "XX", "XX", 'X', MetaItems.COKE_OVEN_BRICK);
         ModHandler.addShapedRecipe(true, "casing_bronze_bricks",
                 MetaBlocks.METAL_CASING.getItemVariant(BRONZE_BRICKS, ConfigHolder.recipes.casingsPerCraft), "PhP",
                 "PBP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Bronze), 'B',
@@ -518,10 +517,10 @@ public class MetaTileEntityLoader {
                 new UnificationEntry(OrePrefix.gem, Materials.Diamond), 'G',
                 new UnificationEntry(OrePrefix.gear, Materials.Bronze));
         ModHandler.addShapedRecipe(true, "coke_oven", MetaTileEntities.COKE_OVEN.getStackForm(), "PIP", "IwI", "PIP",
-                'P', MetaBlocks.METAL_CASING.getItemVariant(MetalCasingType.COKE_BRICKS), 'I',
+                'P', MetaBlocks.REFRACTORY_BRICK.getItemVariant(BlockRefractoryBrick.RefractoryBrickType.NORMAL), 'I',
                 new UnificationEntry(OrePrefix.plate, Materials.Iron));
         ModHandler.addShapedRecipe(true, "coke_oven_hatch", MetaTileEntities.COKE_OVEN_HATCH.getStackForm(), "CD", 'C',
-                MetaBlocks.METAL_CASING.getItemVariant(MetalCasingType.COKE_BRICKS), 'D',
+                MetaBlocks.REFRACTORY_BRICK.getItemVariant(BlockRefractoryBrick.RefractoryBrickType.NORMAL), 'D',
                 MetaTileEntities.WOODEN_DRUM.getStackForm());
         ModHandler.addShapedRecipe(true, "distillation_tower", MetaTileEntities.DISTILLATION_TOWER.getStackForm(),
                 "CBC", "FMF", "CBC", 'M', MetaTileEntities.HULL[GTValues.HV].getStackForm(), 'B',
@@ -828,6 +827,10 @@ public class MetaTileEntityLoader {
                 MetaItems.ITEM_FILTER, 'C', LOGIC_CONTROLLER, 'W', CABLE);
         registerMachineRecipe(MetaTileEntities.CIRCUIT_ASSEMBLER, "RIR", "CHC", "WIW", 'R', ROBOT_ARM, 'I',
                 CIRCUIT, 'C', CONVEYOR, 'H', HULL, 'W', CABLE);
+        registerMachineRecipe(MetaTileEntities.MOB_AGE_SORTER, "OWS", "OHW", "OCW", 'O', CONVEYOR, 'W', CABLE, 'H', HULL, 'C', CIRCUIT, 'S', MetaItems.SENSOR_LIGHT.getStackForm());
+        registerMachineRecipe(MetaTileEntities.MOB_EXTERMINATOR, "EIE", "WHW", "CSC", 'E', MetaItems.EMITTER_GAMMA, 'W', CABLE, 'I', WIRE_QUAD, 'H', HULL, 'C', CIRCUIT, 'S', MetaItems.SENSOR_LIGHT.getStackForm());
+        registerMachineRecipe(MetaTileEntities.MOB_EXTRACTOR, "BCE", "PME", "WCW", 'M', HULL, 'E', PISTON, 'P', PUMP, 'C', CIRCUIT, 'W', CABLE, 'B', SAWBLADE);
+        registerMachineRecipe(MetaTileEntities.FARMER, "BEP", "WMW", "CWC", 'M', HULL, 'E', ROBOT_ARM, 'P', PISTON, 'C', CIRCUIT, 'W', CABLE_QUAD, 'B', MetaItems.SENSOR_LIGHT.getStackForm());
         // TODO Replication system
         // registerMachineRecipe(MetaTileEntities.MASS_FABRICATOR, "CFC", "QMQ", "CFC", 'M', HULL, 'Q', CABLE_QUAD, 'C',
         // BETTER_CIRCUIT, 'F', FIELD_GENERATOR);
@@ -1012,6 +1015,18 @@ public class MetaTileEntityLoader {
             registerMachineRecipe(MetaTileEntities.ENERGY_CONVERTER[3], " WW", "RMC", " WW", 'C', CIRCUIT, 'M', HULL,
                     'W', CABLE_HEX, 'R', new UnificationEntry(OrePrefix.cableGtHex, Materials.RedAlloy));
         }
+
+        ModHandler.addShapedRecipe(true, "primitive_input_bus", MetaTileEntities.PRIMITIVE_IMPORT_BUS.getStackForm(), "B B",
+                " C ", "B B", 'B', MetaItems.FIRECLAY_BRICK.getStackForm(), 'C', OreDictNames.chestWood);
+        ModHandler.addShapedRecipe(true, "primitive_output_bus", MetaTileEntities.PRIMITIVE_EXPORT_BUS.getStackForm(), " B ",
+                "BCB", " B ", 'B', MetaItems.FIRECLAY_BRICK.getStackForm(), 'C', OreDictNames.chestWood);
+
+        ModHandler.addShapelessRecipe("primitive_input_bus_to_primitive_output_bus",
+                MetaTileEntities.PRIMITIVE_EXPORT_BUS.getStackForm(),
+                MetaTileEntities.PRIMITIVE_IMPORT_BUS.getStackForm());
+        ModHandler.addShapelessRecipe("primitive_output_bus_to_primitive_input_bus",
+                MetaTileEntities.PRIMITIVE_IMPORT_BUS.getStackForm(),
+                MetaTileEntities.PRIMITIVE_EXPORT_BUS.getStackForm());
     }
 
     // Can only accept a subset of "Item" types:

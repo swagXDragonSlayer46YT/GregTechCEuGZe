@@ -33,6 +33,7 @@ public class GTSoundEvents {
     public static SoundEvent COMPUTATION;
     public static SoundEvent ELECTRODES;
     public static SoundEvent ENERGY;
+    public static SoundEvent FARMER_LASER;
 
     // Tool Sounds
     public static SoundEvent DRILL_TOOL;
@@ -110,5 +111,7 @@ public class GTSoundEvents {
         BREAKDOWN_MECHANICAL = soundManager.registerSound("maintenance.mechanical");
 
         DEFAULT_ALARM = soundManager.registerSound("alarm");
+
+        FARMER_LASER = soundManager.registerSound("farmer_laser");
     }
 }

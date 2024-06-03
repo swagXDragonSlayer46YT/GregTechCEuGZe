@@ -52,7 +52,6 @@ public class CraftingComponent {
     public static Component SAWBLADE;
     public static Component DIAMOND;
     public static Component PISTON;
-    public static Component EMITTER;
     public static Component CONVEYOR;
     public static Component ROBOT_ARM;
     public static Component COIL_HEATING;

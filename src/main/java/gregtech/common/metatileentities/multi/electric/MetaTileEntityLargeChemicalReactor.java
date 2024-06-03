@@ -1,5 +1,7 @@
 package gregtech.common.metatileentities.multi.electric;
 
+import gregtech.api.GTValues;
+import gregtech.api.GregTechAPI;
 import gregtech.api.block.IHeatingCoilBlockStats;
 import gregtech.api.capability.impl.MultiblockRecipeLogic;
 import gregtech.api.metatileentity.MetaTileEntity;
@@ -29,6 +31,7 @@ import gregtech.core.sound.GTSoundEvents;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -43,6 +46,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MetaTileEntityLargeChemicalReactor extends RecipeMapMultiblockController {
@@ -79,47 +83,18 @@ public class MetaTileEntityLargeChemicalReactor extends RecipeMapMultiblockContr
     @Override
     public List<MultiblockShapeInfo> getMatchingShapes() {
         ArrayList<MultiblockShapeInfo> shapeInfo = new ArrayList<>();
-        MultiblockShapeInfo.Builder baseBuilder = MultiblockShapeInfo.builder()
-                .where('S', MetaTileEntities.LARGE_CHEMICAL_REACTOR, EnumFacing.SOUTH)
+        MultiblockShapeInfo.Builder builder = MultiblockShapeInfo.builder()
+                .aisle("XXX", "XCX", "XXX")
+                .aisle("XXX", "X#X", "XXX")
+                .aisle("XXX", "XSX", "XXX")
                 .where('X', MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.PTFE_INERT_CASING))
-                .where('P',
-                        MetaBlocks.BOILER_CASING
-                                .getState(BlockBoilerCasing.BoilerCasingType.POLYTETRAFLUOROETHYLENE_PIPE))
-                .where('C', MetaBlocks.WIRE_COIL.getState(BlockWireCoil.CoilType.CUPRONICKEL))
-                .where('I', MetaTileEntities.ITEM_IMPORT_BUS[3], EnumFacing.SOUTH)
-                .where('E', MetaTileEntities.ENERGY_INPUT_HATCH[3], EnumFacing.NORTH)
-                .where('O', MetaTileEntities.ITEM_EXPORT_BUS[3], EnumFacing.SOUTH)
-                .where('F', MetaTileEntities.FLUID_IMPORT_HATCH[3], EnumFacing.SOUTH)
-                .where('H', MetaTileEntities.FLUID_EXPORT_HATCH[3], EnumFacing.SOUTH)
-                .where('M',
-                        () -> ConfigHolder.machines.enableMaintenance ? MetaTileEntities.MAINTENANCE_HATCH :
-                                MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.PTFE_INERT_CASING),
-                        EnumFacing.SOUTH);
-        shapeInfo.add(baseBuilder.shallowCopy()
-                .aisle("XEX", "XCX", "XXX")
-                .aisle("XXX", "XPX", "XXX")
-                .aisle("IMO", "FSH", "XXX")
-                .build());
-        shapeInfo.add(baseBuilder.shallowCopy()
-                .aisle("XEX", "XXX", "XXX")
-                .aisle("XXX", "XPX", "XCX")
-                .aisle("IMO", "FSH", "XXX")
-                .build());
-        shapeInfo.add(baseBuilder.shallowCopy()
-                .aisle("XEX", "XXX", "XXX")
-                .aisle("XCX", "XPX", "XXX")
-                .aisle("IMO", "FSH", "XXX")
-                .build());
-        shapeInfo.add(baseBuilder.shallowCopy()
-                .aisle("XEX", "XXX", "XXX")
-                .aisle("XXX", "CPX", "XXX")
-                .aisle("IMO", "FSH", "XXX")
-                .build());
-        shapeInfo.add(baseBuilder.shallowCopy()
-                .aisle("XEX", "XXX", "XXX")
-                .aisle("XXX", "XPC", "XXX")
-                .aisle("IMO", "FSH", "XXX")
-                .build());
+                .where('S', MetaTileEntities.LARGE_CHEMICAL_REACTOR, EnumFacing.SOUTH)
+                .where('#', Blocks.AIR.getDefaultState());
+
+        GregTechAPI.HEATING_COILS.entrySet().stream()
+                .sorted(Comparator.comparingInt(entry -> entry.getValue().getTier()))
+                .forEach(entry -> shapeInfo.add(builder.where('C', entry.getKey()).build()));
+
         return shapeInfo;
     }
 

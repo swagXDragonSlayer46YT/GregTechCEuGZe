@@ -25,6 +25,7 @@ import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.common.ConfigHolder;
 import gregtech.common.blocks.BlockMetalCasing;
+import gregtech.common.blocks.BlockRefractoryBrick;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.metatileentities.MetaTileEntities;
 
@@ -80,7 +81,7 @@ public class MetaTileEntityReverberatoryFurnace extends RecipeMapPrimitiveMultib
     }
 
     protected IBlockState getCasingState() {
-        return MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.COKE_BRICKS);
+        return MetaBlocks.REFRACTORY_BRICK.getState(BlockRefractoryBrick.RefractoryBrickType.NORMAL);
     }
 
     protected static TraceabilityPredicate doorPredicate() {

@@ -566,6 +566,7 @@ public class Materials {
     public static Material PolychlorinatedBiphenyl;
     public static Material HydrogenChloride;
     public static Material HydrogenFluoride;
+    public static Material SodiumCyanide;
 
     /**
      * Not possible to determine exact Components
@@ -706,6 +707,8 @@ public class Materials {
     public static Material CeramicGlaze;
     public static Material Snowchestite;
     public static Material Syngas;
+    public static Material Blood;
+    public static Material FertilizerSolution;
 
     /**
      * Second Degree Compounds

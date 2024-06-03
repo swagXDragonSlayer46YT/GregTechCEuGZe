@@ -146,6 +146,13 @@ public class GregtechDataCodes {
     public static final int LOCK_OBJECT_HOLDER = assignId();
     public static final int CACHED_CWU = assignId();
 
+    // Farmer
+    public static final int UPDATE_OPERATION_POS = assignId();
+    public static final int UPDATE_FARMER_OUTPUT_FACING = assignId();
+
+    // Sprinkler
+    public static final int UPDATE_SPRINKLER_DATA = assignId();
+
     // NBT Keys
 
     // From MetaTileEntityHolder

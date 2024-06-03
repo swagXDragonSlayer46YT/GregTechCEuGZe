@@ -33,6 +33,7 @@ import gregtech.common.blocks.crops.BlockGTRootCrop;
 import gregtech.common.blocks.crops.GTCrops;
 import gregtech.common.creativetab.GTCreativeTabs;
 import gregtech.common.entities.GTBoatEntity.GTBoatType;
+import gregtech.common.items.behaviors.BerrySeedBehaviour;
 import gregtech.common.items.behaviors.ClipboardBehavior;
 import gregtech.common.items.behaviors.ColorSprayBehaviour;
 import gregtech.common.items.behaviors.CropSeedBehaviour;
@@ -43,7 +44,6 @@ import gregtech.common.items.behaviors.FacadeItem;
 import gregtech.common.items.behaviors.FertilizerBehavior;
 import gregtech.common.items.behaviors.FoamSprayerBehavior;
 import gregtech.common.items.behaviors.GTBoatBehavior;
-import gregtech.common.items.behaviors.GTFoodStats;
 import gregtech.common.items.behaviors.IntCircuitBehaviour;
 import gregtech.common.items.behaviors.ItemMagnetBehavior;
 import gregtech.common.items.behaviors.LighterBehaviour;
@@ -567,7 +567,7 @@ public class MetaItem1 extends StandardMetaItem {
         COVER_ENERGY_DETECTOR = addItem(306, "cover.energy.detector");
         COVER_ENERGY_DETECTOR_ADVANCED = addItem(318, "cover.energy.detector.advanced");
         COVER_SCREEN = addItem(307, "cover.screen");
-        // FREE ID 308
+        COVER_SPRINKLER = addItem(308, "cover.sprinkler");
         COVER_SHUTTER = addItem(309, "cover.shutter");
         COVER_INFINITE_WATER = addItem(310, "cover.infinite_water").addComponents(new TooltipBehavior(lines -> {
             lines.add(I18n.format("metaitem.cover.infinite_water.tooltip.1"));
@@ -658,19 +658,10 @@ public class MetaItem1 extends StandardMetaItem {
         IItemContainerItemProvider selfContainerItemProvider = itemStack -> itemStack;
         WOODEN_FORM_EMPTY = addItem(347, "wooden_form.empty");
         WOODEN_FORM_BRICK = addItem(348, "wooden_form.brick").addComponents(selfContainerItemProvider);
-        COMPRESSED_CLAY = addItem(349, "compressed.clay")
-                .setMaterialInfo(new ItemMaterialInfo(new MaterialStack(Materials.Clay, M)));
-        COMPRESSED_COKE_CLAY = addItem(350, "compressed.coke_clay")
-                .setMaterialInfo(new ItemMaterialInfo(new MaterialStack(Materials.Clay, M)));
-        COMPRESSED_FIRECLAY = addItem(351, "compressed.fireclay")
+        COMPRESSED_FIRECLAY = addItem(349, "compressed.fireclay")
                 .setMaterialInfo(new ItemMaterialInfo(new MaterialStack(Materials.Fireclay, M)));
-        FIRECLAY_BRICK = addItem(352, "brick.fireclay")
+        FIRECLAY_BRICK = addItem(350, "brick.fireclay")
                 .setMaterialInfo(new ItemMaterialInfo(new MaterialStack(Materials.Fireclay, M)));
-        COKE_OVEN_BRICK = addItem(353, "brick.coke")
-                .setMaterialInfo(new ItemMaterialInfo(new MaterialStack(Materials.Clay, M)));
-
-        if (!ConfigHolder.recipes.harderBrickRecipes)
-            COMPRESSED_CLAY.setInvisible();
 
         // Unfinished Circuit Boards: ID 381-400
         COATED_BOARD = addItem(381, "board.coated");
@@ -1150,78 +1141,78 @@ public class MetaItem1 extends StandardMetaItem {
         //Crops
         ONION = addItem(1100, "crop.onion")
                 .addOreDict("cropOnion")
-                .addComponents(new GTFoodStats(3, 0.33f)
+                .addComponents(new FoodStats(3, 0.33f)
                         .setEatingDuration(128)
                         .nutrients(0, 0, 0, 0, 1f));
         SOYBEAN = addItem(1101, "crop.soybean")
-                .addComponents(new GTFoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
+                .addComponents(new FoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
         TOMATO = addItem(1102, "crop.tomato")
                 .addOreDict("cropTomato")
-                .addComponents(new GTFoodStats(3, 0.5f)
+                .addComponents(new FoodStats(3, 0.5f)
                         .setEatingDuration(72)
                         .nutrients(0, 1f, 0, 0, 0));
-        GRAPES = addItem(1103, "crop.grapes").addComponents(new GTFoodStats(1, 1f)
+        GRAPES = addItem(1103, "crop.grapes").addComponents(new FoodStats(1, 1f)
                         .nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropGrapes").addOreDict("listAllfruit");
 
         COFFEE_CHERRY = addItem(1104, "crop.coffee");
 
         PEA_POD = addItem(1105, "crop.pea_pod")
-                .addComponents(new GTFoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
+                .addComponents(new FoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
         OREGANO = addItem(1106, "crop.oregano")
-                .addComponents(new GTFoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
+                .addComponents(new FoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
         BASIL = addItem(1107, "crop.basil")
-                .addComponents(new GTFoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
+                .addComponents(new FoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
         AUBERGINE = addItem(1108, "crop.aubergine")
-                .addComponents(new GTFoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
+                .addComponents(new FoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
         GARLIC_BULB = addItem(1109, "crop.garlic_bulb")
-                .addComponents(new GTFoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
+                .addComponents(new FoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
         HORSERADISH = addItem(1110, "crop.horseradish")
-                .addComponents(new GTFoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
+                .addComponents(new FoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
         ARTICHOKE_HEART = addItem(1111, "crop.artichoke")
-                .addComponents(new GTFoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
-        WHITE_GRAPES = addItem(1112, "crop.white_grapes").addComponents(new GTFoodStats(1, 1f).nutrients(0f, 1f, 0f, 0f, 0f));
+                .addComponents(new FoodStats(1, 1f).nutrients(0f, 0f, 0f, 0f, 1f));
+        WHITE_GRAPES = addItem(1112, "crop.white_grapes").addComponents(new FoodStats(1, 1f).nutrients(0f, 1f, 0f, 0f, 0f));
 
         //Seeds (some may also count as crops themselves)
         CORN_EAR = addItem(1200, "seed.corn");
         CORN_EAR.addComponents(new CropSeedBehaviour(GTCrops.CROP_CORN, CORN_EAR.getStackForm(), CORN_EAR.getStackForm()));
 
         CUCUMBER = addItem(1201, "crop.cucumber")
-                .addOreDict("cropCucumber").addComponents(new GTFoodStats(2, 0.5f).nutrients(0, 0, 0, 0, 1f));
+                .addOreDict("cropCucumber").addComponents(new FoodStats(2, 0.5f).nutrients(0, 0, 0, 0, 1f));
         CUCUMBER.addComponents(new CropSeedBehaviour(GTCrops.CROP_CUCUMBER, CUCUMBER.getStackForm(), CUCUMBER.getStackForm()));
 
-        BLUEBERRY = addItem(1202, "seed.berry.blueberry").addComponents(new GTFoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
+        BLUEBERRY = addItem(1202, "seed.berry.blueberry").addComponents(new FoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropBlueberry").addOreDict("listAllfruit").addOreDict("listAllberry").addOreDict("listAllberrysweet");
-        BLUEBERRY.addComponents(new CropSeedBehaviour(GTCrops.BUSH_BLUEBERRY, BLUEBERRY.getStackForm(), BLUEBERRY.getStackForm()));
-        BLACKBERRY = addItem(1203, "seed.berry.blackberry").addComponents(new GTFoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
+        BLUEBERRY.addComponents(new BerrySeedBehaviour(GTCrops.BUSH_BLUEBERRY, BLUEBERRY.getStackForm(), BLUEBERRY.getStackForm()));
+        BLACKBERRY = addItem(1203, "seed.berry.blackberry").addComponents(new FoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropBlackberry").addOreDict("listAllfruit").addOreDict("listAllberry").addOreDict("listAllberrytart");
-        BLACKBERRY.addComponents(new CropSeedBehaviour(GTCrops.BUSH_BLACKBERRY, BLACKBERRY.getStackForm(), BLACKBERRY.getStackForm()));
-        RASPBERRY = addItem(1204, "seed.berry.raspberry").addComponents(new GTFoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
+        BLACKBERRY.addComponents(new BerrySeedBehaviour(GTCrops.BUSH_BLACKBERRY, BLACKBERRY.getStackForm(), BLACKBERRY.getStackForm()));
+        RASPBERRY = addItem(1204, "seed.berry.raspberry").addComponents(new FoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropRaspberry").addOreDict("listAllfruit").addOreDict("listAllberry").addOreDict("listAllberrysweet");
-        RASPBERRY.addComponents(new CropSeedBehaviour(GTCrops.BUSH_RASPBERRY, RASPBERRY.getStackForm(), RASPBERRY.getStackForm()));
-        STRAWBERRY = addItem(1205, "seed.berry.strawberry").addComponents(new GTFoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
+        RASPBERRY.addComponents(new BerrySeedBehaviour(GTCrops.BUSH_RASPBERRY, RASPBERRY.getStackForm(), RASPBERRY.getStackForm()));
+        STRAWBERRY = addItem(1205, "seed.berry.strawberry").addComponents(new FoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropStrawberry").addOreDict("listAllfruit").addOreDict("listAllberry").addOreDict("listAllberrysweet");
-        STRAWBERRY.addComponents(new CropSeedBehaviour(GTCrops.BUSH_STRAWBERRY, STRAWBERRY.getStackForm(), STRAWBERRY.getStackForm()));
-        RED_CURRANT = addItem(1206, "seed.berry.red_currant").addComponents(new GTFoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
+        STRAWBERRY.addComponents(new BerrySeedBehaviour(GTCrops.BUSH_STRAWBERRY, STRAWBERRY.getStackForm(), STRAWBERRY.getStackForm()));
+        RED_CURRANT = addItem(1206, "seed.berry.red_currant").addComponents(new FoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropRedCurrant").addOreDict("listAllfruit").addOreDict("listAllberry").addOreDict("listAllberrytart");
-        RED_CURRANT.addComponents(new CropSeedBehaviour(GTCrops.BUSH_RED_CURRANT, RED_CURRANT.getStackForm(), RED_CURRANT.getStackForm()));
-        BLACK_CURRANT = addItem(1207, "seed.berry.black_currant").addComponents(new GTFoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
+        RED_CURRANT.addComponents(new BerrySeedBehaviour(GTCrops.BUSH_RED_CURRANT, RED_CURRANT.getStackForm(), RED_CURRANT.getStackForm()));
+        BLACK_CURRANT = addItem(1207, "seed.berry.black_currant").addComponents(new FoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropBlackCurrant").addOreDict("listAllfruit").addOreDict("listAllberry").addOreDict("listAllberrytart");
-        BLACK_CURRANT.addComponents(new CropSeedBehaviour(GTCrops.BUSH_BLACK_CURRANT, BLACK_CURRANT.getStackForm(), BLACK_CURRANT.getStackForm()));
-        WHITE_CURRANT = addItem(1208, "seed.berry.white_currant").addComponents(new GTFoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
+        BLACK_CURRANT.addComponents(new BerrySeedBehaviour(GTCrops.BUSH_BLACK_CURRANT, BLACK_CURRANT.getStackForm(), BLACK_CURRANT.getStackForm()));
+        WHITE_CURRANT = addItem(1208, "seed.berry.white_currant").addComponents(new FoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropWhiteCurrant").addOreDict("listAllfruit").addOreDict("listAllberry").addOreDict("listAllberrytart");
-        WHITE_CURRANT.addComponents(new CropSeedBehaviour(GTCrops.BUSH_WHITE_CURRANT, WHITE_CURRANT.getStackForm(), WHITE_CURRANT.getStackForm()));
-        LINGONBERRY = addItem(1209, "seed.berry.lingonberry").addComponents(new GTFoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
+        WHITE_CURRANT.addComponents(new BerrySeedBehaviour(GTCrops.BUSH_WHITE_CURRANT, WHITE_CURRANT.getStackForm(), WHITE_CURRANT.getStackForm()));
+        LINGONBERRY = addItem(1209, "seed.berry.lingonberry").addComponents(new FoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropLingonberry").addOreDict("listAllfruit").addOreDict("listAllberry").addOreDict("listAllberrytart");
-        LINGONBERRY.addComponents(new CropSeedBehaviour(GTCrops.BUSH_LINGONBERRY, LINGONBERRY.getStackForm(), LINGONBERRY.getStackForm()));
-        ELDERBERRY = addItem(1210, "seed.berry.elderberry").addComponents(new GTFoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f).setPotionEffects(
+        LINGONBERRY.addComponents(new BerrySeedBehaviour(GTCrops.BUSH_LINGONBERRY, LINGONBERRY.getStackForm(), LINGONBERRY.getStackForm()));
+        ELDERBERRY = addItem(1210, "seed.berry.elderberry").addComponents(new FoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f).setPotionEffects(
                         new RandomPotionEffect(MobEffects.NAUSEA, 400, 0, 100 - 4),
                         new RandomPotionEffect(MobEffects.POISON, 200, 0, 100 - 1)))
                 .addOreDict("cropElderberry").addOreDict("listAllfruit").addOreDict("listAllberry");
-        ELDERBERRY.addComponents(new CropSeedBehaviour(GTCrops.BUSH_ELDERBERRY, ELDERBERRY.getStackForm(), ELDERBERRY.getStackForm()));
-        CRANBERRY = addItem(1211, "seed.berry.cranberry").addComponents(new GTFoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
+        ELDERBERRY.addComponents(new BerrySeedBehaviour(GTCrops.BUSH_ELDERBERRY, ELDERBERRY.getStackForm(), ELDERBERRY.getStackForm()));
+        CRANBERRY = addItem(1211, "seed.berry.cranberry").addComponents(new FoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropCranberry").addOreDict("listAllfruit").addOreDict("listAllberry").addOreDict("listAllberrysweet");
-        CRANBERRY.addComponents(new CropSeedBehaviour(GTCrops.BUSH_CRANBERRY, CRANBERRY.getStackForm(), CRANBERRY.getStackForm()));
+        CRANBERRY.addComponents(new BerrySeedBehaviour(GTCrops.BUSH_CRANBERRY, CRANBERRY.getStackForm(), CRANBERRY.getStackForm()));
 
         ONION_SEED = addItem(1212, "seed.onion");
         ONION_SEED.addComponents(new CropSeedBehaviour(GTCrops.CROP_ONION, ONION_SEED.getStackForm(), ONION.getStackForm()));
@@ -1262,29 +1253,29 @@ public class MetaItem1 extends StandardMetaItem {
 
         //Tree crops
         COCONUT = addItem(1300, "crop.coconut")
-                .addComponents(new GTFoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f));
-        LEMON = addItem(1301, "crop.lemon").addComponents(new GTFoodStats(1, 0.5f)
+                .addComponents(new FoodStats(1, 0.5f).nutrients(0f, 1f, 0f, 0f, 0f));
+        LEMON = addItem(1301, "crop.lemon").addComponents(new FoodStats(1, 0.5f)
                         .nutrients(0, 1f, 0, 0, 0))
                 .addOreDict("cropLemon").addOreDict("listAllfruit");
-        LIME = addItem(1302, "crop.lime").addComponents(new GTFoodStats(1, 0.5f)
+        LIME = addItem(1302, "crop.lime").addComponents(new FoodStats(1, 0.5f)
                         .nutrients(0, 1f, 0, 0, 0))
                 .addOreDict("cropLime").addOreDict("listAllfruit");
         OLIVE = addItem(1303, "crop.olive")
                 .addOreDict("cropOlive")
-                .addComponents(new GTFoodStats(2, 0.5f).setEatingDuration(64)
+                .addComponents(new FoodStats(2, 0.5f).setEatingDuration(64)
                         .nutrients(0, 0, 0, 0, 1f));
-        BANANA = addItem(1304, "crop.banana").addComponents(new GTFoodStats(2, 1f)
+        BANANA = addItem(1304, "crop.banana").addComponents(new FoodStats(2, 1f)
                         .setEatingDuration(60)
                         .nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropBanana").addOreDict("listAllfruit");
-        ORANGE = addItem(1305, "crop.orange").addComponents(new GTFoodStats(2, 1f)
+        ORANGE = addItem(1305, "crop.orange").addComponents(new FoodStats(2, 1f)
                         .setEatingDuration(50)
                         .nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropOrange").addOreDict("listAllfruit");
-        MANGO = addItem(1306, "crop.mango").addComponents(new GTFoodStats(2, 1f)
+        MANGO = addItem(1306, "crop.mango").addComponents(new FoodStats(2, 1f)
                         .nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropMango").addOreDict("listAllfruit");
-        APRICOT = addItem(1307, "crop.apricot").addComponents(new GTFoodStats(2, 1f)
+        APRICOT = addItem(1307, "crop.apricot").addComponents(new FoodStats(2, 1f)
                         .nutrients(0f, 1f, 0f, 0f, 0f))
                 .addOreDict("cropApricot").addOreDict("listAllfruit");
         NUTMEG_SEED = addItem(1308, "crop.nutmeg");

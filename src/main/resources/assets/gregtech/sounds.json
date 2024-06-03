@@ -437,5 +437,15 @@
         "stream" : false
       }
     ]
+  },
+  "farmer_laser" : {
+    "subtitle" : "gregtech.subtitle.farmer_laser",
+    "category" : "block",
+    "sounds" : [
+      {
+        "name" : "gregtech:farmer_laser",
+        "stream" : false
+      }
+    ]
   }
 }

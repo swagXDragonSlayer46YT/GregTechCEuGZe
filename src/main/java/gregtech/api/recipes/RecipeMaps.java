@@ -1521,7 +1521,6 @@ public final class RecipeMaps {
             .itemInputs(3)
             .fluidInputs(1)
             .fluidOutputs(2)
-            .itemOutputs(2)
             .sound(GTSoundEvents.FIRE)
             .build();
 

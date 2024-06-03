@@ -46,11 +46,8 @@ public final class MetaItems {
     public static MetaItem<?>.MetaValueItem COIN_DOGE;
     public static MetaItem<?>.MetaValueItem COIN_CHOCOLATE;
 
-    public static MetaItem<?>.MetaValueItem COMPRESSED_CLAY;
-    public static MetaItem<?>.MetaValueItem COMPRESSED_COKE_CLAY;
     public static MetaItem<?>.MetaValueItem COMPRESSED_FIRECLAY;
     public static MetaItem<?>.MetaValueItem FIRECLAY_BRICK;
-    public static MetaItem<?>.MetaValueItem COKE_OVEN_BRICK;
 
     public static MetaItem<?>.MetaValueItem WOODEN_FORM_EMPTY;
     public static MetaItem<?>.MetaValueItem WOODEN_FORM_BRICK;
@@ -432,6 +429,8 @@ public final class MetaItems {
     public static MetaItem<?>.MetaValueItem COVER_SOLAR_PANEL_LUV;
     public static MetaItem<?>.MetaValueItem COVER_SOLAR_PANEL_ZPM;
     public static MetaItem<?>.MetaValueItem COVER_SOLAR_PANEL_UV;
+
+    public static MetaItem<?>.MetaValueItem COVER_SPRINKLER;
 
     public static MetaItem<?>.MetaValueItem PLUGIN_TEXT;
     public static MetaItem<?>.MetaValueItem PLUGIN_ONLINE_PIC;

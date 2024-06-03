@@ -1045,6 +1045,11 @@ public class Material implements Comparable<Material> {
             return this;
         }
 
+        public Builder fertilizerProperty(int level) {
+            properties.setProperty(PropertyKey.FERTILIZER, new FertilizerProperty(level));
+            return this;
+        }
+
         // TODO Clean this up post 2.5 release
         @Deprecated
         public Builder addDefaultEnchant(Enchantment enchant, int level) {

@@ -381,12 +381,6 @@ public class MiscRecipeLoader {
 
         // Coke Brick and Firebrick decomposition
         EXTRACTOR_RECIPES.recipeBuilder()
-                .inputs(MetaBlocks.METAL_CASING.getItemVariant(BlockMetalCasing.MetalCasingType.COKE_BRICKS))
-                .output(COKE_OVEN_BRICK, 4)
-                .duration(300).EUt(2)
-                .buildAndRegister();
-
-        EXTRACTOR_RECIPES.recipeBuilder()
                 .inputs(MetaBlocks.METAL_CASING.getItemVariant(BlockMetalCasing.MetalCasingType.PRIMITIVE_BRICKS))
                 .output(FIRECLAY_BRICK, 4)
                 .duration(300).EUt(2)

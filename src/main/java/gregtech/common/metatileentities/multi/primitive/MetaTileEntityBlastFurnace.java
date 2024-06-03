@@ -3,49 +3,31 @@ package gregtech.common.metatileentities.multi.primitive;
 import codechicken.lib.texture.TextureUtils;
 import codechicken.lib.vec.Cuboid6;
 
-import gregtech.api.GTValues;
-import gregtech.api.block.IHeatingCoilBlockStats;
 import gregtech.api.block.IRefractoryBrickBlockStats;
 import gregtech.api.capability.GregtechDataCodes;
 import gregtech.api.capability.impl.BlastFurnaceRecipeLogic;
-import gregtech.api.capability.impl.BoilerRecipeLogic;
-import gregtech.api.capability.impl.CommonFluidFilters;
+import gregtech.api.capability.impl.FluidHandlerProxy;
 import gregtech.api.capability.impl.FluidTankList;
 import gregtech.api.capability.impl.ItemHandlerList;
 import gregtech.api.capability.impl.ItemHandlerProxy;
 import gregtech.api.capability.impl.NotifiableItemStackHandler;
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.gui.ModularUI;
-import gregtech.api.gui.Widget;
-import gregtech.api.gui.Widget.ClickData;
-import gregtech.api.gui.resources.TextureArea;
-import gregtech.api.gui.widgets.ClickButtonWidget;
 import gregtech.api.gui.widgets.LabelWidget;
-import gregtech.api.gui.widgets.ProgressWidget;
-import gregtech.api.gui.widgets.RecipeProgressWidget;
 import gregtech.api.gui.widgets.SlotWidget;
-import gregtech.api.gui.widgets.TankWidget;
-import gregtech.api.gui.widgets.WidgetGroup;
-import gregtech.api.metatileentity.MTETrait;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.metatileentity.multiblock.IProgressBarMultiblock;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import gregtech.api.metatileentity.multiblock.MultiblockDisplayText;
-import gregtech.api.metatileentity.multiblock.MultiblockWithDisplayBase;
-import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
 import gregtech.api.metatileentity.multiblock.RecipeMapPrimitiveMultiblockController;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.pattern.PatternMatchContext;
 import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.recipes.RecipeMaps;
-import gregtech.api.util.GTLog;
 import gregtech.api.util.GTTransferUtils;
 import gregtech.api.util.GTUtility;
-import gregtech.api.util.TextComponentUtil;
-import gregtech.api.util.TextFormattingUtil;
 import gregtech.client.particle.VanillaParticleEffects;
 import gregtech.client.renderer.CubeRendererState;
 import gregtech.client.renderer.ICubeRenderer;
@@ -53,18 +35,14 @@ import gregtech.client.renderer.cclop.ColourOperation;
 import gregtech.client.renderer.cclop.LightMapOperation;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.client.utils.BloomEffectUtil;
-import gregtech.client.utils.TooltipHelper;
 import gregtech.common.blocks.BlockRefractoryBrick;
-import gregtech.common.blocks.BlockWireCoil;
 import gregtech.core.sound.GTSoundEvents;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.DamageSource;
@@ -73,23 +51,16 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 import codechicken.lib.render.CCRenderState;
 import codechicken.lib.render.pipeline.IVertexOperation;
 import codechicken.lib.vec.Matrix4;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.List;
 
 public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockController {
@@ -124,10 +95,11 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
                 buf.writeInt(this.tier);
             });
         } else {
-            this.maximumHeat = BlockRefractoryBrick.RefractoryBrickType.TIER1.getRefractoryBrickTemperature();
+            this.maximumHeat = BlockRefractoryBrick.RefractoryBrickType.NORMAL.getRefractoryBrickTemperature();
         }
 
-        this.exportItems = new ItemHandlerList(getAbilities(MultiblockAbility.EXPORT_ITEMS));
+        this.exportFluids = new FluidTankList(true, getAbilities(MultiblockAbility.EXPORT_FLUIDS));
+        this.fluidInventory = new FluidHandlerProxy(this.importFluids, this.exportFluids);
     }
 
     @Override
@@ -147,13 +119,14 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
     protected BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start()
                 .aisle(" XXX ", " XXX ", " XXX ", "  X  ", "     ", "     ", "     ")
-                .aisle("XXXXX", "XXXXX", "XXXXX", " XXX ", " XXX ", " XXX ", "  X  ")
-                .aisle("XXXXX", "XX&XX", "XXAXX", "XXAXX", " XAX ", " XAX ", " XAX ")
-                .aisle("XXXXX", "XXXXX", "XXXXX", " XXX ", " XXX ", " XXX ", "  X  ")
+                .aisle("XBBBX", "XBBBX", "XBBBX", " BBB ", " BBB ", " BBB ", "  B  ")
+                .aisle("XBBBX", "XB&BX", "XBABX", "XBABX", " BAB ", " BAB ", " BAB ")
+                .aisle("XBBBX", "XBBBX", "XBBBX", " BBB ", " BBB ", " BBB ", "  B  ")
                 .aisle(" XXX ", " XSX ", " XXX ", "  X  ", "     ", "     ", "     ")
                 .where('S', selfPredicate())
+                .where('B', refractoryBricks())
                 .where('X', refractoryBricks()
-                        .or(abilities(MultiblockAbility.EXPORT_ITEMS).setMaxGlobalLimited(2)))
+                        .or(abilities(MultiblockAbility.EXPORT_FLUIDS)).setMinGlobalLimited(2))
                 .where('A', air())
                 .where('&', air().or(SNOW_PREDICATE)) // this won't stay in the structure, and will be broken while running
                 .build();

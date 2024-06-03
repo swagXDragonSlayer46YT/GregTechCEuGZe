@@ -8,8 +8,10 @@ import gregtech.api.cover.CoverDefinition;
 import gregtech.api.fluids.GTFluid;
 import gregtech.api.gui.widgets.ProgressWidget;
 import gregtech.api.items.behavior.CoverItemBehavior;
+import gregtech.api.items.metaitem.FoodStats;
 import gregtech.api.items.metaitem.MetaItem;
 import gregtech.api.items.metaitem.stats.IItemBehaviour;
+import gregtech.api.items.metaitem.stats.IItemComponent;
 import gregtech.api.items.toolitem.ToolClasses;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.SimpleGeneratorMetaTileEntity;
@@ -18,6 +20,10 @@ import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.ore.OrePrefix;
+
+import gregtech.common.items.MetaItem1;
+
+import gregtech.common.items.MetaItems;
 
 import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.BlockSnow;
@@ -37,6 +43,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -85,8 +93,8 @@ public class GTUtility {
 
     @SideOnly(Side.CLIENT)
     public static void addPotionTooltip(List<RandomPotionEffect> effects, List<String> list) {
-        list.add(new TextComponentTranslation("gregtechfoodoption.tooltip.potion.header").getFormattedText());
-        effects.forEach((effect) -> list.add(new TextComponentTranslation("gregtechfoodoption.tooltip.potion.each",
+        list.add(new TextComponentTranslation("gregtech.tooltip.potion.header").getFormattedText());
+        effects.forEach((effect) -> list.add(new TextComponentTranslation("gregtech.tooltip.potion.each",
                 new TextComponentTranslation(effect.effect.getEffectName()).getFormattedText(),
                 new TextComponentTranslation("enchantment.level." + (effect.effect.getAmplifier() + 1)),
                 effect.effect.getDuration(),
@@ -259,6 +267,31 @@ public class GTUtility {
                 }
             }
         }
+    }
+
+    public static boolean isFull(IItemHandler handler) {
+        for (int i = 0; i < handler.getSlots(); i++) {
+            if (handler.getStackInSlot(i).getCount() != handler.getStackInSlot(i).getMaxStackSize())
+                return false;
+        }
+        return true;
+    }
+
+    public static Vec3d getScaledFacingVec(EnumFacing facing, double scale) {
+        Vec3i facingOrdinaryVec = facing.getDirectionVec();
+        return new Vec3d(facingOrdinaryVec.getX(), facingOrdinaryVec.getY(), facingOrdinaryVec.getZ()).scale(scale);
+    }
+
+    public static int getFirstUnemptyItemSlot(IItemHandler handler, int startSlot) {
+        for (int i = startSlot; i < handler.getSlots(); i++) {
+            if (!handler.getStackInSlot(i).isEmpty())
+                return i;
+        }
+        for (int i = 0; i < startSlot; i++) {
+            if (!handler.getStackInSlot(i).isEmpty())
+                return i;
+        }
+        return -1;
     }
 
     /**

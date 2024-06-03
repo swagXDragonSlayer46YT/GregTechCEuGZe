@@ -7,6 +7,8 @@ import gregtech.api.capability.IControllable;
 import gregtech.api.capability.IMultipleRecipeMaps;
 import gregtech.api.capability.impl.AbstractRecipeLogic;
 import gregtech.api.gui.resources.TextureArea;
+import gregtech.api.items.metaitem.FoodStats;
+import gregtech.api.items.metaitem.FoodUseManager;
 import gregtech.api.items.metaitem.MetaItem;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.SteamMetaTileEntity;
@@ -28,11 +30,14 @@ import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.gui.widget.craftingstation.CraftingSlotWidget;
 import gregtech.common.items.MetaItems;
 import gregtech.common.metatileentities.MetaTileEntities;
+import gregtech.common.potion.LacingEntry;
 import gregtech.integration.IntegrationSubmodule;
+import gregtech.integration.jei.basic.EatingRecipeInfo;
 import gregtech.integration.jei.basic.GTFluidVeinCategory;
 import gregtech.integration.jei.basic.GTFluidVeinInfo;
 import gregtech.integration.jei.basic.GTOreCategory;
 import gregtech.integration.jei.basic.GTOreInfo;
+import gregtech.integration.jei.basic.LacingInfo;
 import gregtech.integration.jei.basic.MaterialTree;
 import gregtech.integration.jei.basic.OreByProduct;
 import gregtech.integration.jei.basic.OreByProductCategory;
@@ -47,6 +52,8 @@ import gregtech.integration.jei.utils.MetaItemSubtypeHandler;
 import gregtech.integration.jei.utils.ModularUIGuiHandler;
 import gregtech.integration.jei.utils.MultiblockInfoRecipeFocusShower;
 import gregtech.modules.GregTechModules;
+
+import it.unimi.dsi.fastutil.objects.ObjectSets;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
@@ -93,6 +100,8 @@ public class JustEnoughItemsModule extends IntegrationSubmodule implements IModP
     public static IIngredientRegistry ingredientRegistry;
     public static IJeiRuntime jeiRuntime;
     public static IGuiHelper guiHelper;
+
+    public static final List<ItemStack> FOOD_ITEMS = new ArrayList<>();
 
     @Override
     public void loadComplete(FMLLoadCompleteEvent event) {
@@ -294,6 +303,15 @@ public class JustEnoughItemsModule extends IntegrationSubmodule implements IModP
         });
         registry.addIngredientInfo(new ItemStack(MetaBlocks.BRITTLE_CHARCOAL), VanillaTypes.ITEM,
                 I18n.format("tile.brittle_charcoal.tooltip.1", I18n.format("tile.brittle_charcoal.tooltip.2")));
+
+        LacingEntry.LACING_REGISTRY.forEach(entry -> registry.addRecipes(ObjectSets.singleton(new LacingInfo(entry)), GTValues.MODID + ":lacing_info"));
+
+        for (MetaTileEntity cannerTier : MetaTileEntities.CANNER) {
+            if (cannerTier != null)
+                registry.addRecipeCatalyst(cannerTier.getStackForm(), GTValues.MODID + ":lacing_info");
+        }
+
+        initializeFoodItems(registry);
     }
 
     private void setupInputHandler() {
@@ -343,6 +361,24 @@ public class JustEnoughItemsModule extends IntegrationSubmodule implements IModP
                     icon = metaTileEntity.getStackForm();
                 }
                 jeiCategory.setIcon(icon);
+            }
+        }
+    }
+
+    public static void initializeFoodItems(IModRegistry registry) {
+        for (MetaItem<?> metaItem : MetaItem.getMetaItems()) {
+            for (MetaItem.MetaValueItem metaValueItem : metaItem.getAllItems()) {
+                if (metaValueItem.getUseManager() instanceof FoodUseManager manager) {
+                    FOOD_ITEMS.add(metaValueItem.getStackForm());
+
+                    // Handle eating recipes
+                    if (manager.getFoodStats() instanceof FoodStats stats // A sanity check can't hurt
+                            && stats.stackSupplier.get() != ItemStack.EMPTY) {
+                        registry.addRecipes(ObjectSets.singleton(new EatingRecipeInfo(metaValueItem.getStackForm(),
+                                        stats.stackSupplier.get())),
+                                GTValues.MODID + ":eating_recipe");
+                    }
+                }
             }
         }
     }

@@ -205,6 +205,9 @@ public final class CoverBehaviors {
         registerBehavior(gregtechId("item_voiding.advanced"), MetaItems.COVER_ITEM_VOIDING_ADVANCED,
                 CoverItemVoidingAdvanced::new);
         registerBehavior(gregtechId("storage"), MetaItems.COVER_STORAGE, CoverStorage::new);
+
+        registerBehavior(gregtechId("sprinkler"), MetaItems.COVER_SPRINKLER, (def, tile, side) ->
+                new CoverSprinkler(def, tile, side, 1));
     }
 
     /**

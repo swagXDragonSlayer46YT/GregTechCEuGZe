@@ -34,7 +34,7 @@ public class BlockRefractoryBrick extends VariantActiveBlock<BlockRefractoryBric
         setResistance(10.0f);
         setSoundType(SoundType.METAL);
         setHarvestLevel(ToolClasses.WRENCH, 2);
-        setDefaultState(getState(RefractoryBrickType.TIER1));
+        setDefaultState(getState(RefractoryBrickType.NORMAL));
     }
 
     @NotNull
@@ -70,7 +70,7 @@ public class BlockRefractoryBrick extends VariantActiveBlock<BlockRefractoryBric
 
     public enum RefractoryBrickType implements IStringSerializable, IRefractoryBrickBlockStats {
 
-        TIER1("tier_1", 1800, 1, 1, 1),
+        NORMAL("tier_1", 1800, 1, 1, 1),
         TIER2("tier_2", 2700, 2, 1, 2),
         TIER3("tier_3", 3600, 3, 2, 3);
 
