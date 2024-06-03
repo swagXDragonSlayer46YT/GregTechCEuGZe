@@ -72,27 +72,21 @@ public class MetaTileEntityLoader {
         registerMachineRecipe(false, MetaTileEntities.HULL, "PLP", "CHC", 'P', HULL_PLATE, 'L', PLATE, 'C', CABLE, 'H',
                 CASING);
 
-        if (ConfigHolder.recipes.harderBrickRecipes) {
-            ModHandler.addFluidReplaceRecipe("bucket_of_concrete",
-                    FluidUtil.getFilledBucket(Materials.Concrete.getFluid(1000)),
-                    "C S", "CWQ", " L ",
-                    'C', new UnificationEntry(OrePrefix.dust, Materials.Calcite),
-                    'S', new UnificationEntry(OrePrefix.dust, Materials.Stone),
-                    'W', new ItemStack(Items.WATER_BUCKET),
-                    'Q', new UnificationEntry(OrePrefix.dust, Materials.QuartzSand),
-                    'L', new UnificationEntry(OrePrefix.dust, Materials.Clay));
+        ModHandler.addFluidReplaceRecipe("bucket_of_concrete",
+                FluidUtil.getFilledBucket(Materials.Concrete.getFluid(1000)),
+                "C S", "CWQ", " L ",
+                'C', new UnificationEntry(OrePrefix.dust, Materials.Calcite),
+                'S', new UnificationEntry(OrePrefix.dust, Materials.Stone),
+                'W', new ItemStack(Items.WATER_BUCKET),
+                'Q', new UnificationEntry(OrePrefix.dust, Materials.QuartzSand),
+                'L', new UnificationEntry(OrePrefix.dust, Materials.Clay));
 
-            ModHandler.addShapedRecipe("casing_primitive_bricks",
-                    MetaBlocks.METAL_CASING.getItemVariant(PRIMITIVE_BRICKS),
-                    "BGB", "BCB", "BGB",
-                    'B', MetaItems.FIRECLAY_BRICK.getStackForm(),
-                    'G', new UnificationEntry(OrePrefix.dust, Materials.Gypsum),
-                    'C', FluidUtil.getFilledBucket(Materials.Concrete.getFluid(1000)));
-        } else {
-            ModHandler.addShapedRecipe("casing_primitive_bricks",
-                    MetaBlocks.METAL_CASING.getItemVariant(PRIMITIVE_BRICKS, 1), "XX", "XX", 'X',
-                    MetaItems.FIRECLAY_BRICK);
-        }
+        ModHandler.addShapedRecipe("casing_primitive_bricks",
+                MetaBlocks.REFRACTORY_BRICK.getItemVariant(BlockRefractoryBrick.RefractoryBrickType.NORMAL, 3),
+                "BGB", "BCB", "BGB",
+                'B', MetaItems.FIRECLAY_BRICK.getStackForm(),
+                'G', new UnificationEntry(OrePrefix.dust, Materials.Gypsum),
+                'C', FluidUtil.getFilledBucket(Materials.Concrete.getFluid(1000)));
 
         ModHandler.addShapedRecipe(true, "casing_bronze_bricks",
                 MetaBlocks.METAL_CASING.getItemVariant(BRONZE_BRICKS, ConfigHolder.recipes.casingsPerCraft), "PhP",
@@ -232,7 +226,8 @@ public class MetaTileEntityLoader {
         ModHandler.addShapedRecipe(true, "casing_assembly_control",
                 MetaBlocks.MULTIBLOCK_CASING.getItemVariant(ASSEMBLY_CONTROL, ConfigHolder.recipes.casingsPerCraft),
                 "CPC", "SFS", "CMC", 'C', new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.LuV), 'P',
-                MetaItems.HIGH_POWER_INTEGRATED_CIRCUIT, 'S', new UnificationEntry(OrePrefix.wireGtDouble, Materials.Tungsten), 'F',
+                MetaItems.HIGH_POWER_INTEGRATED_CIRCUIT, 'S',
+                new UnificationEntry(OrePrefix.wireGtDouble, Materials.Tungsten), 'F',
                 new UnificationEntry(OrePrefix.frameGt, Materials.TungstenSteel), 'M', MetaItems.ELECTRIC_MOTOR_IV);
         ModHandler.addShapedRecipe(true, "casing_assembly_line",
                 MetaBlocks.MULTIBLOCK_CASING.getItemVariant(ASSEMBLY_LINE_CASING, ConfigHolder.recipes.casingsPerCraft),
@@ -425,7 +420,8 @@ public class MetaTileEntityLoader {
 
         ModHandler.addShapedRecipe(true, "vacuum_chamber_bronze",
                 MetaTileEntities.STEAM_VACUUM_CHAMBER_BRONZE.getStackForm(), "AGA", "PwP", "APA", 'A',
-                new UnificationEntry(OrePrefix.plate, Materials.Bronze), 'P', new UnificationEntry(OrePrefix.pipeFluid, Materials.TinAlloy), 'G',
+                new UnificationEntry(OrePrefix.plate, Materials.Bronze), 'P',
+                new UnificationEntry(OrePrefix.pipeFluid, Materials.TinAlloy), 'G',
                 new ItemStack(Blocks.GLASS));
         ModHandler.addShapedRecipe(true, "steam_boiler_coal_bronze",
                 MetaTileEntities.STEAM_BOILER_COAL_BRONZE.getStackForm(), "PPP", "PwP", "BFB", 'F',
@@ -717,7 +713,8 @@ public class MetaTileEntityLoader {
                 new UnificationEntry(OrePrefix.plank, Materials.Wood));
 
         ModHandler.addShapedRecipe(true, "magic_energy_absorber", MetaTileEntities.MAGIC_ENERGY_ABSORBER.getStackForm(),
-                "PCP", "PMP", "PCP", 'M', MetaTileEntities.HULL[GTValues.EV].getStackForm(), 'P', MetaItems.SENSOR_INFRARED,
+                "PCP", "PMP", "PCP", 'M', MetaTileEntities.HULL[GTValues.EV].getStackForm(), 'P',
+                MetaItems.SENSOR_INFRARED,
                 'C', new UnificationEntry(OrePrefix.circuit, Tier.EV));
 
         ModHandler.addShapedRecipe(true, "primitive_pump", MetaTileEntities.PRIMITIVE_WATER_PUMP.getStackForm(), "RGS",
@@ -765,33 +762,41 @@ public class MetaTileEntityLoader {
                 new UnificationEntry(OrePrefix.rotor, Materials.Tin));
 
         // MACHINES
-        registerMachineRecipe(MetaTileEntities.ALLOY_SMELTER, "ECE", "CMC", "WCW", 'M', HULL, 'E', LOGIC_CONTROLLER, 'W', CABLE,
+        registerMachineRecipe(MetaTileEntities.ALLOY_SMELTER, "ECE", "CMC", "WCW", 'M', HULL, 'E', LOGIC_CONTROLLER,
+                'W', CABLE,
                 'C', COIL_HEATING_DOUBLE);
         registerMachineRecipe(MetaTileEntities.ASSEMBLER, "ACA", "VMV", "WCW", 'M', HULL, 'V', CONVEYOR, 'A', ROBOT_ARM,
                 'C', CIRCUIT, 'W', CABLE);
         registerMachineRecipe(MetaTileEntities.BENDER, "PWP", "CMC", "EBE", 'M', HULL, 'E', MOTOR, 'P', PISTON, 'C',
                 LOGIC_CONTROLLER, 'W', CABLE, 'B', PLATE);
-        registerMachineRecipe(MetaTileEntities.CANNER, "WPW", "CMC", "GGG", 'M', HULL, 'P', PUMP, 'C', LOGIC_CONTROLLER, 'W',
+        registerMachineRecipe(MetaTileEntities.CANNER, "WPW", "CMC", "GGG", 'M', HULL, 'P', PUMP, 'C', LOGIC_CONTROLLER,
+                'W',
                 CABLE, 'G', GLASS);
-        registerMachineRecipe(MetaTileEntities.COMPRESSOR, " C ", "PMP", "WCW", 'M', HULL, 'P', PISTON, 'C', LOGIC_CONTROLLER,
+        registerMachineRecipe(MetaTileEntities.COMPRESSOR, " C ", "PMP", "WCW", 'M', HULL, 'P', PISTON, 'C',
+                LOGIC_CONTROLLER,
                 'W', CABLE);
         registerMachineRecipe(MetaTileEntities.CUTTER, "WCG", "VMB", "CWE", 'M', HULL, 'E', MOTOR, 'V', CONVEYOR, 'C',
                 LOGIC_CONTROLLER, 'W', CABLE, 'G', GLASS, 'B', SAWBLADE);
-        registerMachineRecipe(MetaTileEntities.ELECTRIC_FURNACE, "ECE", "CMC", "WCW", 'M', HULL, 'E', LOGIC_CONTROLLER, 'W',
+        registerMachineRecipe(MetaTileEntities.ELECTRIC_FURNACE, "ECE", "CMC", "WCW", 'M', HULL, 'E', LOGIC_CONTROLLER,
+                'W',
                 CABLE, 'C', COIL_HEATING);
         registerMachineRecipe(MetaTileEntities.EXTRACTOR, "GCG", "EMP", "WCW", 'M', HULL, 'E', PISTON, 'P', PUMP, 'C',
                 LOGIC_CONTROLLER, 'W', CABLE, 'G', GLASS);
-        registerMachineRecipe(MetaTileEntities.EXTRUDER, "CCE", "XMP", "CCE", 'M', HULL, 'X', PISTON, 'E', LOGIC_CONTROLLER, 'P',
+        registerMachineRecipe(MetaTileEntities.EXTRUDER, "CCE", "XMP", "CCE", 'M', HULL, 'X', PISTON, 'E',
+                LOGIC_CONTROLLER, 'P',
                 PIPE, 'C', COIL_HEATING_DOUBLE);
         registerMachineRecipe(MetaTileEntities.LATHE, "WCW", "EMD", "CWP", 'M', HULL, 'E', MOTOR, 'P', PISTON, 'C',
                 LOGIC_CONTROLLER, 'W', CABLE, 'D', GRINDER);
         registerMachineRecipe(MetaTileEntities.MACERATOR, "PEG", "WWM", "CCW", 'M', HULL, 'E', MOTOR, 'P', PISTON, 'C',
                 LOGIC_CONTROLLER, 'W', CABLE, 'G', GRINDER);
-        registerMachineRecipe(MetaTileEntities.WIREMILL, "EWE", "CMC", "EWE", 'M', HULL, 'E', MOTOR, 'C', LOGIC_CONTROLLER, 'W',
+        registerMachineRecipe(MetaTileEntities.WIREMILL, "EWE", "CMC", "EWE", 'M', HULL, 'E', MOTOR, 'C',
+                LOGIC_CONTROLLER, 'W',
                 CABLE);
-        registerMachineRecipe(MetaTileEntities.CENTRIFUGE, "CEC", "WMW", "CEC", 'M', HULL, 'E', MOTOR, 'C', LOGIC_CONTROLLER,
+        registerMachineRecipe(MetaTileEntities.CENTRIFUGE, "CEC", "WMW", "CEC", 'M', HULL, 'E', MOTOR, 'C',
+                LOGIC_CONTROLLER,
                 'W', CABLE);
-        registerMachineRecipe(MetaTileEntities.ELECTROLYZER, "IGI", "IMI", "CWC", 'M', HULL, 'C', LOGIC_CONTROLLER, 'W', CABLE,
+        registerMachineRecipe(MetaTileEntities.ELECTROLYZER, "IGI", "IMI", "CWC", 'M', HULL, 'C', LOGIC_CONTROLLER, 'W',
+                CABLE,
                 'I', WIRE_ELECTRIC, 'G', GLASS);
         registerMachineRecipe(MetaTileEntities.THERMAL_CENTRIFUGE, "CEC", "OMO", "WEW", 'M', HULL, 'E', MOTOR, 'C',
                 LOGIC_CONTROLLER, 'W', CABLE, 'O', COIL_HEATING_DOUBLE);
@@ -811,15 +816,19 @@ public class MetaTileEntityLoader {
                 'Z', COIL_ELECTRIC, 'W', CABLE);
         registerMachineRecipe(MetaTileEntities.ELECTROMAGNETIC_SEPARATOR, "VWZ", "WMS", "CWZ", 'M', HULL, 'S',
                 STICK_ELECTROMAGNETIC, 'Z', COIL_ELECTRIC, 'V', CONVEYOR, 'C', LOGIC_CONTROLLER, 'W', CABLE);
-        registerMachineRecipe(MetaTileEntities.AUTOCLAVE, "IGI", "IMI", "CPC", 'M', HULL, 'P', PUMP, 'C', LOGIC_CONTROLLER, 'I',
+        registerMachineRecipe(MetaTileEntities.AUTOCLAVE, "IGI", "IMI", "CPC", 'M', HULL, 'P', PUMP, 'C',
+                LOGIC_CONTROLLER, 'I',
                 PLATE, 'G', GLASS);
         registerMachineRecipe(MetaTileEntities.MIXER, "GRG", "GEG", "CMC", 'M', HULL, 'E', MOTOR, 'R', ROTOR, 'C',
                 LOGIC_CONTROLLER, 'G', GLASS);
-        registerMachineRecipe(MetaTileEntities.LASER_ENGRAVER, "PEP", "CMC", "WCW", 'M', HULL, 'E', MetaItems.EMITTER_ELECTRON.getStackForm(), 'P',
+        registerMachineRecipe(MetaTileEntities.LASER_ENGRAVER, "PEP", "CMC", "WCW", 'M', HULL, 'E',
+                MetaItems.EMITTER_ELECTRON.getStackForm(), 'P',
                 PISTON, 'C', CIRCUIT, 'W', CABLE);
-        registerMachineRecipe(MetaTileEntities.FORMING_PRESS, "WPW", "CMC", "WPW", 'M', HULL, 'P', PISTON, 'C', LOGIC_CONTROLLER,
+        registerMachineRecipe(MetaTileEntities.FORMING_PRESS, "WPW", "CMC", "WPW", 'M', HULL, 'P', PISTON, 'C',
+                LOGIC_CONTROLLER,
                 'W', CABLE);
-        registerMachineRecipe(MetaTileEntities.FORGE_HAMMER, "WPW", "CMC", "WAW", 'M', HULL, 'P', PISTON, 'C', LOGIC_CONTROLLER,
+        registerMachineRecipe(MetaTileEntities.FORGE_HAMMER, "WPW", "CMC", "WAW", 'M', HULL, 'P', PISTON, 'C',
+                LOGIC_CONTROLLER,
                 'W', CABLE, 'A', OreDictNames.craftingAnvil);
         registerMachineRecipe(MetaTileEntities.FLUID_HEATER, "OGO", "PMP", "WCW", 'M', HULL, 'P', PUMP, 'O',
                 COIL_HEATING_DOUBLE, 'C', LOGIC_CONTROLLER, 'W', CABLE, 'G', GLASS);
@@ -827,18 +836,24 @@ public class MetaTileEntityLoader {
                 MetaItems.ITEM_FILTER, 'C', LOGIC_CONTROLLER, 'W', CABLE);
         registerMachineRecipe(MetaTileEntities.CIRCUIT_ASSEMBLER, "RIR", "CHC", "WIW", 'R', ROBOT_ARM, 'I',
                 CIRCUIT, 'C', CONVEYOR, 'H', HULL, 'W', CABLE);
-        registerMachineRecipe(MetaTileEntities.MOB_AGE_SORTER, "OWS", "OHW", "OCW", 'O', CONVEYOR, 'W', CABLE, 'H', HULL, 'C', CIRCUIT, 'S', MetaItems.SENSOR_LIGHT.getStackForm());
-        registerMachineRecipe(MetaTileEntities.MOB_EXTERMINATOR, "EIE", "WHW", "CSC", 'E', MetaItems.EMITTER_GAMMA, 'W', CABLE, 'I', WIRE_QUAD, 'H', HULL, 'C', CIRCUIT, 'S', MetaItems.SENSOR_LIGHT.getStackForm());
-        registerMachineRecipe(MetaTileEntities.MOB_EXTRACTOR, "BCE", "PME", "WCW", 'M', HULL, 'E', PISTON, 'P', PUMP, 'C', CIRCUIT, 'W', CABLE, 'B', SAWBLADE);
-        registerMachineRecipe(MetaTileEntities.FARMER, "BEP", "WMW", "CWC", 'M', HULL, 'E', ROBOT_ARM, 'P', PISTON, 'C', CIRCUIT, 'W', CABLE_QUAD, 'B', MetaItems.SENSOR_LIGHT.getStackForm());
+        registerMachineRecipe(MetaTileEntities.MOB_AGE_SORTER, "OWS", "OHW", "OCW", 'O', CONVEYOR, 'W', CABLE, 'H',
+                HULL, 'C', CIRCUIT, 'S', MetaItems.SENSOR_LIGHT.getStackForm());
+        registerMachineRecipe(MetaTileEntities.MOB_EXTERMINATOR, "EIE", "WHW", "CSC", 'E', MetaItems.EMITTER_GAMMA, 'W',
+                CABLE, 'I', WIRE_QUAD, 'H', HULL, 'C', CIRCUIT, 'S', MetaItems.SENSOR_LIGHT.getStackForm());
+        registerMachineRecipe(MetaTileEntities.MOB_EXTRACTOR, "BCE", "PME", "WCW", 'M', HULL, 'E', PISTON, 'P', PUMP,
+                'C', CIRCUIT, 'W', CABLE, 'B', SAWBLADE);
+        registerMachineRecipe(MetaTileEntities.FARMER, "BEP", "WMW", "CWC", 'M', HULL, 'E', ROBOT_ARM, 'P', PISTON, 'C',
+                CIRCUIT, 'W', CABLE_QUAD, 'B', MetaItems.SENSOR_LIGHT.getStackForm());
         // TODO Replication system
         // registerMachineRecipe(MetaTileEntities.MASS_FABRICATOR, "CFC", "QMQ", "CFC", 'M', HULL, 'Q', CABLE_QUAD, 'C',
         // BETTER_CIRCUIT, 'F', FIELD_GENERATOR);
         // registerMachineRecipe(MetaTileEntities.REPLICATOR, "EFE", "CMC", "EQE", 'M', HULL, 'Q', CABLE_QUAD, 'C',
         // BETTER_CIRCUIT, 'F', FIELD_GENERATOR, 'E', EMITTER);
-        registerMachineRecipe(MetaTileEntities.SCANNER, "CEC", "WHW", "CSC", 'C', CIRCUIT, 'E', MetaItems.EMITTER_XRAY.getStackForm(), 'W',
+        registerMachineRecipe(MetaTileEntities.SCANNER, "CEC", "WHW", "CSC", 'C', CIRCUIT, 'E',
+                MetaItems.EMITTER_XRAY.getStackForm(), 'W',
                 CABLE, 'H', HULL, 'S', MetaItems.SENSOR_LIGHT.getStackForm());
-        registerMachineRecipe(MetaTileEntities.UV_LIGHT_BOX, "CUC", "LHL", "PPP", 'C', CABLE, 'U', MetaItems.CARBON_ARC_LAMP.getStackForm(), 'L',
+        registerMachineRecipe(MetaTileEntities.UV_LIGHT_BOX, "CUC", "LHL", "PPP", 'C', CABLE, 'U',
+                MetaItems.CARBON_ARC_LAMP.getStackForm(), 'L',
                 LOGIC_CONTROLLER, 'H', HULL, 'P', PLATE);
         registerMachineRecipe(MetaTileEntities.ION_IMPLANTER, "LGL", "MHM", "CSC", 'C', CABLE, 'M', STICK_MAGNETIC, 'L',
                 LOGIC_CONTROLLER, 'H', HULL, 'G', GLASS, 'S', SPRING);
@@ -852,15 +867,19 @@ public class MetaTileEntityLoader {
                 STICK_DISTILLATION, 'H', HULL, 'P', PUMP, 'C', CABLE, 'L', LOGIC_CONTROLLER);
         registerMachineRecipe(MetaTileEntities.GAS_COLLECTOR, "WFW", "PHP", "WCW", 'W', Blocks.IRON_BARS, 'F',
                 MetaItems.FLUID_FILTER, 'P', PUMP, 'H', HULL, 'C', CIRCUIT);
-        registerMachineRecipe(MetaTileEntities.PUMP, "WGW", "GMG", "TGT", 'M', HULL, 'W', LOGIC_CONTROLLER, 'G', PUMP, 'T',
+        registerMachineRecipe(MetaTileEntities.PUMP, "WGW", "GMG", "TGT", 'M', HULL, 'W', LOGIC_CONTROLLER, 'G', PUMP,
+                'T',
                 PIPE);
-        registerMachineRecipe(MetaTileEntities.FISHER, "WTW", "PMP", "TGT", 'M', HULL, 'W', LOGIC_CONTROLLER, 'G', PUMP, 'T',
+        registerMachineRecipe(MetaTileEntities.FISHER, "WTW", "PMP", "TGT", 'M', HULL, 'W', LOGIC_CONTROLLER, 'G', PUMP,
+                'T',
                 MOTOR, 'P', PISTON);
         registerMachineRecipe(MetaTileEntities.ITEM_COLLECTOR, "MRM", "RHR", "CWC", 'M', MOTOR, 'R', ROTOR, 'H', HULL,
                 'C', LOGIC_CONTROLLER, 'W', CABLE);
-        registerMachineRecipe(MetaTileEntities.BLOCK_BREAKER, "MGM", "CHC", "WSW", 'M', MOTOR, 'H', HULL, 'C', LOGIC_CONTROLLER,
+        registerMachineRecipe(MetaTileEntities.BLOCK_BREAKER, "MGM", "CHC", "WSW", 'M', MOTOR, 'H', HULL, 'C',
+                LOGIC_CONTROLLER,
                 'W', CABLE, 'S', OreDictNames.chestWood, 'G', GRINDER);
-        registerMachineRecipe(MetaTileEntities.WORLD_ACCELERATOR, "IGI", "FHF", "IGI", 'H', HULL, 'F', MetaItems.EMITTER_GAMMA, 'G',
+        registerMachineRecipe(MetaTileEntities.WORLD_ACCELERATOR, "IGI", "FHF", "IGI", 'H', HULL, 'F',
+                MetaItems.EMITTER_GAMMA, 'G',
                 CABLE_QUAD, 'I', MetaItems.EMITTER_GRAVITATION.getStackForm());
         registerMachineRecipe(MetaTileEntities.MINER, "MMM", "WHW", "CSC", 'M', MOTOR, 'W', CABLE, 'H', HULL, 'C',
                 CIRCUIT, 'S', GRINDER);
@@ -1016,9 +1035,11 @@ public class MetaTileEntityLoader {
                     'W', CABLE_HEX, 'R', new UnificationEntry(OrePrefix.cableGtHex, Materials.RedAlloy));
         }
 
-        ModHandler.addShapedRecipe(true, "primitive_input_bus", MetaTileEntities.PRIMITIVE_IMPORT_BUS.getStackForm(), "B B",
+        ModHandler.addShapedRecipe(true, "primitive_input_bus", MetaTileEntities.PRIMITIVE_IMPORT_BUS.getStackForm(),
+                "B B",
                 " C ", "B B", 'B', MetaItems.FIRECLAY_BRICK.getStackForm(), 'C', OreDictNames.chestWood);
-        ModHandler.addShapedRecipe(true, "primitive_output_bus", MetaTileEntities.PRIMITIVE_EXPORT_BUS.getStackForm(), " B ",
+        ModHandler.addShapedRecipe(true, "primitive_output_bus", MetaTileEntities.PRIMITIVE_EXPORT_BUS.getStackForm(),
+                " B ",
                 "BCB", " B ", 'B', MetaItems.FIRECLAY_BRICK.getStackForm(), 'C', OreDictNames.chestWood);
 
         ModHandler.addShapelessRecipe("primitive_input_bus_to_primitive_output_bus",
@@ -1028,9 +1049,11 @@ public class MetaTileEntityLoader {
                 MetaTileEntities.PRIMITIVE_IMPORT_BUS.getStackForm(),
                 MetaTileEntities.PRIMITIVE_EXPORT_BUS.getStackForm());
 
-        ModHandler.addShapedRecipe(true, "primitive_input_hatch", MetaTileEntities.PRIMITIVE_IMPORT_HATCH.getStackForm(), "B B",
+        ModHandler.addShapedRecipe(true, "primitive_input_hatch",
+                MetaTileEntities.PRIMITIVE_IMPORT_HATCH.getStackForm(), "B B",
                 " C ", "B B", 'B', MetaItems.FIRECLAY_BRICK.getStackForm(), 'C', Items.BUCKET);
-        ModHandler.addShapedRecipe(true, "primitive_output_hatch", MetaTileEntities.PRIMITIVE_EXPORT_HATCH.getStackForm(), " B ",
+        ModHandler.addShapedRecipe(true, "primitive_output_hatch",
+                MetaTileEntities.PRIMITIVE_EXPORT_HATCH.getStackForm(), " B ",
                 "BCB", " B ", 'B', MetaItems.FIRECLAY_BRICK.getStackForm(), 'C', Items.BUCKET);
 
         ModHandler.addShapelessRecipe("primitive_input_hatch_to_primitive_output_hatch",

@@ -211,12 +211,6 @@ public class AgricultureRecipes {
         ModHandler.addShapelessRecipe("gtfo_seed_pea_extraction", PEAS.getStackForm(),
                 PEA_POD);
 
-        GREENHOUSE_RECIPES.recipeBuilder().EUt(15).duration(500)
-                .inputs(NUTMEG_SEED.getStackForm())
-                .fluidInputs(Water.getFluid(1000))
-                .chancedOutput(CropTrees.NUTMEG_TREE.getSaplingStack(), 5000, 0)
-                .buildAndRegister();
-
         MOB_EXTRACTOR_RECIPES.recipeBuilder()
                 .circuitMeta(3)
                 .mob(EntityCow.class)

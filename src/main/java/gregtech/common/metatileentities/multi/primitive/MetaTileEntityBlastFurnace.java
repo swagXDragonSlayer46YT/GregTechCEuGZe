@@ -119,9 +119,9 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
     protected BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start()
                 .aisle(" XXX ", " XXX ", " XXX ", "  X  ", "     ", "     ", "     ")
-                .aisle("XBBBX", "XBBBX", "XBBBX", " BBB ", " BBB ", " BBB ", "  B  ")
-                .aisle("XBBBX", "XB&BX", "XBABX", "XBABX", " BAB ", " BAB ", " BAB ")
-                .aisle("XBBBX", "XBBBX", "XBBBX", " BBB ", " BBB ", " BBB ", "  B  ")
+                .aisle("XBBBX", "XAAAX", "XAAAX", " BBB ", " BBB ", " BBB ", "  B  ")
+                .aisle("XBBBX", "XA&AX", "XAAAX", "XBABX", " BAB ", " BAB ", " BAB ")
+                .aisle("XBBBX", "XAAAX", "XAAAX", " BBB ", " BBB ", " BBB ", "  B  ")
                 .aisle(" XXX ", " XSX ", " XXX ", "  X  ", "     ", "     ", "     ")
                 .where('S', selfPredicate())
                 .where('B', refractoryBricks())
@@ -148,7 +148,7 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
 
         if (recipeMapWorkable.isActive() && isStructureFormed()) {
             EnumFacing back = getFrontFacing().getOpposite();
-            Matrix4 offset = translation.copy().translate(back.getXOffset() * 2, 0.5f, back.getZOffset() * 2);
+            Matrix4 offset = translation.copy().translate(back.getXOffset() * 2, 1f, back.getZOffset() * 2);
             CubeRendererState op = Textures.RENDER_STATE.get();
             Textures.RENDER_STATE.set(new CubeRendererState(op.layer, CubeRendererState.PASS_MASK, op.world));
             Textures.renderFace(renderState, offset,
@@ -251,7 +251,7 @@ public class MetaTileEntityBlastFurnace extends RecipeMapPrimitiveMultiblockCont
     private void damageEntitiesAndBreakSnow() {
         BlockPos middlePos = this.getPos();
         middlePos = middlePos.offset(getFrontFacing().getOpposite()).offset(getFrontFacing().getOpposite());
-        this.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(middlePos))
+        this.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(middlePos).grow(1, 0, 1))
                 .forEach(entity -> entity.attackEntityFrom(DamageSource.LAVA, 3.0f));
 
         if (getOffsetTimer() % 10 == 0) {

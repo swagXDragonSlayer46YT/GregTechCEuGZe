@@ -17,6 +17,7 @@ import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.unification.stack.UnificationEntry;
 import gregtech.common.blocks.BlockGlassCasing;
 import gregtech.common.blocks.BlockMetalCasing;
+import gregtech.common.blocks.BlockRefractoryBrick;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.items.MetaItems;
 import gregtech.common.metatileentities.MetaTileEntities;
@@ -381,8 +382,8 @@ public class MiscRecipeLoader {
 
         // Coke Brick and Firebrick decomposition
         EXTRACTOR_RECIPES.recipeBuilder()
-                .inputs(MetaBlocks.METAL_CASING.getItemVariant(BlockMetalCasing.MetalCasingType.PRIMITIVE_BRICKS))
-                .output(FIRECLAY_BRICK, 4)
+                .inputs(MetaBlocks.REFRACTORY_BRICK.getItemVariant(BlockRefractoryBrick.RefractoryBrickType.NORMAL))
+                .output(FIRECLAY_BRICK, 2)
                 .duration(300).EUt(2)
                 .buildAndRegister();
 

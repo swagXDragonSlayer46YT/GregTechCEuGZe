@@ -87,7 +87,7 @@ public class MetaTileEntityPrimitiveFluidHatch extends MetaTileEntityFluidHatch 
                             .setAlwaysShowFull(true));
         }
 
-        builder.bindPlayerInventory(entityPlayer.inventory, GuiTextures.SLOT, 7, 48);
+        builder.bindPlayerInventory(entityPlayer.inventory, GuiTextures.PRIMITIVE_SLOT, 7, 48);
         return builder.build(getHolder(), entityPlayer);
     }
 

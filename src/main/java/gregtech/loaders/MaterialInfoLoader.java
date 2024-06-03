@@ -197,8 +197,8 @@ public class MaterialInfoLoader {
                 ));
 
         OreDictUnifier.registerOre(
-                MetaBlocks.METAL_CASING.getItemVariant(BlockMetalCasing.MetalCasingType.PRIMITIVE_BRICKS),
-                new ItemMaterialInfo(new MaterialStack(Materials.Fireclay, M * 4)));
+                MetaBlocks.REFRACTORY_BRICK.getItemVariant(BlockRefractoryBrick.RefractoryBrickType.NORMAL),
+                new ItemMaterialInfo(new MaterialStack(Materials.Fireclay, M * 2)));
 
         OreDictUnifier.registerOre(
                 MetaBlocks.BATTERY_BLOCK.getItemVariant(BlockBatteryPart.BatteryPartType.EMPTY_TIER_I),

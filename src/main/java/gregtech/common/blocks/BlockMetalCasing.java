@@ -34,7 +34,6 @@ public class BlockMetalCasing extends VariantBlock<BlockMetalCasing.MetalCasingT
     public enum MetalCasingType implements IStringSerializable, IStateHarvestLevel {
 
         BRONZE_BRICKS("bronze_bricks", 1),
-        PRIMITIVE_BRICKS("primitive_bricks", 1),
         INVAR_HEATPROOF("invar_heatproof", 1),
         MAGNALIUM_FROSTPROOF("magnalium_frostproof", 1),
         STEEL_SOLID("steel_solid", 2),

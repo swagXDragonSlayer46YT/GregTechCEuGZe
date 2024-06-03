@@ -63,9 +63,9 @@ public class CraftingRecipeLoader {
         ModHandler.addShapedRecipe("wooden_shape_brick", WOODEN_FORM_BRICK.getStackForm(), "k ", " X", 'X',
                 WOODEN_FORM_EMPTY.getStackForm());
 
-        ModHandler.addShapelessRecipe("fireclay_dust", OreDictUnifier.get(OrePrefix.dust, Materials.Fireclay, 2),
-                new UnificationEntry(OrePrefix.dust, Materials.Brick),
-                new UnificationEntry(OrePrefix.dust, Materials.Clay));
+        ModHandler.addShapedRecipe("compressed_fireclay", COMPRESSED_FIRECLAY.getStackForm(3), "XXX", "SYS", "SSS",
+                'Y', WOODEN_FORM_BRICK.getStackForm(), 'X', new ItemStack(Items.CLAY_BALL), 'S', "sand");
+
         ModHandler.addSmeltingRecipe(COMPRESSED_FIRECLAY.getStackForm(), FIRECLAY_BRICK.getStackForm(), 0.3f);
 
         ModHandler.addSmeltingRecipe(new UnificationEntry(OrePrefix.nugget, Materials.Iron),
