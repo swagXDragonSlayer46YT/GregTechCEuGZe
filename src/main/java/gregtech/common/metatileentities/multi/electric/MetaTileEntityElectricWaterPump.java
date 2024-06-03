@@ -2,6 +2,7 @@ package gregtech.common.metatileentities.multi.electric;
 
 import com.google.common.collect.Lists;
 
+import gregtech.api.GTValues;
 import gregtech.api.capability.IEnergyContainer;
 import gregtech.api.capability.IMultipleTankHandler;
 import gregtech.api.capability.impl.EnergyContainerList;
@@ -66,14 +67,29 @@ public class MetaTileEntityElectricWaterPump extends MultiblockControllerBase im
         return new MetaTileEntityElectricWaterPump(metaTileEntityId);
     }
 
+    public boolean drainEnergy(boolean simulate) {
+        long energyToDrain = GTValues.VA[tier];
+        long resultEnergy = energyContainer.getEnergyStored() - energyToDrain;
+        if (resultEnergy >= 0L && resultEnergy <= energyContainer.getEnergyCapacity()) {
+            if (!simulate)
+                energyContainer.changeEnergy(-energyToDrain);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void update() {
         super.update();
-        if (!getWorld().isRemote && getOffsetTimer() % 20 == 0 && isStructureFormed()) {
+        if (!getWorld().isRemote && isStructureFormed()) {
             if (biomeModifier == 0) {
                 biomeModifier = getAmount();
             } else if (biomeModifier > 0) {
-                outputFluidInventory.fill(Materials.Water.getFluid(getFluidProduction()), true);
+                if (drainEnergy(true)) {
+                    //Divide by 20 since this is per tick
+                    outputFluidInventory.fill(Materials.Water.getFluid(getFluidProduction() / 20), true);
+                    drainEnergy(false);
+                }
             }
         }
     }

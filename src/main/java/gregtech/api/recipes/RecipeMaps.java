@@ -1341,10 +1341,24 @@ public final class RecipeMaps {
             new SimpleRecipeBuilder())
             .itemInputs(6)
             .itemOutputs(1)
+            .fluidInputs(1)
             .itemSlotOverlay(GuiTextures.FURNACE_OVERLAY_1, false)
             .progressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE)
             .sound(GTSoundEvents.FURNACE)
-            .build();
+            .build()
+            .onRecipeBuild(recipeBuilder -> {
+                recipeBuilder.invalidateOnBuildAction();
+                if (recipeBuilder.getFluidInputs().isEmpty()) {
+                    recipeBuilder.copy()
+                            .fluidInputs(Materials.SolderingAlloy.getFluid(Math.max(1, GTValues.L / 16)))
+                            .buildAndRegister();
+
+                    // Don't call buildAndRegister as we are mutating the original recipe and already in the
+                    // middle of a buildAndRegister call.
+                    // Adding a second call will result in duplicate recipe generation attempts
+                    recipeBuilder.fluidInputs(Materials.Tin.getFluid(Math.max(1, GTValues.L / 8)));
+                }
+            });
 
     @ZenProperty
     public static final RecipeMap<SimpleRecipeBuilder> REACTION_FURNACE = new RecipeMapBuilder<>("reaction_furnace",
