@@ -59,6 +59,7 @@ import gregtech.common.metatileentities.multi.electric.MetaTileEntityCrackingUni
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityDataBank;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityDistillationTower;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityElectricBlastFurnace;
+import gregtech.common.metatileentities.multi.electric.MetaTileEntityElectricWaterPump;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityElectrolyticCell;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityFermentationVat;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityFixedBedReactor;
@@ -138,7 +139,6 @@ import gregtech.common.metatileentities.multi.multiblockpart.hpca.MetaTileEntity
 import gregtech.common.metatileentities.multi.primitive.BoilerType;
 import gregtech.common.metatileentities.multi.primitive.MetaTileEntityBlastFurnace;
 import gregtech.common.metatileentities.multi.primitive.MetaTileEntityCokeOven;
-import gregtech.common.metatileentities.multi.primitive.MetaTileEntityCokeOvenHatch;
 import gregtech.common.metatileentities.multi.primitive.MetaTileEntityMultiblockTank;
 import gregtech.common.metatileentities.multi.primitive.MetaTileEntityPrimitiveWaterPump;
 import gregtech.common.metatileentities.multi.primitive.MetaTileEntityPumpHatch;
@@ -338,7 +338,6 @@ public class MetaTileEntities {
     public static MetaTileEntityPumpHatch PUMP_OUTPUT_HATCH;
     public static MetaTileEntityPrimitiveWaterPump PRIMITIVE_WATER_PUMP;
     public static MetaTileEntityMagicEnergyAbsorber MAGIC_ENERGY_ABSORBER;
-    public static MetaTileEntityCokeOvenHatch COKE_OVEN_HATCH;
     public static MetaTileEntitySteamItemBus STEAM_EXPORT_BUS;
     public static MetaTileEntitySteamItemBus STEAM_IMPORT_BUS;
     public static MetaTileEntitySteamHatch STEAM_HATCH;
@@ -419,6 +418,7 @@ public class MetaTileEntities {
     public static MetaTileEntityFracker FRACKER;
     public static MetaTileEntityGreenhouse GREENHOUSE;
     public static MetaTileEntityBallMill BALL_MILL;
+    public static MetaTileEntityElectricWaterPump ELECTRIC_WATER_PUMP;
 
     // STORAGE SECTION
     public static MetaTileEntityTankValve WOODEN_TANK_VALVE;
@@ -804,7 +804,6 @@ public class MetaTileEntities {
                 new MetaTileEntityLargeBoiler(gregtechId("large_boiler.tungstensteel"), BoilerType.TUNGSTENSTEEL));
 
         COKE_OVEN = registerMetaTileEntity(1017, new MetaTileEntityCokeOven(gregtechId("coke_oven")));
-        COKE_OVEN_HATCH = registerMetaTileEntity(1018, new MetaTileEntityCokeOvenHatch(gregtechId("coke_oven_hatch")));
 
         ASSEMBLY_LINE = registerMetaTileEntity(1019, new MetaTileEntityAssemblyLine(gregtechId("assembly_line")));
         FUSION_REACTOR[0] = registerMetaTileEntity(1020,
@@ -930,6 +929,9 @@ public class MetaTileEntities {
         BLAST_FURNACE = registerMetaTileEntity(1080, new MetaTileEntityBlastFurnace(gregtechId("blast_furnace")));
 
         GREENHOUSE = registerMetaTileEntity(1081, new MetaTileEntityGreenhouse(gregtechId("greenhouse")));
+
+        ELECTRIC_WATER_PUMP = registerMetaTileEntity(1082,
+                new MetaTileEntityElectricWaterPump(gregtechId("electric_water_pump")));
 
         // MISC MTE's START: IDs 1150-2000
 
@@ -1344,6 +1346,7 @@ public class MetaTileEntities {
                 new MetaTileEntityPrimitiveFluidHatch(gregtechId("primitive_export_hatch"), true));
         PRIMITIVE_IMPORT_HATCH     = registerMetaTileEntity(1903,
                 new MetaTileEntityPrimitiveFluidHatch(gregtechId("primitive_import_hatch"), false));
+
         /*
          * FOR ADDON DEVELOPERS:
          *

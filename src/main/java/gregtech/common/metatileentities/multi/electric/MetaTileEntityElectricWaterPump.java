@@ -1,5 +1,11 @@
-package gregtech.common.metatileentities.multi.primitive;
+package gregtech.common.metatileentities.multi.electric;
 
+import com.google.common.collect.Lists;
+
+import gregtech.api.capability.IEnergyContainer;
+import gregtech.api.capability.IMultipleTankHandler;
+import gregtech.api.capability.impl.EnergyContainerList;
+import gregtech.api.capability.impl.FluidTankList;
 import gregtech.api.gui.ModularUI;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
@@ -11,9 +17,11 @@ import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.pattern.PatternMatchContext;
 import gregtech.api.unification.material.Materials;
+import gregtech.api.util.GTUtility;
 import gregtech.api.util.LocalizationUtils;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
+import gregtech.common.blocks.BlockMetalCasing;
 import gregtech.common.blocks.BlockSteamCasing;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.metatileentities.MetaTileEntities;
@@ -40,20 +48,22 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-public class MetaTileEntityPrimitiveWaterPump extends MultiblockControllerBase implements IPrimitivePump {
+public class MetaTileEntityElectricWaterPump extends MultiblockControllerBase implements IPrimitivePump {
 
-    private IFluidTank waterTank;
+    private IEnergyContainer energyContainer;
+    protected IMultipleTankHandler outputFluidInventory;
+
     private int biomeModifier = 0;
-    private int hatchModifier = 0;
+    private int tier = 0;
 
-    public MetaTileEntityPrimitiveWaterPump(ResourceLocation metaTileEntityId) {
+    public MetaTileEntityElectricWaterPump(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId);
         resetTileAbilities();
     }
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity tileEntity) {
-        return new MetaTileEntityPrimitiveWaterPump(metaTileEntityId);
+        return new MetaTileEntityElectricWaterPump(metaTileEntityId);
     }
 
     @Override
@@ -63,7 +73,7 @@ public class MetaTileEntityPrimitiveWaterPump extends MultiblockControllerBase i
             if (biomeModifier == 0) {
                 biomeModifier = getAmount();
             } else if (biomeModifier > 0) {
-                waterTank.fill(Materials.Water.getFluid(getFluidProduction()), true);
+                outputFluidInventory.fill(Materials.Water.getFluid(getFluidProduction()), true);
             }
         }
     }
@@ -79,22 +89,22 @@ public class MetaTileEntityPrimitiveWaterPump extends MultiblockControllerBase i
             return -1; // Disabled
         }
         if (biomeTypes.contains(BiomeDictionary.Type.WATER)) {
-            return 1000;
+            return 6000;
         } else if (biomeTypes.contains(BiomeDictionary.Type.SWAMP) || biomeTypes.contains(BiomeDictionary.Type.WET)) {
-            return 800;
+            return 5400;
         } else if (biomeTypes.contains(BiomeDictionary.Type.JUNGLE)) {
-            return 350;
+            return 2100;
         } else if (biomeTypes.contains(BiomeDictionary.Type.SNOWY)) {
-            return 300;
+            return 1800;
         } else
             if (biomeTypes.contains(BiomeDictionary.Type.PLAINS) || biomeTypes.contains(BiomeDictionary.Type.FOREST)) {
-                return 250;
+                return 1500;
             } else if (biomeTypes.contains(BiomeDictionary.Type.COLD)) {
-                return 175;
+                return 1050;
             } else if (biomeTypes.contains(BiomeDictionary.Type.BEACH)) {
-                return 170;
+                return 1020;
             }
-        return 100;
+        return 600;
     }
 
     @Override
@@ -123,32 +133,27 @@ public class MetaTileEntityPrimitiveWaterPump extends MultiblockControllerBase i
     }
 
     private void initializeAbilities() {
-        List<IFluidTank> tanks = getAbilities(MultiblockAbility.PUMP_FLUID_HATCH);
-        if (tanks == null || tanks.isEmpty()) {
-            tanks = getAbilities(MultiblockAbility.EXPORT_FLUIDS);
-            this.hatchModifier = tanks.get(0).getCapacity() == 8000 ? 2 : 4;
-        } else {
-            this.hatchModifier = 1;
-        }
-        this.waterTank = tanks.get(0);
+        this.outputFluidInventory = new FluidTankList(true, getAbilities(MultiblockAbility.EXPORT_FLUIDS));
+        this.energyContainer = new EnergyContainerList(getAbilities(MultiblockAbility.INPUT_ENERGY));
+        this.tier = GTUtility.getTierByVoltage(this.energyContainer.getInputVoltage());
     }
 
     private void resetTileAbilities() {
-        this.waterTank = new FluidTank(0);
+        this.outputFluidInventory = new FluidTankList(true);
+        this.energyContainer = new EnergyContainerList(Lists.newArrayList());
     }
 
     @Override
     protected BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start()
                 .aisle("XXXX", "**F*", "**F*")
-                .aisle("XXHX", "F**F", "FFFF")
+                .aisle("XXXX", "F**F", "FFFF")
                 .aisle("SXXX", "**F*", "**F*")
                 .where('S', selfPredicate())
-                .where('X', states(MetaBlocks.STEAM_CASING.getState(BlockSteamCasing.SteamCasingType.PUMP_DECK)))
-                .where('F', frames(Materials.TreatedWood))
-                .where('H',
-                        abilities(MultiblockAbility.PUMP_FLUID_HATCH).or(metaTileEntities(
-                                MetaTileEntities.FLUID_EXPORT_HATCH[0], MetaTileEntities.FLUID_EXPORT_HATCH[1])))
+                .where('X', states(MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.STEEL_SOLID))
+                        .or(abilities(MultiblockAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
+                        .or(abilities(MultiblockAbility.EXPORT_FLUIDS).setExactLimit(1)))
+                .where('F', frames(Materials.Steel))
                 .where('*', any())
                 .build();
     }
@@ -156,7 +161,7 @@ public class MetaTileEntityPrimitiveWaterPump extends MultiblockControllerBase i
     @SideOnly(Side.CLIENT)
     @Override
     public ICubeRenderer getBaseTexture(IMultiblockPart sourcePart) {
-        return Textures.PRIMITIVE_PUMP;
+        return Textures.SOLID_STEEL_CASING;
     }
 
     @SideOnly(Side.CLIENT)
@@ -175,9 +180,9 @@ public class MetaTileEntityPrimitiveWaterPump extends MultiblockControllerBase i
     @Override
     public String[] getDescription() {
         List<String> list = new ArrayList<>();
-        list.add(I18n.format("gregtech.multiblock.primitive_water_pump.description"));
-        Collections.addAll(list, LocalizationUtils.formatLines("gregtech.multiblock.primitive_water_pump.extra1"));
-        Collections.addAll(list, LocalizationUtils.formatLines("gregtech.multiblock.primitive_water_pump.extra2"));
+        list.add(I18n.format("gregtech.multiblock.electric_water_pump.description"));
+        Collections.addAll(list, LocalizationUtils.formatLines("gregtech.multiblock.electric_water_pump.extra1"));
+        Collections.addAll(list, LocalizationUtils.formatLines("gregtech.multiblock.electric_water_pump.extra2"));
         return list.toArray(new String[0]);
     }
 
@@ -191,7 +196,7 @@ public class MetaTileEntityPrimitiveWaterPump extends MultiblockControllerBase i
 
     @Override
     public int getFluidProduction() {
-        return (int) (biomeModifier * hatchModifier * (isRainingInBiome() ? 1.5 : 1));
+        return (int) (biomeModifier * tier * (isRainingInBiome() ? 1.5 : 1));
     }
 
     @Override

@@ -515,9 +515,6 @@ public class MetaTileEntityLoader {
         ModHandler.addShapedRecipe(true, "coke_oven", MetaTileEntities.COKE_OVEN.getStackForm(), "PIP", "IwI", "PIP",
                 'P', MetaBlocks.REFRACTORY_BRICK.getItemVariant(BlockRefractoryBrick.RefractoryBrickType.NORMAL), 'I',
                 new UnificationEntry(OrePrefix.plate, Materials.Iron));
-        ModHandler.addShapedRecipe(true, "coke_oven_hatch", MetaTileEntities.COKE_OVEN_HATCH.getStackForm(), "CD", 'C',
-                MetaBlocks.REFRACTORY_BRICK.getItemVariant(BlockRefractoryBrick.RefractoryBrickType.NORMAL), 'D',
-                MetaTileEntities.WOODEN_DRUM.getStackForm());
         ModHandler.addShapedRecipe(true, "distillation_tower", MetaTileEntities.DISTILLATION_TOWER.getStackForm(),
                 "CBC", "FMF", "CBC", 'M', MetaTileEntities.HULL[GTValues.HV].getStackForm(), 'B',
                 new UnificationEntry(OrePrefix.pipeFluid, Materials.StainlessSteel), 'C',

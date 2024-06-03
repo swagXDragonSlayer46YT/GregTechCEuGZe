@@ -147,6 +147,9 @@ gregtech.multiblock.large_chemical_reactor.description=The Large Chemical Reacto
 gregtech.multiblock.primitive_water_pump.description=The Primitive Water Pump is a pre-Steam Era multiblock that collects water once per second, depending on the Biome it is in. It can use a Pump, ULV, or LV Output Hatch, increasing the amount of water per tier. Follows the formula: Biome Coefficient * Hatch Multiplier.
 gregtech.multiblock.primitive_water_pump.extra1=Biome Coefficient:/n  Ocean, River: 1000 L/s/n  Swamp: 800 L/s/n  Jungle: 350 L/s/n  Snowy: 300 L/s/n  Plains, Forest: 250 L/s/n  Taiga: 175 L/s/n  Beach: 170 L/s/n  Other: 100 L/s
 gregtech.multiblock.primitive_water_pump.extra2=Hatch Multipliers:/n  Pump Hatch: 1x/n  ULV Output Hatch: 2x/n  LV Output Hatch: 4x/n/nWhile raining in the Pump's Biome, the total water production will be increased by 50%%.
+gregtech.multiblock.electric_water_pump.description=The Electric Water Pump is a multiblock that collects water once per second, depending on the Biome it is in. Produces 6x the water as a primitive water pump at LV, 12x at MV, 18x at HV, and so on.
+gregtech.multiblock.electric_water_pump.extra1=Biome Coefficient:/n/n/n  Ocean, River: 6000 L/s/n  Swamp: 5400 L/s/n  Jungle: 2100 L/s/n  Snowy: 1800 L/s/n  Plains, Forest: 1500 L/s/n  Taiga: 1050 L/s/n  Beach: 1020 L/s/n  Other: 600 L/s
+gregtech.multiblock.electric_water_pump.extra2=Other Multipliers:/n  While raining in the Pump's Biome, the total water production will be increased by 50%%.
 gregtech.multiblock.processing_array.description=The Processing Array combines up to 16 single block machine(s) in a single multiblock, effectively easing automation.
 gregtech.multiblock.advanced_processing_array.description=The Processing Array combines up to 64 single block machine(s) in a single multiblock, effectively easing automation.
 
@@ -4899,6 +4902,7 @@ behaviour.prospecting=Usable for Prospecting
 
 # Multiblock machine controllers
 gregtech.machine.primitive_water_pump.name=Primitive Water Pump
+gregtech.machine.electric_water_pump.name=Electric Water Pump
 gregtech.machine.primitive_blast_furnace.bronze.name=Primitive Blast Furnace
 gregtech.machine.electric_blast_furnace.name=Electric Blast Furnace
 gregtech.machine.blast_furnace.name=Blast Furnace
@@ -5091,6 +5095,7 @@ gregtech.machine.monitor_screen.name=Monitor Screen
 
 # Multiblock Tooltips
 gregtech.machine.primitive_water_pump.tooltip=Endervoir at Home
+gregtech.machine.electric_water_pump.tooltip=Bigger endervoir at Home
 gregtech.machine.primitive_blast_furnace.bronze.tooltip=Making your first Steel
 gregtech.machine.electric_blast_furnace.tooltip=Where's the electric smoker?
 gregtech.machine.vacuum_freezer.tooltip=Aluminium Ice Box
