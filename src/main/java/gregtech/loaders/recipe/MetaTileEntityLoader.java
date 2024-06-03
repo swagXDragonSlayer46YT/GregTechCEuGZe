@@ -1027,6 +1027,18 @@ public class MetaTileEntityLoader {
         ModHandler.addShapelessRecipe("primitive_output_bus_to_primitive_input_bus",
                 MetaTileEntities.PRIMITIVE_IMPORT_BUS.getStackForm(),
                 MetaTileEntities.PRIMITIVE_EXPORT_BUS.getStackForm());
+
+        ModHandler.addShapedRecipe(true, "primitive_input_hatch", MetaTileEntities.PRIMITIVE_IMPORT_HATCH.getStackForm(), "B B",
+                " C ", "B B", 'B', MetaItems.FIRECLAY_BRICK.getStackForm(), 'C', Items.BUCKET);
+        ModHandler.addShapedRecipe(true, "primitive_output_hatch", MetaTileEntities.PRIMITIVE_EXPORT_HATCH.getStackForm(), " B ",
+                "BCB", " B ", 'B', MetaItems.FIRECLAY_BRICK.getStackForm(), 'C', Items.BUCKET);
+
+        ModHandler.addShapelessRecipe("primitive_input_hatch_to_primitive_output_hatch",
+                MetaTileEntities.PRIMITIVE_EXPORT_HATCH.getStackForm(),
+                MetaTileEntities.PRIMITIVE_IMPORT_HATCH.getStackForm());
+        ModHandler.addShapelessRecipe("primitive_output_hatch_to_primitive_input_hatch",
+                MetaTileEntities.PRIMITIVE_IMPORT_HATCH.getStackForm(),
+                MetaTileEntities.PRIMITIVE_EXPORT_HATCH.getStackForm());
     }
 
     // Can only accept a subset of "Item" types:

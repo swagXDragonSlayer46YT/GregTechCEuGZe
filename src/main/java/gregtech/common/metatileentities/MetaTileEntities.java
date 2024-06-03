@@ -150,6 +150,7 @@ import gregtech.common.metatileentities.multi.steam.MetaTileEntitySteamOven;
 import gregtech.common.metatileentities.multi.primitive.MetaTileEntityLargeBoiler;
 import gregtech.common.metatileentities.primitive.MetaTileEntityCharcoalPileIgniter;
 import gregtech.common.metatileentities.primitive.MetaTileEntityCoagulationTank;
+import gregtech.common.metatileentities.primitive.multiblockpart.MetaTileEntityPrimitiveFluidHatch;
 import gregtech.common.metatileentities.primitive.multiblockpart.MetaTileEntityPrimitiveItemBus;
 import gregtech.common.metatileentities.steam.SteamAlloySmelter;
 import gregtech.common.metatileentities.steam.SteamCompressor;
@@ -473,6 +474,8 @@ public class MetaTileEntities {
 
     public static MetaTileEntityPrimitiveItemBus PRIMITIVE_IMPORT_BUS;
     public static MetaTileEntityPrimitiveItemBus PRIMITIVE_EXPORT_BUS;
+    public static MetaTileEntityPrimitiveFluidHatch PRIMITIVE_IMPORT_HATCH;
+    public static MetaTileEntityPrimitiveFluidHatch PRIMITIVE_EXPORT_HATCH;
 
     public static void init() {
         GTLog.logger.info("Registering MetaTileEntities");
@@ -1337,6 +1340,10 @@ public class MetaTileEntities {
         PRIMITIVE_IMPORT_BUS     = registerMetaTileEntity(1901,
                 new MetaTileEntityPrimitiveItemBus(gregtechId("primitive_import_bus"), false));
 
+        PRIMITIVE_EXPORT_HATCH = registerMetaTileEntity(1902,
+                new MetaTileEntityPrimitiveFluidHatch(gregtechId("primitive_export_hatch"), true));
+        PRIMITIVE_IMPORT_HATCH     = registerMetaTileEntity(1903,
+                new MetaTileEntityPrimitiveFluidHatch(gregtechId("primitive_import_hatch"), false));
         /*
          * FOR ADDON DEVELOPERS:
          *

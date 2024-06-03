@@ -663,7 +663,7 @@ public class UnknownCompositionMaterials {
         Slag = new Material.Builder(1659, gregtechId("slag"))
                 .dust()
                 .liquid(new FluidBuilder().temperature(1700))
-                .color(0xD4D4D4)
+                .color(0x3b3434)
                 .build();
 
         CeramicGlaze = new Material.Builder(1660, gregtechId("ceramic_glaze"))

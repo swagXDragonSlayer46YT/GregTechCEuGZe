@@ -62,6 +62,9 @@ gregtech.multiblock.steam_.duration_modifier=Takes §f1.5x §7base duration to p
 
 gregtech.machine.primitive_import_bus.name=Primitive Input Bus
 gregtech.machine.primitive_export_bus.name=Primitive Output Bus
+gregtech.machine.primitive_import_hatch.name=Primitive Input Hatch
+gregtech.machine.primitive_export_hatch.name=Primitive Output Hatch
+
 
 gregtech.top.working_disabled=Working Disabled
 

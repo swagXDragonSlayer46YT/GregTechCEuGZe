@@ -33,7 +33,7 @@ public class BlockRefractoryBrick extends VariantActiveBlock<BlockRefractoryBric
         setHardness(5.0f);
         setResistance(10.0f);
         setSoundType(SoundType.METAL);
-        setHarvestLevel(ToolClasses.WRENCH, 2);
+        setHarvestLevel(ToolClasses.PICKAXE, 1);
         setDefaultState(getState(RefractoryBrickType.NORMAL));
     }
 
